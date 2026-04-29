@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>786 Spices Vegetable Order</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-50: #f0faf4;
+    --green-100: #d4f0e0;
+    --green-300: #6dcc99;
+    --green-500: #2e9e66;
+    --green-700: #1a6b42;
+    --green-900: #0d3d25;
+    --amber-50: #fef9ec;
+    --amber-300: #f5c842;
+    --amber-500: #d4900e;
+    --amber-700: #8a5c06;
+    --stone-50: #fafaf8;
+    --stone-100: #f3f2ee;
+    --stone-200: #e8e6df;
+    --stone-400: #a8a49a;
+    --stone-600: #6b665c;
+    --stone-800: #2e2b24;
+    --stone-900: #1a1814;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--stone-100);
+    color: var(--stone-800);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--green-900);
+    color: #fff;
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  header h1 span { color: var(--green-300); }
+  header .date-badge {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--green-300);
+    background: rgba(109,204,153,0.12);
+    border: 1px solid rgba(109,204,153,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    white-space: nowrap;
+  }
+
+  /* LAYOUT */
+  .page { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
+
+  /* STAT CARDS */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--stone-200);
+    padding: 16px 20px;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--green-300); }
+  .stat-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--stone-400); margin-bottom: 6px; }
+  .stat-value { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--stone-900); line-height: 1; }
+  .stat-value.green { color: var(--green-500); }
+  .stat-value.amber { color: var(--amber-500); }
+  .stat-sub { font-size: 12px; color: var(--stone-400); margin-top: 4px; }
+
+  /* TWO-PANEL */
+  .panels { display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
+
+  /* PANEL CARD */
+  .panel {
+    background: #fff;
+    border: 1px solid var(--stone-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--stone-200);
+    background: var(--stone-50);
+  }
+  .panel-title { font-size: 13px; font-weight: 500; color: var(--stone-600); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ORDER TABLE */
+  .order-table { width: 100%; border-collapse: collapse; }
+  .order-table thead th {
+    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--stone-400); padding: 10px 12px; text-align: left;
+    border-bottom: 1px solid var(--stone-200); background: var(--stone-50);
+  }
+  .order-table thead th.r { text-align: right; }
+  .order-table tbody tr { transition: background 0.15s; }
+  .order-table tbody tr:hover { background: var(--stone-50); }
+  .order-table tbody td {
+    padding: 9px 12px; font-size: 14px; border-bottom: 1px solid var(--stone-100);
+    vertical-align: middle; color: var(--stone-800);
+  }
+  .order-table tbody td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .order-table tbody td.muted { color: var(--stone-400); font-size: 12px; }
+  .order-table tbody tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .badge-basket { background: var(--green-100); color: var(--green-700); }
+  .badge-kg { background: var(--amber-50); color: var(--amber-700); border: 1px solid #f5c84255; }
+
+  /* QTY INPUT */
+  .qty-wrap { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+  .qty-btn {
+    width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--stone-200);
+    background: #fff; color: var(--stone-600); font-size: 14px; line-height: 1;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; flex-shrink: 0;
+  }
+  .qty-btn:hover { background: var(--green-100); border-color: var(--green-300); color: var(--green-700); }
+  .qty-num {
+    width: 36px; text-align: center; font-size: 14px; font-weight: 500;
+    border: 1px solid var(--stone-200); border-radius: 6px; padding: 3px 4px;
+    background: var(--stone-50); color: var(--stone-900);
+  }
+  .qty-num:focus { outline: none; border-color: var(--green-300); background: #fff; }
+
+  .uom-select {
+    font-size: 12px; padding: 4px 6px; border: 1px solid var(--stone-200);
+    border-radius: 6px; background: var(--stone-50); color: var(--stone-700);
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+  .uom-select:focus { outline: none; border-color: var(--green-300); }
+
+  /* ADD VEG PANEL */
+  .add-section { padding: 16px 20px; }
+  .add-section label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone-400); margin-bottom: 6px; }
+  .add-input {
+    width: 100%; padding: 9px 12px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--stone-200); border-radius: var(--radius); background: var(--stone-50);
+    color: var(--stone-900); margin-bottom: 10px; transition: border-color 0.2s;
+  }
+  .add-input:focus { outline: none; border-color: var(--green-300); background: #fff; }
+  .add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .add-btn {
+    width: 100%; padding: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    background: var(--green-500); color: #fff; border: none; border-radius: var(--radius);
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+  }
+  .add-btn:hover { background: var(--green-700); }
+  .add-btn:active { transform: scale(0.98); }
+
+  /* SUMMARY PANEL */
+  .summary-list { padding: 0; }
+  .summary-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 20px; border-bottom: 1px solid var(--stone-100); font-size: 14px;
+  }
+  .summary-item:last-child { border-bottom: none; }
+  .summary-item .s-name { color: var(--stone-700); }
+  .summary-item .s-val { font-weight: 500; color: var(--stone-900); }
+  .summary-divider { height: 1px; background: var(--stone-200); margin: 0 20px; }
+
+  /* PRINT BTN */
+  .actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  .btn-outline {
+    padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--stone-200); border-radius: var(--radius); background: #fff;
+    color: var(--stone-700); cursor: pointer; transition: all 0.15s;
+  }
+  .btn-outline:hover { border-color: var(--green-300); color: var(--green-700); }
+  .btn-primary {
+    padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    border: none; border-radius: var(--radius); background: var(--green-700); color: #fff;
+    cursor: pointer; transition: background 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--green-900); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* REMOVE BTN */
+  .remove-btn {
+    background: none; border: 1px solid transparent; border-radius: 6px;
+    color: var(--stone-400); font-size: 13px; cursor: pointer; padding: 2px 6px;
+    transition: all 0.15s;
+  }
+  .remove-btn:hover { border-color: #f0a0a0; color: #c0392b; background: #fff5f5; }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--green-900); color: #fff; font-size: 13px; padding: 10px 22px;
+    border-radius: 20px; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 99;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* PRINT */
+  @media print {
+    header { background: #1a6b42 !important; -webkit-print-color-adjust: exact; }
+    body { background: #fff; }
+    .actions, .add-section, .panel-header button, .qty-btn, .remove-btn { display: none !important; }
+    .panels { grid-template-columns: 1fr; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 700px) {
+    header { padding: 20px; flex-direction: column; align-items: flex-start; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats .stat-card:last-child { grid-column: span 2; }
+    .panels { grid-template-columns: 1fr; }
+    .page { padding: 20px 14px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>786 Spices Vegetable <span>Order</span></h1>
+  <span class="date-badge" id="header-date"></span>
+</header>
+
+<div class="page">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-label">Total items</div>
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-sub">vegetable lines</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">By basket</div>
+      <div class="stat-value green" id="stat-basket">—</div>
+      <div class="stat-sub">basket lines</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">By weight</div>
+      <div class="stat-value amber" id="stat-kg">—</div>
+      <div class="stat-sub">total kilograms</div>
+    </div>
+  </div>
+
+  <div class="panels">
+
+    <!-- ORDER TABLE PANEL -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Order list</span>
+        <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll()">Clear all</button>
+      </div>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th style="width:32px;">#</th>
+            <th>Vegetable</th>
+            <th class="r" style="width:100px;">Qty</th>
+            <th style="width:90px;">Unit</th>
+            <th style="width:36px;"></th>
+          </tr>
+        </thead>
+        <tbody id="order-body"></tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <!-- ADD VEG -->
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
+        <div class="add-section">
+          <label>Name</label>
+          <input class="add-input" id="new-name" type="text" placeholder="e.g. Bitter gourd" />
+          <div class="add-row">
+            <div>
+              <label>Quantity</label>
+              <input class="add-input" id="new-qty" type="number" min="0" value="1" style="margin:0;" />
+            </div>
+            <div>
+              <label>Unit</label>
+              <select class="add-input uom-select" id="new-uom" style="margin:0;padding:9px 10px;">
+                <option>Basket</option>
+                <option>Kg</option>
+                <option>Piece</option>
+                <option>Bag</option>
+                <option>Box</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-btn" onclick="addVeg()">+ Add to order</button>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title">Summary</span></div>
+        <div class="summary-list" id="summary-list"></div>
+        <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
+          <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
+            <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
+            <button class="btn-primary" onclick="copyOrder()">Copy order text</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast">Copied to clipboard!</div>
+
+<script>
+const UOM_LIST = ['Basket','Kg','Bundle','Piece','Bag','Crate','Box'];
+
+let vegetables = [
+  {name:'Pusha', qty:0, uom:'Basket'},
+  {name:'Yam', qty:0, uom:'Basket'},
+  {name:"Lady's finger", qty:0, uom:'Basket'},
+  {name:'Cucumber (small size)', qty:0, uom:'Basket'},
+  {name:'Labu', qty:0, uom:'Basket'},
+  {name:'Labu - Bangla', qty:0, uom:'Basket'},
+  {name:'Round brinjal', qty:0, uom:'Basket'},
+  {name:'Long brinjal', qty:0, uom:'Basket'},
+  {name:'Snake gourd', qty:0, uom:'Basket'},
+  {name:'Bitter gourd long', qty:0, uom:'Basket'},
+  {name:'Long bean', qty:0, uom:'Basket'},
+  {name:'Papaya', qty:0, uom:'Basket'},
+  {name:'Hairy gourd', qty:0, uom:'Kg'},
+  {name:'Green pumpkin', qty:0, uom:'Basket'},
+  {name:'Garlic', qty:0, uom:'Kg'},
+  {name:'Curry leaves', qty:0, uom:'Kg'},
+];
+
+function uomOpts(val) {
+  return UOM_LIST.map(u => `<option${u===val?' selected':''}>${u}</option>`).join('');
+}
+
+function render() {
+  const tbody = document.getElementById('order-body');
+  tbody.innerHTML = vegetables.map((v,i) => `
+    <tr>
+      <td class="muted">${i+1}</td>
+      <td>${v.name}</td>
+      <td class="r">
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+          <input class="qty-num" type="number" min="0" value="${v.qty}" onchange="setQty(${i},this.value)" />
+          <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+        </div>
+      </td>
+      <td>
+        <select class="uom-select" onchange="setUom(${i},this.value)">${uomOpts(v.uom)}</select>
+      </td>
+      <td><button class="remove-btn" onclick="removeVeg(${i})" title="Remove">✕</button></td>
+    </tr>
+  `).join('');
+
+  // Stats
+  const basketLines = vegetables.filter(v=>v.uom==='Basket').length;
+  const totalKg = vegetables.filter(v=>v.uom==='Kg').reduce((s,v)=>s+v.qty,0);
+  document.getElementById('stat-total').textContent = vegetables.length;
+  document.getElementById('stat-basket').textContent = basketLines;
+  document.getElementById('stat-kg').textContent = totalKg + ' kg';
+
+  // Summary
+  const sl = document.getElementById('summary-list');
+  const byUom = {};
+  vegetables.forEach(v => {
+    byUom[v.uom] = byUom[v.uom] || [];
+    byUom[v.uom].push(v);
+  });
+  sl.innerHTML = Object.entries(byUom).map(([uom, items]) => {
+    const rows = items.map(v=>`
+      <div class="summary-item">
+        <span class="s-name">${v.name}</span>
+        <span class="s-val">${v.qty} <span style="font-weight:400;color:var(--stone-400);font-size:12px;">${v.uom}</span></span>
+      </div>
+    `).join('');
+    return `
+      <div style="padding:8px 20px 2px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone-400);">${uom}</div>
+      ${rows}
+    `;
+  }).join('<div class="summary-divider"></div>');
+}
+
+function changeQty(i, delta) {
+  vegetables[i].qty = Math.max(0, vegetables[i].qty + delta);
+  render();
+}
+function setQty(i, val) {
+  vegetables[i].qty = Math.max(0, parseFloat(val)||0);
+  render();
+}
+function setUom(i, val) { vegetables[i].uom = val; render(); }
+function removeVeg(i) { vegetables.splice(i,1); render(); }
+function clearAll() { if(confirm('Clear all items?')) { vegetables=[]; render(); } }
+
+function addVeg() {
+  const name = document.getElementById('new-name').value.trim();
+  if(!name) { document.getElementById('new-name').focus(); return; }
+  const qty = parseFloat(document.getElementById('new-qty').value)||0;
+  const uom = document.getElementById('new-uom').value;
+  vegetables.push({name, qty, uom});
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-qty').value = '1';
+  render();
+  document.getElementById('new-name').focus();
+}
+
+function copyOrder() {
+  const lines = vegetables.filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
+  navigator.clipboard.writeText(lines).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2500);
+  });
+}
+
+document.getElementById('new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg(); });
+
+// Date
+document.getElementById('header-date').textContent = new Date().toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
+
+render();
+</script>
+</body>
+</html>
