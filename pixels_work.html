@@ -690,9 +690,17 @@ const DEFAULT_SITES = [
     name: "Logos",
     shifts: [
       { label: "", employees: [
-        "Mia Hasan","Miah Nayon","Shakirul","AZIZ ABDUL","Miah Rashed","ELIAS MD",
+        "Mia Hasan","Miah Nayon","Shakirul","Miah Rashed","ELIAS MD",
         "RANA JEWEL","HOSSAN YUSUF","HOSSAIN MD RIPON","NI SOE OO","MYO MIN LATT",
         "TUN MIN LATT","BO BO ZAW","AUNG WAI PHYO","TUN TUN WIN","SI THU HTUN"
+      ] }
+    ]
+  }
+  {
+    name: "KWSH",
+    shifts: [
+      { label: "", employees: [
+        "AZIZ ABDUL"
       ] }
     ]
   }
@@ -977,10 +985,10 @@ function generateSummary() {
   }) : 'Date not set';
 
   let txt = `*WORK SCHEDULE*\n`;
-  txt += `${'─'.repeat(40)}\n`;
-  txt += `Date: _${d}_\n`;
+  txt += `${'─'.repeat(30)}\n`;
+  txt += `Schedule Date: _${d}_\n`;
   if (notes) txt += `Notes: _${notes}_\n`;
-  txt += `${'─'.repeat(40)}\n\n`;
+  txt += `${'─'.repeat(30)}\n\n`;
 
   sites.forEach(site => {
     txt += `📍 *${site.name.toUpperCase()}*\n`;
