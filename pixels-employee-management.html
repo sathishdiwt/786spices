@@ -787,10 +787,6 @@
         </select>
       </div>
       <div class="form-group">
-        <label>Nationality</label>
-        <input type="text" id="fNationality2" placeholder="e.g. BANGLADESHI">
-      </div>
-      <div class="form-group">
         <label>Date of Birth</label>
         <input type="date" id="fDob">
       </div>
@@ -1221,7 +1217,6 @@ function openModal(empId = null) {
     document.getElementById('fFinNo').value = e.finNo || '';
     document.getElementById('fContact').value = e.contact || '';
     document.getElementById('fPassType').value = e.passType || 'WORK PERMIT';
-    document.getElementById('fNationality2').value = e.nationality || '';
     document.getElementById('fDob').value = e.dob || '';
     document.getElementById('fDoj').value = e.doj || '';
     document.getElementById('fAccommodation').value = e.accommodation || 'Office';
@@ -1253,7 +1248,7 @@ function closeModal() {
 }
 
 function clearForm() {
-  ['fFirstName','fLastName','fFinNo','fContact','fNationality2','fDob','fDoj','fDesignation',
+  ['fFirstName','fLastName','fFinNo','fContact',','fDob','fDoj','fDesignation',
    'fPermitNo','fPermitIssue','fPermitExpiry',
    'fPassportNo','fPassportIssue','fPassportExpiry',
    'fSafetyNo','fSafetyIssue','fSafetyExpiry'].forEach(id => {
@@ -1275,7 +1270,6 @@ function saveEmployee() {
     finNo: document.getElementById('fFinNo').value,
     contact: document.getElementById('fContact').value,
     passType: document.getElementById('fPassType').value,
-    nationality: document.getElementById('fNationality2').value,
     dob: document.getElementById('fDob').value,
     doj: document.getElementById('fDoj').value,
     accommodation: document.getElementById('fAccommodation').value,
