@@ -618,7 +618,7 @@
 <div class="main">
 
   <div class="unassigned-panel" id="unassigned-panel">
-    <h3>⬡ Unassigned Employees <span id="unassigned-count" class="badge count-badge">0</span></h3>
+    <h3>⬡ Off Employees <span id="unassigned-count" class="badge count-badge">0</span></h3>
     <div class="unassigned-chips" id="unassigned-chips"></div>
   </div>
 
@@ -1000,7 +1000,7 @@ function generateSummary() {
   const assigned = getAssignedAll();
   const unassigned = ALL_EMPLOYEES.filter(e => !assigned.has(e));
   if (unassigned.length) {
-    txt += `⚠️  UNASSIGNED (${unassigned.length})\n`;
+    txt += `⚠️  OFF (${unassigned.length})\n`;
     unassigned.forEach(e => txt += `  • ${e}\n`);
   }
 
