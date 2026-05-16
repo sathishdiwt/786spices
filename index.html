@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -11,84 +11,117 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- AOS (Animate On Scroll) -->
+<link href="https://fonts.googleapis.com/css2?family=Lateef:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- AOS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
 <style>
 /* ══════════════════════════════════════
-   TOKENS & RESET
+   TOKENS
 ══════════════════════════════════════ */
 :root {
-  --amber:        #D4A853;
-  --amber-light:  #EDCF8A;
-  --amber-dim:    rgba(212,168,83,.14);
-  --amber-glow:   rgba(212,168,83,.28);
-  --ink:          #080604;
-  --ink-2:        #100D07;
-  --ink-3:        #171109;
-  --surface:      rgba(255,255,255,.035);
-  --border:       rgba(212,168,83,.18);
-  --border-soft:  rgba(255,255,255,.07);
-  --text:         #F4EDD8;
-  --muted:        rgba(244,237,216,.50);
-  --green:        #22C55E;
-  --blue:         #3B82F6;
+  --emerald:        #1A7A4A;
+  --emerald-mid:    #22A05A;
+  --emerald-light:  #4DC98A;
+  --emerald-pale:   #A8E6C3;
+  --emerald-dim:    rgba(26,122,74,.13);
+  --emerald-glow:   rgba(34,160,90,.22);
+  --gold:           #C8A84B;
+  --gold-light:     #E6CC7A;
+  --gold-dim:       rgba(200,168,75,.13);
 
-  --ff-display: 'Cormorant Garamond', serif;
-  --ff-body:    'Outfit', sans-serif;
+  --ivory:          #F8F5EC;
+  --ivory-2:        #F0EBD8;
+  --paper:          #EDE7D0;
+  --parchment:      #E4DBBB;
+  --ink-dark:       #1A1A14;
+  --ink:            #2A2A1E;
+  --text-main:      #2C2C1A;
+  --text-body:      #4A4A32;
+  --text-muted:     #7A7A5A;
+  --border:         rgba(26,122,74,.18);
+  --border-gold:    rgba(200,168,75,.22);
+  --border-soft:    rgba(26,122,74,.10);
+  --surface:        rgba(26,122,74,.06);
+  --surface-gold:   rgba(200,168,75,.07);
+
+  --ff-display: 'Amiri', serif;
+  --ff-arabic:  'Lateef', serif;
+  --ff-body:    'Plus Jakarta Sans', sans-serif;
   --transition: .32s cubic-bezier(.4,0,.2,1);
+  --radius: 20px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html  { scroll-behavior: smooth; }
-body  {
-  background: var(--ink);
-  color: var(--text);
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ivory);
+  color: var(--text-main);
   font-family: var(--ff-body);
   overflow-x: hidden;
-  --bs-body-bg: var(--ink);
-  --bs-body-color: var(--text);
-  --bs-border-color: var(--border);
 }
 
-/* grain overlay */
+/* ══════ ISLAMIC GEOMETRIC PATTERN SVG BACKGROUND ══════ */
 body::before {
   content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-  opacity: .45;
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: .045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cdefs%3E%3Cpattern id='islamic' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%231A7A4A' stroke-width='0.8'/%3E%3Ccircle cx='30' cy='30' r='12' fill='none' stroke='%231A7A4A' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%231A7A4A' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='0' r='6' fill='none' stroke='%231A7A4A' stroke-width='0.5'/%3E%3Ccircle cx='0' cy='60' r='6' fill='none' stroke='%231A7A4A' stroke-width='0.5'/%3E%3Ccircle cx='60' cy='60' r='6' fill='none' stroke='%231A7A4A' stroke-width='0.5'/%3E%3Cpath d='M30 18 L42 30 L30 42 L18 30 Z' fill='none' stroke='%23C8A84B' stroke-width='0.4'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='120' height='120' fill='url(%23islamic)'/%3E%3C/svg%3E");
 }
 
 /* ══════════════════════════════════════
    NAVBAR
 ══════════════════════════════════════ */
 .navbar {
-  background: linear-gradient(to bottom, rgba(8,6,4,.96) 0%, transparent 100%) !important;
-  backdrop-filter: blur(0) !important;
-  padding: 20px 0;
-  transition: background var(--transition), padding var(--transition), backdrop-filter var(--transition);
+  background: rgba(248,245,236,.96) !important;
+  backdrop-filter: blur(16px);
+  padding: 16px 0;
+  border-bottom: 2px solid var(--border);
+  transition: all var(--transition);
+  position: relative;
+}
+.navbar::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--emerald-mid), var(--gold), transparent);
+  opacity: .5;
 }
 .navbar.scrolled {
-  background: rgba(10,7,4,.92) !important;
-  backdrop-filter: blur(18px) !important;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 32px rgba(26,122,74,.12);
+  padding: 12px 0;
 }
 .navbar-brand {
   font-family: var(--ff-display);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  color: var(--amber) !important;
-  letter-spacing: .12em;
+  color: var(--emerald) !important;
+  letter-spacing: .06em;
   text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
 }
-.navbar-brand span { opacity: .55; }
+.brand-emblem {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-mid));
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: .9rem; color: white;
+  box-shadow: 0 4px 14px var(--emerald-glow);
+  position: relative;
+}
+.brand-emblem::after {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  opacity: .6;
+}
 .nav-link {
-  color: var(--muted) !important;
+  color: var(--text-body) !important;
   font-size: .78rem;
-  font-weight: 500;
-  letter-spacing: .12em;
+  font-weight: 600;
+  letter-spacing: .08em;
   text-transform: uppercase;
   padding: 6px 14px !important;
   transition: color var(--transition);
@@ -97,18 +130,20 @@ body::before {
 .nav-link::after {
   content: '';
   position: absolute; bottom: 0; left: 50%; right: 50%;
-  height: 1px;
-  background: var(--amber);
+  height: 2px;
+  background: linear-gradient(90deg, var(--emerald), var(--gold));
   transition: left var(--transition), right var(--transition);
+  border-radius: 2px;
 }
-.nav-link:hover { color: var(--amber) !important; }
+.nav-link:hover { color: var(--emerald) !important; }
 .nav-link:hover::after { left: 14px; right: 14px; }
 .navbar-toggler {
   border: 1px solid var(--border) !important;
-  color: var(--amber) !important;
+  color: var(--emerald) !important;
+  background: var(--surface) !important;
 }
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23D4A853' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231A7A4A' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 /* ══════════════════════════════════════
@@ -120,355 +155,597 @@ body::before {
   display: flex;
   align-items: center;
   overflow: hidden;
+  background: linear-gradient(160deg, #E8F4EC 0%, #F0EBD8 40%, #E4F0EA 100%);
 }
-.hero-bg {
-  position: absolute; inset: 0;
-  background: url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1900&q=80')
-              center / cover no-repeat;
+
+/* Arabesque arch background decoration */
+.hero-arch {
+  position: absolute; top: 0; right: -80px;
+  width: 680px; height: 100%;
+  pointer-events: none; opacity: .12;
 }
-.hero-bg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(8,6,4,.90) 0%,
-    rgba(8,6,4,.65) 50%,
-    rgba(8,6,4,.88) 100%
-  );
+
+/* Floating botanical leaf decorations */
+.leaf-deco {
+  position: absolute; pointer-events: none;
+  opacity: .15;
 }
-/* animated rings */
-.hero-orbit {
-  position: absolute; top: 50%; left: 55%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+.leaf-deco-1 { top: 8%; right: 12%; width: 320px; animation: floatLeaf 7s ease-in-out infinite; }
+.leaf-deco-2 { bottom: 18%; right: 6%; width: 220px; animation: floatLeaf 9s ease-in-out infinite reverse; animation-delay: -3s; }
+.leaf-deco-3 { top: 55%; right: 38%; width: 140px; animation: floatLeaf 8s ease-in-out infinite; animation-delay: -5s; }
+
+@keyframes floatLeaf {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-14px) rotate(3deg); }
+  66%      { transform: translateY(8px) rotate(-2deg); }
 }
-.ring {
-  position: absolute;
+
+/* Geometric star decoration */
+.geo-star {
+  position: absolute; pointer-events: none;
+  opacity: .08;
+}
+.geo-star-1 { top: 15%; left: 60%; width: 300px; animation: spinSlow 40s linear infinite; }
+.geo-star-2 { bottom: 10%; left: 45%; width: 180px; animation: spinSlow 30s linear infinite reverse; }
+
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+
+/* crescent moon deco */
+.crescent {
+  position: absolute; top: 6%; right: 5%;
+  width: 90px; height: 90px;
   border-radius: 50%;
-  border: 1px solid rgba(212,168,83,.1);
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  animation: ringPulse 6s ease-in-out infinite;
-}
-.ring:nth-child(1) { width: 520px; height: 520px; animation-delay: 0s; }
-.ring:nth-child(2) { width: 720px; height: 720px; animation-delay: -.8s; border-color: rgba(212,168,83,.06); }
-.ring:nth-child(3) { width: 950px; height: 950px; animation-delay: -1.6s; border-color: rgba(212,168,83,.04); }
-@keyframes ringPulse {
-  0%,100% { opacity: .5; transform: translate(-50%,-50%) scale(1); }
-  50%      { opacity: 1;  transform: translate(-50%,-50%) scale(1.03); }
+  background: transparent;
+  box-shadow: -18px 0 0 var(--emerald-mid);
+  opacity: .15;
+  transform: rotate(30deg);
+  animation: floatLeaf 10s ease-in-out infinite;
 }
 
 .hero-content { position: relative; z-index: 2; }
+
+.bismillah {
+  font-family: var(--ff-arabic);
+  font-size: 2.2rem;
+  color: var(--emerald-mid);
+  letter-spacing: .02em;
+  opacity: .7;
+  margin-bottom: 10px;
+  display: block;
+}
+
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 12px;
-  font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--amber); margin-bottom: 24px;
+  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--emerald); margin-bottom: 22px;
 }
-.eyebrow-line { width: 48px; height: 1px; background: var(--amber); opacity: .5; }
+.eyebrow-line { width: 40px; height: 1.5px; background: linear-gradient(90deg, var(--emerald), var(--gold)); border-radius: 2px; }
+
 .hero-title {
   font-family: var(--ff-display);
-  font-size: clamp(56px, 9vw, 110px);
-  font-weight: 800;
+  font-size: clamp(52px, 8.5vw, 108px);
+  font-weight: 700;
   line-height: .95;
-  letter-spacing: -.02em;
-  margin-bottom: 28px;
+  letter-spacing: -.01em;
+  margin-bottom: 26px;
+  color: var(--ink-dark);
 }
 .hero-title .grad {
-  background: linear-gradient(90deg, var(--amber), var(--amber-light) 50%, var(--amber));
+  background: linear-gradient(120deg, var(--emerald) 0%, var(--emerald-mid) 40%, var(--gold) 70%, var(--emerald-light) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
-  background-size: 200% 100%;
-  animation: shimmer 4s linear infinite;
+  background-size: 250% 100%;
+  animation: shimmer 5s linear infinite;
 }
 @keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0%   { background-position: 250% 0; }
+  100% { background-position: -250% 0; }
 }
+
 .hero-desc {
-  font-size: 1.1rem; color: var(--muted); font-weight: 300;
-  line-height: 1.7; max-width: 480px; margin-bottom: 44px;
+  font-size: 1.05rem;
+  color: var(--text-body);
+  font-weight: 400;
+  line-height: 1.75;
+  max-width: 470px;
+  margin-bottom: 42px;
+  border-left: 3px solid var(--emerald-light);
+  padding-left: 18px;
 }
+
 .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-.btn-primary-amber {
-  background: linear-gradient(135deg, var(--amber), #A8721A);
-  color: var(--ink);
+
+.btn-primary-green {
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-mid));
+  color: #fff;
   border: none;
-  padding: 14px 32px;
+  padding: 14px 30px;
   border-radius: 50px;
   font-weight: 700;
-  font-size: .9rem;
+  font-size: .88rem;
   letter-spacing: .04em;
   text-decoration: none;
   display: inline-flex; align-items: center; gap: 9px;
-  box-shadow: 0 8px 30px rgba(212,168,83,.35);
+  box-shadow: 0 8px 28px var(--emerald-glow), 0 0 0 1px rgba(26,122,74,.1);
   transition: transform var(--transition), box-shadow var(--transition);
 }
-.btn-primary-amber:hover {
+.btn-primary-green:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(212,168,83,.5);
-  color: var(--ink);
-}
-.btn-outline-amber {
-  background: transparent;
-  color: var(--amber);
-  border: 1px solid var(--border);
-  padding: 14px 32px;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: .9rem;
-  text-decoration: none;
-  display: inline-flex; align-items: center; gap: 9px;
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
-}
-.btn-outline-amber:hover {
-  background: var(--amber-dim);
-  border-color: var(--amber);
-  color: var(--amber);
-  transform: translateY(-3px);
-}
-/* scroll cue */
-.scroll-cue {
-  position: absolute; bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  color: var(--muted); font-size: .65rem; letter-spacing: .18em;
-  text-transform: uppercase; z-index: 2;
-  animation: bobDown 2.4s ease-in-out infinite;
-}
-@keyframes bobDown {
-  0%,100% { transform: translateX(-50%) translateY(0); opacity: .5; }
-  50%      { transform: translateX(-50%) translateY(8px); opacity: 1; }
+  box-shadow: 0 14px 40px var(--emerald-glow);
+  color: #fff;
 }
 
-/* hero stats bar */
+.btn-outline-green {
+  background: transparent;
+  color: var(--emerald);
+  border: 1.5px solid var(--border);
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: .88rem;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 9px;
+  transition: all var(--transition);
+}
+.btn-outline-green:hover {
+  background: var(--emerald-dim);
+  border-color: var(--emerald);
+  color: var(--emerald);
+  transform: translateY(-3px);
+}
+
+/* Stats bar */
 .stats-bar {
   position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
-  background: rgba(16,13,7,.82);
+  background: linear-gradient(90deg, rgba(26,122,74,.97) 0%, rgba(18,96,58,.97) 100%);
   backdrop-filter: blur(16px);
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
 }
 .stat-item {
-  padding: 22px 30px;
-  border-right: 1px solid var(--border-soft);
+  padding: 22px 28px;
+  border-right: 1px solid rgba(255,255,255,.12);
   text-align: center;
 }
 .stat-item:last-child { border-right: none; }
 .stat-num {
   font-family: var(--ff-display);
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--amber);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold-light);
   line-height: 1;
   display: block;
 }
-.stat-lbl { font-size: .7rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.stat-lbl { font-size: .68rem; color: rgba(255,255,255,.65); letter-spacing: .12em; text-transform: uppercase; margin-top: 4px; }
+
+.scroll-cue {
+  position: absolute; bottom: 104px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--text-muted); font-size: .62rem; letter-spacing: .18em;
+  text-transform: uppercase; z-index: 2;
+  animation: bobDown 2.6s ease-in-out infinite;
+}
+@keyframes bobDown {
+  0%,100% { transform: translateX(-50%) translateY(0); opacity: .4; }
+  50%      { transform: translateX(-50%) translateY(9px); opacity: .9; }
+}
+
+/* Decorative arch for hero right side */
+.hero-visual {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  height: 100%;
+}
+.mosque-arch {
+  position: relative;
+  width: 340px; height: 480px;
+  background: linear-gradient(160deg, var(--emerald-dim), rgba(200,168,75,.08));
+  border: 1.5px solid var(--border);
+  border-radius: 50% 50% 0 0 / 55% 55% 0 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 60px rgba(26,122,74,.06), 0 20px 80px rgba(26,122,74,.1);
+  overflow: hidden;
+}
+.mosque-arch::before {
+  content: '';
+  position: absolute; top: -1px; left: -1px; right: -1px;
+  height: 60%;
+  border-radius: 50% 50% 0 0 / 55% 55% 0 0;
+  border: 1.5px solid var(--gold);
+  border-bottom: none;
+  opacity: .45;
+}
+.mosque-arch img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: .65;
+  mix-blend-mode: luminosity;
+}
+.arch-badge {
+  position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+  background: rgba(248,245,236,.92);
+  border: 1px solid var(--border-gold);
+  color: var(--emerald);
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 6px 18px; border-radius: 30px;
+  white-space: nowrap;
+}
+
+/* Decorative 8-pointed star */
+.star-8 {
+  width: 120px; height: 120px;
+  position: relative;
+}
+.star-8::before, .star-8::after {
+  content: '✦';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 5rem;
+  color: var(--emerald-mid);
+  opacity: .18;
+}
+.star-8::after { transform: translate(-50%,-50%) rotate(45deg); }
 
 /* ══════════════════════════════════════
-   SECTION LABELS & TITLES
+   SECTION LABELS & HEADINGS
 ══════════════════════════════════════ */
 .sec-label {
   display: inline-flex; align-items: center; gap: 10px;
-  font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--amber); margin-bottom: 14px;
+  font-size: .67rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--emerald); margin-bottom: 14px; font-weight: 700;
 }
 .sec-label::before {
-  content: '';
-  width: 28px; height: 1px;
-  background: var(--amber); opacity: .5;
+  content: '✦';
+  font-size: .5rem;
+  color: var(--gold);
 }
+.sec-label::after {
+  content: '';
+  width: 28px; height: 1.5px;
+  background: linear-gradient(90deg, var(--emerald), transparent);
+  border-radius: 2px;
+}
+
 .sec-title {
   font-family: var(--ff-display);
-  font-size: clamp(32px, 4.5vw, 56px);
-  font-weight: 700; line-height: 1.05;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 700; line-height: 1.08;
+  color: var(--ink-dark);
+}
+
+/* Ornamental divider */
+.ornament {
+  display: flex; align-items: center; gap: 16px;
+  margin: 0 auto 48px;
+  max-width: 320px;
+  color: var(--gold);
+  font-size: .8rem;
+  opacity: .5;
+}
+.ornament::before, .ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 /* ══════════════════════════════════════
    FEATURE PILLS
 ══════════════════════════════════════ */
 .pills-row {
-  background: var(--ink-2);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: var(--ivory-2);
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  position: relative; z-index: 1;
 }
+.pills-row::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--emerald-mid), var(--gold), transparent);
+}
+
 .pill-item {
-  padding: 32px 20px;
+  padding: 30px 20px;
   display: flex; align-items: center; gap: 18px;
   border-right: 1px solid var(--border-soft);
   transition: background var(--transition);
   text-decoration: none; color: inherit;
 }
 .pill-item:last-child { border-right: none; }
-.pill-item:hover { background: var(--amber-dim); }
+.pill-item:hover { background: rgba(26,122,74,.06); }
+
 .pill-icon {
-  width: 48px; height: 48px; flex-shrink: 0;
-  background: var(--amber-dim);
-  border: 1px solid var(--border);
+  width: 50px; height: 50px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--emerald-dim), rgba(200,168,75,.08));
+  border: 1.5px solid var(--border);
   border-radius: 14px;
   display: grid; place-items: center;
-  font-size: 1.1rem; color: var(--amber);
+  font-size: 1.1rem; color: var(--emerald);
+  position: relative;
 }
-.pill-title { font-size: .95rem; font-weight: 600; margin-bottom: 3px; }
-.pill-sub   { font-size: .78rem; color: var(--muted); }
+.pill-icon::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 14px;
+  border: 1px solid var(--gold);
+  opacity: .25;
+}
+.pill-title { font-size: .95rem; font-weight: 600; color: var(--text-main); margin-bottom: 3px; }
+.pill-sub   { font-size: .78rem; color: var(--text-muted); }
 
 /* ══════════════════════════════════════
-   OUTLET / FOOD CARDS
+   OUTLET CARDS
 ══════════════════════════════════════ */
 .outlet-card {
-  background: var(--ink-2);
-  border: 1px solid var(--border-soft);
+  background: #fff;
+  border: 1.5px solid var(--border-soft);
   border-radius: 24px;
   overflow: hidden;
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
   height: 100%;
+  position: relative;
+}
+.outlet-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald-mid));
+  z-index: 1;
 }
 .outlet-card:hover {
   transform: translateY(-8px);
   border-color: var(--border);
-  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px rgba(212,168,83,.1);
+  box-shadow: 0 20px 60px rgba(26,122,74,.14), 0 0 0 1px rgba(200,168,75,.15);
 }
-.card-img-wrap { position: relative; overflow: hidden; height: 230px; }
+
+.card-img-wrap { position: relative; overflow: hidden; height: 220px; }
 .card-img-wrap img {
   width: 100%; height: 100%; object-fit: cover;
   transition: transform .6s ease;
+  filter: saturate(0.9);
 }
-.outlet-card:hover .card-img-wrap img { transform: scale(1.08); }
+.outlet-card:hover .card-img-wrap img { transform: scale(1.07); }
+
+.card-img-wrap::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(248,245,236,.9), transparent);
+}
+
 .card-badge {
-  position: absolute; top: 14px; left: 14px;
-  background: rgba(8,6,4,.82); backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
-  color: var(--amber); font-size: .67rem;
-  font-weight: 700; letter-spacing: .14em;
-  text-transform: uppercase; padding: 5px 13px;
-  border-radius: 30px;
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  background: rgba(26,122,74,.92);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: .66rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 30px;
+  border: 1px solid var(--gold);
 }
+
 .card-body-custom { padding: 26px; }
 .card-outlet-name {
   font-family: var(--ff-display);
-  font-size: 1.35rem; font-weight: 700;
-  line-height: 1.2; margin-bottom: 18px;
+  font-size: 1.3rem; font-weight: 700;
+  line-height: 1.2; margin-bottom: 16px;
+  color: var(--ink-dark);
 }
+
 .info-row {
   display: flex; align-items: flex-start; gap: 10px;
-  font-size: .82rem; color: var(--muted);
-  margin-bottom: 9px; line-height: 1.55;
+  font-size: .82rem; color: var(--text-body);
+  margin-bottom: 8px; line-height: 1.55;
 }
-.info-row .ico { color: var(--amber); font-size: .75rem; margin-top: 3px; flex-shrink: 0; }
-.card-divider { border-top: 1px solid var(--border-soft); margin: 18px 0; }
+.info-row .ico { color: var(--emerald); font-size: .75rem; margin-top: 3px; flex-shrink: 0; }
+.card-divider { border-top: 1px solid var(--border-soft); margin: 16px 0; }
+
 .btn-wa {
   background: #25D366; color: #fff;
-  padding: 10px 18px; border-radius: 10px;
+  padding: 10px 18px; border-radius: 12px;
   font-size: .82rem; font-weight: 600;
   text-decoration: none;
   display: inline-flex; align-items: center; gap: 7px;
   transition: opacity var(--transition), transform var(--transition);
 }
-.btn-wa:hover { opacity: .85; transform: translateY(-2px); color: #fff; }
+.btn-wa:hover { opacity: .88; transform: translateY(-2px); color: #fff; }
+
 .btn-tel {
-  background: rgba(59,130,246,.14);
-  color: #7DB9FB;
-  border: 1px solid rgba(59,130,246,.25);
-  padding: 10px 18px; border-radius: 10px;
+  background: rgba(26,122,74,.1);
+  color: var(--emerald);
+  border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 12px;
   font-size: .82rem; font-weight: 600;
   text-decoration: none;
   display: inline-flex; align-items: center; gap: 7px;
-  transition: background var(--transition), transform var(--transition);
+  transition: all var(--transition);
 }
-.btn-tel:hover { background: rgba(59,130,246,.24); transform: translateY(-2px); color: #7DB9FB; }
+.btn-tel:hover { background: var(--emerald-dim); transform: translateY(-2px); color: var(--emerald); }
 
 /* ══════════════════════════════════════
    SECTION BACKGROUNDS
 ══════════════════════════════════════ */
-.section-dark  { background: var(--ink);   padding: 100px 0; }
-.section-dark2 { background: var(--ink-2); padding: 100px 0; border-top: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+.section-light  {
+  background: var(--ivory);
+  padding: 100px 0;
+  position: relative;
+}
+.section-sage  {
+  background: linear-gradient(160deg, #EAF3ED 0%, #F4EFD8 100%);
+  padding: 100px 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  position: relative;
+}
+
+/* Section geometric corner decoration */
+.section-light::after, .section-sage::after {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle at top right, rgba(26,122,74,.06), transparent 70%);
+  pointer-events: none;
+}
 
 /* ══════════════════════════════════════
-   PAYNOW SECTION
+   PAYNOW
 ══════════════════════════════════════ */
 .paynow-card {
-  background: var(--ink-2);
-  border: 1px solid var(--border);
+  background: #fff;
+  border: 1.5px solid var(--border);
   border-radius: 28px;
   overflow: hidden;
+  box-shadow: 0 8px 40px rgba(26,122,74,.08);
+  position: relative;
 }
+.paynow-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald-mid), var(--gold), var(--emerald));
+}
+
 .paynow-left {
-  padding: 60px 56px;
-  background: linear-gradient(145deg, rgba(212,168,83,.07) 0%, transparent 100%);
+  padding: 60px 52px;
+  background: linear-gradient(145deg, rgba(26,122,74,.05) 0%, transparent 100%);
   border-right: 1px solid var(--border);
   height: 100%;
 }
 .paynow-right {
   padding: 60px 40px;
   display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, rgba(200,168,75,.04) 0%, transparent 100%);
 }
+
 .qr-wrap {
-  background: #fff;
-  padding: 22px; border-radius: 22px;
-  width: 220px; height: 220px;
+  background: linear-gradient(145deg, var(--emerald-dim), var(--gold-dim));
+  padding: 20px; border-radius: 22px;
+  width: 230px; height: 230px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(212,168,83,.2);
+  box-shadow: 0 20px 60px rgba(26,122,74,.2), 0 0 0 2px var(--border-gold);
 }
-.qr-wrap img { width: 176px; height: 176px; object-fit: contain; }
+.qr-wrap img { width: 180px; height: 180px; object-fit: contain; }
+
 .uen-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--amber-dim); border: 1px solid var(--border);
-  color: var(--amber);
-  padding: 9px 16px; border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--emerald-dim), var(--gold-dim));
+  border: 1.5px solid var(--border);
+  color: var(--emerald);
+  padding: 10px 18px; border-radius: 10px;
   font-size: .8rem; font-weight: 600;
-  font-family: monospace; letter-spacing: .05em;
+  font-family: monospace; letter-spacing: .04em;
 }
 
 /* ══════════════════════════════════════
    CONTACT STRIP
 ══════════════════════════════════════ */
 .contact-strip {
-  background: linear-gradient(135deg, rgba(212,168,83,.1), rgba(212,168,83,.04));
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 44px 48px;
+  background: linear-gradient(135deg, var(--emerald), #0E5C36 60%, #12703F);
+  border-radius: 24px;
+  padding: 52px 52px;
   display: flex; align-items: center;
-  justify-content: space-between; gap: 24px;
+  justify-content: space-between; gap: 28px;
   flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 60px rgba(26,122,74,.35);
 }
+
+/* Islamic pattern overlay on contact strip */
+.contact-strip::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='white' stroke-width='0.4' opacity='0.1'/%3E%3Ccircle cx='30' cy='30' r='12' fill='none' stroke='white' stroke-width='0.3' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.contact-strip::after {
+  content: '';
+  position: absolute; top: -1px; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
 .contact-strip h3 {
   font-family: var(--ff-display);
-  font-size: 2rem; margin-bottom: 6px;
+  font-size: 2rem; color: #fff; margin-bottom: 6px;
 }
-.contact-strip p { color: var(--muted); font-size: .9rem; }
+.contact-strip p { color: rgba(255,255,255,.75); font-size: .9rem; }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #A8881E);
+  color: var(--ink-dark);
+  padding: 13px 28px; border-radius: 50px;
+  font-weight: 700; font-size: .88rem;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 6px 20px rgba(200,168,75,.4);
+}
+.btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(200,168,75,.5); color: var(--ink-dark); }
+
+.btn-outline-white {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,.35);
+  padding: 13px 28px; border-radius: 50px;
+  font-weight: 600; font-size: .88rem;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all var(--transition);
+  backdrop-filter: blur(8px);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,.22);
+  border-color: rgba(255,255,255,.6);
+  color: #fff;
+  transform: translateY(-3px);
+}
 
 /* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
 footer {
-  background: var(--ink);
-  border-top: 1px solid var(--border-soft);
-  padding: 36px 0;
+  background: var(--ink-dark);
+  border-top: 2px solid var(--emerald);
+  padding: 40px 0;
+  position: relative;
+}
+footer::before {
+  content: '';
+  position: absolute; top: -1px; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald));
+  opacity: .6;
 }
 .footer-brand {
   font-family: var(--ff-display);
-  font-size: 1.4rem; font-weight: 700;
-  color: var(--amber); letter-spacing: .1em;
+  font-size: 1.45rem; font-weight: 700;
+  color: var(--emerald-light); letter-spacing: .08em;
 }
-.footer-copy { font-size: .78rem; color: var(--muted); }
+.footer-copy { font-size: .78rem; color: rgba(255,255,255,.35); }
 .footer-link {
-  font-size: .78rem; color: var(--muted);
+  font-size: .78rem; color: rgba(255,255,255,.5);
   text-decoration: none;
   display: inline-flex; align-items: center; gap: 6px;
   transition: color var(--transition);
 }
-.footer-link:hover { color: var(--amber); }
-.footer-link .ico { color: var(--amber); }
+.footer-link:hover { color: var(--emerald-light); }
+.footer-link .ico { color: var(--gold); }
 
 /* ══════════════════════════════════════
    BACK TO TOP
 ══════════════════════════════════════ */
 #btt {
   position: fixed; bottom: 28px; right: 28px; z-index: 500;
-  width: 46px; height: 46px;
-  background: var(--amber); color: var(--ink);
-  border: none; border-radius: 14px;
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-mid));
+  color: #fff;
+  border: 2px solid var(--gold);
+  border-radius: 14px;
   display: grid; place-items: center;
-  font-size: 1rem;
-  box-shadow: 0 8px 24px rgba(212,168,83,.35);
+  font-size: .95rem;
+  box-shadow: 0 8px 24px var(--emerald-glow);
   opacity: 0; pointer-events: none;
   transition: opacity var(--transition), transform var(--transition);
   cursor: pointer;
@@ -477,20 +754,22 @@ footer {
 #btt:hover { transform: translateY(-3px); }
 
 /* ══════════════════════════════════════
-   RESPONSIVE TWEAKS
+   RESPONSIVE
 ══════════════════════════════════════ */
 @media (max-width: 991px) {
   .hero-desc { max-width: 100%; }
+  .mosque-arch { width: 260px; height: 360px; }
   .paynow-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 28px; }
   .paynow-right { padding: 40px 28px; }
-  .contact-strip { text-align: center; justify-content: center; }
+  .contact-strip { text-align: center; justify-content: center; padding: 40px 28px; }
   .stat-item { padding: 16px 10px; }
-  .stat-num { font-size: 1.5rem; }
+  .stat-num { font-size: 1.6rem; }
 }
 @media (max-width: 767px) {
   .stats-bar { display: none !important; }
-  .section-dark, .section-dark2 { padding: 70px 0; }
+  .section-light, .section-sage { padding: 70px 0; }
   .pill-item { border-right: none; border-bottom: 1px solid var(--border-soft); }
+  .mosque-arch { display: none; }
 }
 </style>
 </head>
@@ -499,7 +778,12 @@ footer {
 <!-- ════════════════════ NAVBAR ════════════════════ -->
 <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
   <div class="container">
-    <a class="navbar-brand" href="#hero">786 <span>SPICES</span></a>
+    <a class="navbar-brand" href="#hero">
+      <div class="brand-emblem">
+        <i class="fa-solid fa-leaf" style="color:white; font-size:.85rem;"></i>
+      </div>
+      786 SPICES
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -508,13 +792,13 @@ footer {
         <li class="nav-item"><a class="nav-link" href="#outlets">Mini Marts</a></li>
         <li class="nav-item"><a class="nav-link" href="#foodstalls">Food Stalls</a></li>
         <li class="nav-item"><a class="nav-link" href="#payment">PayNow</a></li>
-        <li class="nav-item"><a class="nav-link" href="product.html">Price Calculator</a></li>
-         <li class="nav-item"><a class="nav-link" href="veg_order.html">Veg. Order</a></li>
-         <li class="nav-item"><a class="nav-link" href="786_spices_sales_report.html">Sales Report</a></li>
-         <li class="nav-item"><a class="nav-link" href="pixels_work.html">Work Schedule</a></li>
-         <li class="nav-item"><a class="nav-link" href="pixels-employee-management.html">Pixels Employees</a></li>
+        <li class="nav-item"><a class="nav-link" href="product.html">Price Calc</a></li>
+        <li class="nav-item"><a class="nav-link" href="veg_order.html">Veg. Order</a></li>
+        <li class="nav-item"><a class="nav-link" href="786_spices_sales_report.html">Sales Report</a></li>
+        <li class="nav-item"><a class="nav-link" href="pixels_work.html">Work Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="pixels-employee-management.html">Pixels Employees</a></li>
         <li class="nav-item ms-2">
-          <a class="btn-primary-amber py-2 px-4 rounded-pill text-decoration-none" style="font-size:.78rem" href="https://wa.me/6584415883">
+          <a class="btn-primary-green py-2 px-4 rounded-pill text-decoration-none" style="font-size:.76rem" href="https://wa.me/6584415883">
             <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
           </a>
         </li>
@@ -525,16 +809,32 @@ footer {
 
 <!-- ════════════════════ HERO ════════════════════ -->
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-orbit">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-  </div>
+
+  <!-- Decorative SVG elements -->
+  <svg class="leaf-deco leaf-deco-1" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M150 20 C200 60 280 120 260 200 C240 270 160 290 100 250 C40 210 20 130 60 70 C90 20 130 -10 150 20Z" fill="#1A7A4A"/>
+    <path d="M150 20 L150 270" stroke="#0E5C36" stroke-width="2" opacity="0.4"/>
+    <path d="M100 80 Q150 100 200 80" stroke="#0E5C36" stroke-width="1" opacity="0.3"/>
+    <path d="M80 130 Q150 155 220 130" stroke="#0E5C36" stroke-width="1" opacity="0.3"/>
+    <path d="M90 180 Q150 200 210 180" stroke="#0E5C36" stroke-width="1" opacity="0.3"/>
+  </svg>
+
+  <svg class="leaf-deco leaf-deco-2" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 10 C140 40 180 80 165 140 C150 190 100 200 60 175 C20 150 10 95 40 50 C62 15 88 -5 100 10Z" fill="#C8A84B"/>
+    <path d="M100 10 L100 195" stroke="#A88030" stroke-width="1.5" opacity="0.4"/>
+  </svg>
+
+  <svg class="geo-star geo-star-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="100,10 120,80 190,80 135,125 155,195 100,155 45,195 65,125 10,80 80,80" fill="none" stroke="#1A7A4A" stroke-width="1.2"/>
+    <polygon points="100,25 118,75 170,75 130,108 145,158 100,130 55,158 70,108 30,75 82,75" fill="none" stroke="#C8A84B" stroke-width="0.6"/>
+  </svg>
+
+  <div class="crescent"></div>
 
   <div class="container py-5" style="padding-top:140px !important; padding-bottom:180px !important;">
-    <div class="row align-items-center">
+    <div class="row align-items-center g-5">
       <div class="col-lg-7" data-aos="fade-up" data-aos-duration="900">
+        <span class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
         <div class="hero-eyebrow">
           <span class="eyebrow-line"></span>
           Proudly Serving Singapore
@@ -547,15 +847,21 @@ footer {
         </h1>
         <p class="hero-desc">
           Mini Marts · Food Stalls · Wholesale Supplies.<br>
-          Authentic flavours, trusted quality, delivered fresh.
+          Authentic flavours, trusted quality, delivered fresh across Singapore.
         </p>
         <div class="hero-btns">
-          <a href="#outlets" class="btn-primary-amber">
+          <a href="#outlets" class="btn-primary-green">
             <i class="fa-solid fa-store"></i> Explore Outlets
           </a>
-          <a href="product.html" class="btn-outline-amber">
+          <a href="product.html" class="btn-outline-green">
             <i class="fa-solid fa-calculator"></i> Product Calculator
           </a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center" data-aos="fade-left" data-aos-delay="200">
+        <div class="mosque-arch">
+          <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80" alt="Spices">
+          <div class="arch-badge">✦ Est. 2021 · Singapore ✦</div>
         </div>
       </div>
     </div>
@@ -592,7 +898,7 @@ footer {
 </section>
 
 <!-- ════════════════════ FEATURE PILLS ════════════════════ -->
-<div class="pills-row">
+<div class="pills-row" style="position:relative; z-index:1;">
   <div class="container">
     <div class="row g-0">
       <div class="col-12 col-md-4">
@@ -618,7 +924,7 @@ footer {
           <div class="pill-icon"><i class="fa-solid fa-calculator"></i></div>
           <div>
             <div class="pill-title">Product Calculator</div>
-            <div class="pill-sub">Price & quantity estimator</div>
+            <div class="pill-sub">Price &amp; quantity estimator</div>
           </div>
         </a>
       </div>
@@ -627,22 +933,20 @@ footer {
 </div>
 
 <!-- ════════════════════ MINI MART OUTLETS ════════════════════ -->
-<section id="outlets" class="section-dark">
+<section id="outlets" class="section-light">
   <div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-6" data-aos="fade-up">
-        <div class="sec-label">Mini Marts</div>
-        <h2 class="sec-title">Our Retail Outlets</h2>
-      </div>
-      <div class="col-lg-6 d-flex align-items-end" data-aos="fade-up" data-aos-delay="100">
-        <p style="color:var(--muted); font-size:.9rem; line-height:1.7;">
-          Three strategically located mini mart outlets serving industrial and residential communities across Singapore with quality groceries and essentials.
-        </p>
-      </div>
+    <div class="text-center mb-2" data-aos="fade-up">
+      <div class="sec-label" style="justify-content:center;">Mini Marts</div>
+      <h2 class="sec-title">Our Retail Outlets</h2>
     </div>
+    <div class="ornament" data-aos="fade-up" data-aos-delay="50">
+      <span>✦ ❖ ✦</span>
+    </div>
+    <p class="text-center mb-5" style="color:var(--text-muted); font-size:.9rem; max-width:520px; margin:0 auto 48px;" data-aos="fade-up" data-aos-delay="80">
+      Three strategically located mini mart outlets serving industrial and residential communities across Singapore with quality groceries and essentials.
+    </p>
 
     <div class="row g-4">
-
       <!-- Outlet 1 -->
       <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
         <div class="outlet-card">
@@ -708,30 +1012,27 @@ footer {
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ════════════════════ FOOD STALLS ════════════════════ -->
-<section id="foodstalls" class="section-dark2">
+<section id="foodstalls" class="section-sage">
   <div class="container">
-    <div class="row mb-5">
-      <div class="col-lg-6" data-aos="fade-up">
-        <div class="sec-label">Food Stalls</div>
-        <h2 class="sec-title">Our Food Stalls</h2>
-      </div>
-      <div class="col-lg-6 d-flex align-items-end" data-aos="fade-up" data-aos-delay="100">
-        <p style="color:var(--muted); font-size:.9rem; line-height:1.7;">
-          Hot, freshly prepared meals served daily at our canteen stalls. Hearty food for workers across our industrial locations.
-        </p>
-      </div>
+    <div class="text-center mb-2" data-aos="fade-up">
+      <div class="sec-label" style="justify-content:center;">Food Stalls</div>
+      <h2 class="sec-title">Our Food Stalls</h2>
     </div>
+    <div class="ornament" data-aos="fade-up" data-aos-delay="50">
+      <span>✦ ❖ ✦</span>
+    </div>
+    <p class="text-center mb-5" style="color:var(--text-muted); font-size:.9rem; max-width:500px; margin:0 auto 48px;" data-aos="fade-up" data-aos-delay="80">
+      Hot, freshly prepared meals served daily at our canteen stalls. Hearty food for workers across our industrial locations.
+    </p>
 
     <div class="row g-4 justify-content-center">
-
       <!-- Food Stall 1 -->
-      <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="0">
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
         <div class="outlet-card">
           <div class="card-img-wrap">
             <img src="20nc.jpg" alt="Neythal Canteen"
@@ -752,7 +1053,7 @@ footer {
       </div>
 
       <!-- Food Stall 2 -->
-      <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
         <div class="outlet-card">
           <div class="card-img-wrap">
             <img src="jp.jpg" alt="Jalan Papan"
@@ -772,11 +1073,11 @@ footer {
         </div>
       </div>
 
-       <!-- Food Stall 3 -->
-      <div class="col-md-7 col-lg-5" data-aos="fade-up" data-aos-delay="100">
+      <!-- Food Stall 3 -->
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
         <div class="outlet-card">
           <div class="card-img-wrap">
-            <img src="jp2.jpg" alt="Jalan Papan Snacks Bangladeshi Snacks"
+            <img src="jp2.jpg" alt="Bangladeshi Snacks"
               onerror="this.src='https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=800&q=80'">
             <span class="card-badge">Bangladeshi Snacks</span>
           </div>
@@ -792,59 +1093,57 @@ footer {
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ════════════════════ PAYNOW ════════════════════ -->
-<section id="payment" class="section-dark">
+<section id="payment" class="section-light">
   <div class="container">
-    <div class="row justify-content-center mb-5">
-      <div class="col-lg-7 text-center" data-aos="fade-up">
-        <div class="sec-label justify-content-center">Payment</div>
-        <h2 class="sec-title">Pay via PayNow</h2>
-        <p class="mt-3" style="color:var(--muted); font-size:.9rem;">
-          Scan with any Singapore banking app to pay instantly — no cash needed.
-        </p>
-      </div>
+    <div class="text-center mb-2" data-aos="fade-up">
+      <div class="sec-label" style="justify-content:center;">Payment</div>
+      <h2 class="sec-title">Pay via PayNow</h2>
     </div>
+    <div class="ornament" data-aos="fade-up" data-aos-delay="50">
+      <span>✦ ❖ ✦</span>
+    </div>
+    <p class="text-center mb-5" style="color:var(--text-muted); font-size:.9rem; max-width:460px; margin:0 auto 48px;" data-aos="fade-up" data-aos-delay="80">
+      Scan with any Singapore banking app to pay instantly — no cash needed.
+    </p>
 
     <div class="paynow-card" data-aos="fade-up" data-aos-delay="100">
       <div class="row g-0">
         <div class="col-lg-7">
           <div class="paynow-left">
-            <div class="sec-label">Secure & Instant</div>
-            <h3 style="font-family:var(--ff-display); font-size:2.4rem; margin-bottom:16px;">
+            <div class="sec-label">Secure &amp; Instant</div>
+            <h3 style="font-family:var(--ff-display); font-size:2.3rem; margin-bottom:16px; color:var(--ink-dark);">
               PayNow Transfer
             </h3>
-            <p style="color:var(--muted); font-size:.92rem; line-height:1.8; margin-bottom:32px;">
+            <p style="color:var(--text-body); font-size:.92rem; line-height:1.8; margin-bottom:32px;">
               Scan the QR code or use the UEN numbers below to transfer payment directly to our accounts. Accepted by all major Singapore banks.
             </p>
             <div class="d-flex flex-column gap-3">
               <div class="uen-badge">
-                <i class="fa-solid fa-building"></i>
+                <i class="fa-solid fa-building" style="color:var(--emerald);"></i>
                 786 Spices Bazaar &nbsp;·&nbsp; 202428421E
               </div>
               <div class="uen-badge">
-                <i class="fa-solid fa-building"></i>
+                <i class="fa-solid fa-building" style="color:var(--emerald);"></i>
                 786 Spices Pte Ltd &nbsp;·&nbsp; 202113214E
               </div>
             </div>
-            <div class="mt-4 pt-2">
-              <div style="display:flex; gap:20px; flex-wrap:wrap;">
-                <div style="font-size:.78rem; color:var(--muted);">
-                  <i class="fa-solid fa-shield-halved" style="color:var(--amber); margin-right:6px;"></i>
-                  Secure Transfer
-                </div>
-                <div style="font-size:.78rem; color:var(--muted);">
-                  <i class="fa-solid fa-bolt" style="color:var(--amber); margin-right:6px;"></i>
-                  Instant Payment
-                </div>
-                <div style="font-size:.78rem; color:var(--muted);">
-                  <i class="fa-solid fa-mobile-screen" style="color:var(--amber); margin-right:6px;"></i>
-                  All SG Banks
-                </div>
+            <div class="mt-4 pt-2" style="display:flex; gap:24px; flex-wrap:wrap;">
+              <div style="font-size:.78rem; color:var(--text-muted);">
+                <i class="fa-solid fa-shield-halved" style="color:var(--emerald); margin-right:6px;"></i>
+                Secure Transfer
+              </div>
+              <div style="font-size:.78rem; color:var(--text-muted);">
+                <i class="fa-solid fa-bolt" style="color:var(--emerald); margin-right:6px;"></i>
+                Instant Payment
+              </div>
+              <div style="font-size:.78rem; color:var(--text-muted);">
+                <i class="fa-solid fa-mobile-screen" style="color:var(--emerald); margin-right:6px;"></i>
+                All SG Banks
               </div>
             </div>
           </div>
@@ -854,10 +1153,10 @@ footer {
             <div class="text-center">
               <div class="qr-wrap mb-4">
                 <img src="qr.png" alt="PayNow QR"
-                  onerror="this.parentElement.innerHTML='<div style=\'color:#222;font-size:.8rem;font-family:monospace;text-align:center;\'>PayNow<br>QR Code<br><small>qr.png</small></div>'">
+                  onerror="this.parentElement.innerHTML='<div style=\'color:var(--emerald);font-size:.85rem;font-family:monospace;text-align:center;\'>PayNow<br>QR Code<br><small style=\'color:var(--text-muted)\'>qr.png</small></div>'">
               </div>
-              <div style="font-size:.72rem; color:var(--muted); letter-spacing:.1em; text-transform:uppercase;">
-                Scan to pay
+              <div style="font-size:.72rem; color:var(--text-muted); letter-spacing:.12em; text-transform:uppercase;">
+                ✦ Scan to Pay ✦
               </div>
             </div>
           </div>
@@ -868,29 +1167,29 @@ footer {
 </section>
 
 <!-- ════════════════════ CONTACT STRIP ════════════════════ -->
-<section class="section-dark2">
+<section class="section-sage">
   <div class="container">
     <div class="contact-strip" data-aos="zoom-in">
       <div>
         <h3>Get in Touch</h3>
         <p>Owner / Manager: <br>Amir Md / Sathish</p>
       </div>
-         <div class="d-flex gap-3 flex-wrap justify-content-center">
-        <a href="tel:+6590700006" class="btn-primary-amber">
+      <div class="d-flex gap-3 flex-wrap justify-content-center">
+        <a href="tel:+6590700006" class="btn-gold">
           <i class="fa-solid fa-phone"></i> +65 9070 0006
         </a>
-        <a href="https://wa.me/6590700006" class="btn-outline-amber">
+        <a href="https://wa.me/6590700006" class="btn-outline-white">
           <i class="fa-brands fa-whatsapp"></i> WhatsApp
         </a>
       </div>
       <div class="d-flex gap-3 flex-wrap justify-content-center">
-        <a href="tel:+6584415883" class="btn-primary-amber">
+        <a href="tel:+6584415883" class="btn-gold">
           <i class="fa-solid fa-phone"></i> +65 8441 5883
         </a>
-        <a href="https://wa.me/6584415883" class="btn-outline-amber">
+        <a href="https://wa.me/6584415883" class="btn-outline-white">
           <i class="fa-brands fa-whatsapp"></i> WhatsApp
         </a>
-      </div>       
+      </div>
     </div>
   </div>
 </section>
@@ -900,7 +1199,7 @@ footer {
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
       <div class="footer-brand">786 SPICES GROUP</div>
-      <div class="footer-copy">© 2026 786 Spices Group · Singapore</div>
+      <div class="footer-copy">© 2026 786 Spices Group · Singapore · <span style="color:var(--gold); opacity:.5;">بارك الله فيكم</span></div>
       <a href="tel:+6584415883" class="footer-link">
         <i class="ico fa-solid fa-phone"></i> Sathish &nbsp;+65 8441 5883
       </a>
@@ -917,10 +1216,8 @@ footer {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
-// Init AOS
-AOS.init({ once: true, offset: 60, duration: 750, easing: 'ease-out-cubic' });
+AOS.init({ once: true, offset: 60, duration: 800, easing: 'ease-out-cubic' });
 
-// Sticky navbar style
 const nav = document.getElementById('mainNav');
 const btt = document.getElementById('btt');
 window.addEventListener('scroll', () => {
@@ -929,7 +1226,6 @@ window.addEventListener('scroll', () => {
   btt.classList.toggle('show', y > 400);
 });
 
-// Active nav link highlighting
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
 const observer = new IntersectionObserver(entries => {
@@ -937,7 +1233,7 @@ const observer = new IntersectionObserver(entries => {
     if (e.isIntersecting) {
       navLinks.forEach(l => l.style.color = '');
       const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-      if (active) active.style.color = 'var(--amber)';
+      if (active) active.style.color = 'var(--emerald)';
     }
   });
 }, { threshold: 0.4 });
