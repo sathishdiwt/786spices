@@ -34,11 +34,8 @@
   --radius: 16px;
   --radius2: 10px;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
 html { font-size: 16px; scroll-behavior: smooth; }
-
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--cream);
@@ -47,8 +44,6 @@ body {
   -webkit-font-smoothing: antialiased;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C8A55A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-
-/* ── HEADER ── */
 .header {
   background: var(--dark);
   position: relative;
@@ -57,11 +52,7 @@ body {
 }
 .header-bg {
   position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent, transparent 20px,
-    rgba(200,165,90,0.03) 20px, rgba(200,165,90,0.03) 21px
-  );
+  background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(200,165,90,0.03) 20px, rgba(200,165,90,0.03) 21px);
 }
 .header-glow {
   position: absolute;
@@ -116,11 +107,7 @@ body {
 .dt-item { text-align: center; }
 .dt-label { font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(200,165,90,0.45); }
 .dt-val { font-size: 13px; font-weight: 600; color: var(--gold2); margin-top: 2px; font-family: 'Outfit', monospace; }
-
-/* ── LAYOUT ── */
 .main { max-width: 540px; margin: 0 auto; padding: 16px 12px 100px; }
-
-/* ── CARD ── */
 .card {
   background: #fff;
   border-radius: var(--radius);
@@ -147,8 +134,6 @@ body {
   letter-spacing: 0.05em; white-space: nowrap;
 }
 .card-body { padding: 16px; }
-
-/* ── SELECT ── */
 .sel-wrap { position: relative; }
 .sel-wrap select {
   width: 100%; padding: 14px 42px 14px 16px;
@@ -168,7 +153,47 @@ body {
   color: var(--gold); font-size: 17px; pointer-events: none;
 }
 
-/* ── SECTION LABEL ── */
+/* ── DATE PICKER AREA ── */
+.date-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 12px;
+}
+.date-toggle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  cursor: pointer; user-select: none;
+  padding: 7px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--cream);
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.date-toggle.active { background: var(--gold3); border-color: var(--gold); color: var(--brown); }
+.date-toggle input[type=checkbox] { display: none; }
+.date-inp-wrap { flex: 1; }
+.date-inp-wrap input[type=date] {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px; font-weight: 500;
+  color: var(--text); background: var(--cream);
+  appearance: none; -webkit-appearance: none;
+  transition: border-color 0.15s;
+  display: none;
+}
+.date-inp-wrap input[type=date].visible { display: block; }
+.date-inp-wrap input[type=date]:focus { outline: none; border-color: var(--gold); background: var(--gold3); }
+.date-auto-lbl {
+  flex: 1; padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text2); background: var(--cream2);
+  text-align: center;
+}
+
 .sec-lbl {
   font-size: 10px; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -177,8 +202,6 @@ body {
   display: flex; align-items: center; gap: 10px;
 }
 .sec-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-/* ── BLOCK ── */
 .blk {
   background: var(--cream);
   border: 1px solid var(--border);
@@ -193,8 +216,6 @@ body {
   margin-bottom: 13px; padding-bottom: 9px;
   border-bottom: 1px dashed var(--border);
 }
-
-/* ── FIELD ROW ── */
 .frow {
   display: flex; align-items: center;
   gap: 8px; margin-bottom: 10px;
@@ -223,8 +244,10 @@ body {
 .inp-wrap input:focus { outline: none; border-color: var(--gold); background: var(--gold3); }
 .inp-wrap input.neg { border-color: #E5C9A0; background: #FFF7EC; color: var(--red); }
 .inp-wrap input.neg:focus { border-color: var(--brown); }
+/* CC field accent */
+.inp-wrap input.cc { border-color: #9FC5E8; background: #EEF4FF; }
+.inp-wrap input.cc:focus { border-color: var(--blue); background: #DDE8F8; }
 
-/* ── TOTAL ROWS ── */
 .trow {
   display: flex; align-items: center; justify-content: space-between;
   padding: 9px 13px; border-radius: 9px;
@@ -242,8 +265,6 @@ body {
 .trow.sub { background: #EEF6FF; border-color: #C5DAFF; margin-top: 8px; }
 .trow.sub .trow-lbl { color: var(--blue); }
 .trow.sub .trow-val { color: var(--blue); }
-
-/* ── NOTES ── */
 .notes-wrap textarea {
   width: 100%; min-height: 90px;
   padding: 12px 14px;
@@ -257,8 +278,6 @@ body {
 }
 .notes-wrap textarea:focus { outline: none; border-color: var(--gold); background: var(--gold3); }
 .notes-wrap textarea::placeholder { color: #bba880; }
-
-/* ── BUTTONS ── */
 .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 .btn-save {
   padding: 15px 10px;
@@ -282,7 +301,6 @@ body {
   transition: all 0.15s; width: 100%;
 }
 .btn-prev:active { background: var(--border); }
-
 .share-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
 .share-row.hidden { display: none; }
 .btn-copy {
@@ -303,8 +321,6 @@ body {
   transition: all 0.15s;
 }
 .btn-wa:active { background: var(--wa2); }
-
-/* ── PREVIEW BOX ── */
 .pv-box {
   background: #f0faf5; border: 1.5px solid #a8d5bc;
   border-radius: 10px; padding: 13px;
@@ -314,8 +330,6 @@ body {
   display: none; word-break: break-word;
   max-height: 280px; overflow-y: auto;
 }
-
-/* ── SAVED REPORTS ── */
 .saved-item {
   background: #fff; border: 1px solid var(--border);
   border-radius: 12px; padding: 13px 14px;
@@ -354,11 +368,8 @@ body {
   border-top: 1px dashed var(--border);
   font-style: italic; line-height: 1.5;
 }
-
 .empty { text-align: center; padding: 30px 16px; color: var(--text2); font-size: 14px; }
 .empty .ico { font-size: 32px; margin-bottom: 8px; }
-
-/* ── TOAST ── */
 .toast {
   position: fixed; bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(100px);
@@ -370,10 +381,7 @@ body {
   white-space: nowrap; pointer-events: none; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-
-/* ── DIVIDER ── */
 .divider { height: 1px; background: var(--border); margin: 14px 0; opacity: 0.5; }
-
 @media (max-width: 380px) {
   .frow label { width: 98px; font-size: 11px; }
   .inp-wrap input { font-size: 14px; }
@@ -417,6 +425,16 @@ body {
           <option value="kaki_mm">18 Kaki Bukit — Mini Mart</option>
         </select>
       </div>
+      <!-- Date chooser -->
+      <div class="date-row">
+        <label class="date-toggle" id="dateToggleLbl" onclick="toggleDateMode()">
+          ✏️ Manual Date
+        </label>
+        <div class="date-inp-wrap">
+          <div class="date-auto-lbl" id="dateAutoLbl">Auto — today's date</div>
+          <input type="date" id="manualDate" oninput="calc()" />
+        </div>
+      </div>
     </div>
   </div>
 
@@ -449,6 +467,46 @@ function clock(){
 }
 clock(); setInterval(clock, 1000);
 
+let manualDateMode = false;
+
+function toggleDateMode(){
+  manualDateMode = !manualDateMode;
+  const lbl = document.getElementById('dateToggleLbl');
+  const autoLbl = document.getElementById('dateAutoLbl');
+  const inp = document.getElementById('manualDate');
+  if(manualDateMode){
+    lbl.classList.add('active');
+    autoLbl.style.display = 'none';
+    inp.classList.add('visible');
+    // Default to today in the date picker
+    if(!inp.value){
+      const n = new Date();
+      inp.value = `${n.getFullYear()}-${pad(n.getMonth()+1)}-${pad(n.getDate())}`;
+    }
+  } else {
+    lbl.classList.remove('active');
+    autoLbl.style.display = '';
+    inp.classList.remove('visible');
+  }
+  calc();
+}
+
+function getReportDate(){
+  if(manualDateMode){
+    const inp = document.getElementById('manualDate');
+    if(inp && inp.value){
+      const [y,m,d] = inp.value.split('-');
+      const dt = new Date(+y, +m-1, +d);
+      return { ds: `${pad(d)}/${pad(m)}/${y}`, dayName: DAYS[dt.getDay()] };
+    }
+  }
+  const n = new Date();
+  return {
+    ds: `${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()}`,
+    dayName: DAYS[n.getDay()]
+  };
+}
+
 function fmt(n){ return '$' + (+n||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function v(id){ return parseFloat(document.getElementById(id)?.value) || 0; }
 function setEl(id, val){ const e = document.getElementById(id); if(e) e.textContent = fmt(val); }
@@ -468,7 +526,6 @@ const NAMES = {
 };
 let shop = '';
 
-// --- HTML Builders ---
 function fld(id, lbl, cls){
   return `<div class="frow">
     <label for="${id}">${lbl}</label>
@@ -483,9 +540,11 @@ function trow(lbl, id, cls){
 function blkOpen(title){ return `<div class="blk"><div class="blk-title">${title}</div>`; }
 function blkClose(){ return `</div>`; }
 
+// POS block now includes CC Terminal
 function posBlock(p, num){
   return blkOpen(`🖥️ POS ${num} Sales`) +
     fld(p+'_cash','CASH') + fld(p+'_nets','NETS') + fld(p+'_paynow','PayNow') +
+    fld(p+'_cc','CC Terminal','cc') +
     trow('Total Sales', p+'_total') +
     `<div class="sec-lbl">Adjustments</div>` +
     fld(p+'_short','Shortage','neg') + fld(p+'_extra','Extra') +
@@ -493,6 +552,20 @@ function posBlock(p, num){
     trow('Float Cash (Cash − Boss)', p+'_float') +
     trow('Total Sales POS '+num, p+'_net', 'sub') +
     blkClose();
+}
+
+// Generic sales block with CC Terminal (for canteen/catering sections)
+function salesBlkWithCC(prefix, icon, title, hasExp){
+  let html = blkOpen(`${icon} ${title}`) +
+    fld(prefix+'_cash','CASH') + fld(prefix+'_nets','NETS') +
+    fld(prefix+'_paynow','PayNow') + fld(prefix+'_cc','CC Terminal','cc') +
+    trow('Total Sales', prefix+'_tot');
+  if(hasExp){
+    html += `<div class="sec-lbl">Expenses</div>` +
+      fld(prefix+'_exp','Expenses','neg') +
+      trow('Grand Total', prefix+'_grand');
+  }
+  return html + blkClose();
 }
 
 function notesField(){
@@ -511,7 +584,7 @@ function renderForm(){
   if(shop === 'muri'){
     inner = `
       <div class="sec-lbl">Sales Breakdown</div>
-      ${fld('cash','CASH')}${fld('coins','COINS')}${fld('nets','NETS')}${fld('paynow','PayNow')}
+      ${fld('cash','CASH')}${fld('coins','COINS')}${fld('nets','NETS')}${fld('paynow','PayNow')}${fld('cc','CC Terminal','cc')}
       ${trow('Total Sales','ts')}
       <div class="sec-lbl">Expenses</div>
       ${fld('exp','Expenses','neg')}
@@ -520,60 +593,24 @@ function renderForm(){
     `;
   }
   else if(shop === 'jp_morning'){
-    inner = `
-      ${blkOpen('🍽️ Canteen Sales')}
-        ${fld('cc_cash','CASH')}${fld('cc_nets','NETS')}${fld('cc_paynow','PayNow')}
-        ${trow('Total Sales — Canteen','cc_tot')}
-        <div class="sec-lbl">Expenses</div>
-        ${fld('cc_exp','Expenses','neg')}
-        ${trow('Canteen Grand Total','cc_grand')}
-      ${blkClose()}
-      ${blkOpen('🛒 Small Shop Sales')}
-        ${fld('ss_cash','CASH')}${fld('ss_nets','NETS')}${fld('ss_paynow','PayNow')}
-        ${trow('Total Sales — Small Shop','ss_tot')}
-        <div class="sec-lbl">Expenses</div>
-        ${fld('ss_exp','Expenses','neg')}
-        ${trow('Small Shop Grand Total','ss_grand')}
-      ${blkClose()}
-      ${trow('Total Morning Sales (Canteen + Small Shop)','morning_total','grand')}
-    `;
+    inner = salesBlkWithCC('cc','🍽️','Canteen Sales', true) +
+      salesBlkWithCC('ss','🛒','Small Shop Sales', true) +
+      trow('Total Morning Sales (Canteen + Small Shop)','morning_total','grand');
   }
   else if(shop === 'jp_night'){
-    inner = `
-      ${blkOpen('🌙 Canteen Sales')}
-        ${fld('jn_cc','CASH')}${fld('jn_cn','NETS')}${fld('jn_cp','PayNow')}
-        ${trow('Total Canteen Sales','jn_ct')}
-        <div class="sec-lbl">Expenses</div>
-        ${fld('jn_ce','Expenses','neg')}
-        ${trow('Canteen Grand Total','jn_cg')}
-      ${blkClose()}
-      ${blkOpen('🎪 Catering Sales')}
-        ${fld('jn_kc','CASH')}${fld('jn_kn','NETS')}${fld('jn_kp','PayNow')}
-        ${trow('Total Catering Sales','jn_kt')}
-      ${blkClose()}
-      ${trow('Grand Total (Canteen + Catering)','jn_grand','grand')}
-    `;
+    inner = salesBlkWithCC('jn_c','🌙','Canteen Sales', true) +
+      salesBlkWithCC('jn_k','🎪','Catering Sales', false) +
+      trow('Grand Total (Canteen + Catering)','jn_grand','grand');
   }
   else if(shop === 'neythal_canteen'){
-    inner = `
-      ${blkOpen('🍽️ Canteen Sales')}
-        ${fld('nc_cc','CASH')}${fld('nc_cn','NETS')}${fld('nc_cp','PayNow')}
-        ${trow('Total Canteen Sales','nc_ct')}
-        <div class="sec-lbl">Expenses</div>
-        ${fld('nc_ce','Expenses','neg')}
-        ${trow('Canteen Grand Total','nc_cg')}
-      ${blkClose()}
-      ${blkOpen('🎪 Catering Sales')}
-        ${fld('nc_kc','CASH')}${fld('nc_kn','NETS')}${fld('nc_kp','PayNow')}
-        ${trow('Total Catering Sales','nc_kt')}
-      ${blkClose()}
-      ${trow('Grand Total (Canteen + Catering)','nc_grand','grand')}
-    `;
+    inner = salesBlkWithCC('nc_c','🍽️','Canteen Sales', true) +
+      salesBlkWithCC('nc_k','🎪','Catering Sales', false) +
+      trow('Grand Total (Canteen + Catering)','nc_grand','grand');
   }
   else if(shop === 'neythal_mm'){
     inner = `
       <div class="sec-lbl">Sales Breakdown</div>
-      ${fld('nm_cash','CASH')}${fld('nm_nets','NETS')}${fld('nm_paynow','PayNow')}
+      ${fld('nm_cash','CASH')}${fld('nm_nets','NETS')}${fld('nm_paynow','PayNow')}${fld('nm_cc','CC Terminal','cc')}
       ${trow('Total Sales','nm_ts')}
       <div class="sec-lbl">Adjustments</div>
       ${fld('nm_short','Shortage','neg')}${fld('nm_extra','Extra')}
@@ -621,39 +658,40 @@ function renderForm(){
 // --- Calc ---
 function calc(){
   if(!shop) return;
+
   if(shop === 'muri'){
-    const ts = v('cash')+v('coins')+v('nets')+v('paynow');
+    const ts = v('cash')+v('coins')+v('nets')+v('paynow')+v('cc');
     const gt = ts - v('exp');
     setEl('ts', ts); setEl('gt', gt);
     setEl('ctl', v('cash') - v('exp'));
   }
   else if(shop === 'jp_morning'){
-    const cct = v('cc_cash')+v('cc_nets')+v('cc_paynow');
+    const cct = v('cc_cash')+v('cc_nets')+v('cc_paynow')+v('cc_cc');
     const ccg = cct - v('cc_exp');
-    const sst = v('ss_cash')+v('ss_nets')+v('ss_paynow');
+    const sst = v('ss_cash')+v('ss_nets')+v('ss_paynow')+v('ss_cc');
     const ssg = sst - v('ss_exp');
     setEl('cc_tot', cct); setEl('cc_grand', ccg);
     setEl('ss_tot', sst); setEl('ss_grand', ssg);
     setEl('morning_total', cct + sst);
   }
   else if(shop === 'jp_night'){
-    const ct = v('jn_cc')+v('jn_cn')+v('jn_cp');
-    const cg = ct - v('jn_ce');
-    const kt = v('jn_kc')+v('jn_kn')+v('jn_kp');
-    setEl('jn_ct', ct); setEl('jn_cg', cg);
-    setEl('jn_kt', kt);
+    const ct = v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow')+v('jn_c_cc');
+    const cg = ct - v('jn_c_exp');
+    const kt = v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow')+v('jn_k_cc');
+    setEl('jn_c_tot', ct); setEl('jn_c_grand', cg);
+    setEl('jn_k_tot', kt);
     setEl('jn_grand', cg + kt);
   }
   else if(shop === 'neythal_canteen'){
-    const ct = v('nc_cc')+v('nc_cn')+v('nc_cp');
-    const cg = ct - v('nc_ce');
-    const kt = v('nc_kc')+v('nc_kn')+v('nc_kp');
-    setEl('nc_ct', ct); setEl('nc_cg', cg);
-    setEl('nc_kt', kt);
+    const ct = v('nc_c_cash')+v('nc_c_nets')+v('nc_c_paynow')+v('nc_c_cc');
+    const cg = ct - v('nc_c_exp');
+    const kt = v('nc_k_cash')+v('nc_k_nets')+v('nc_k_paynow')+v('nc_k_cc');
+    setEl('nc_c_tot', ct); setEl('nc_c_grand', cg);
+    setEl('nc_k_tot', kt);
     setEl('nc_grand', cg + kt);
   }
   else if(shop === 'neythal_mm'){
-    const ts = v('nm_cash')+v('nm_nets')+v('nm_paynow');
+    const ts = v('nm_cash')+v('nm_nets')+v('nm_paynow')+v('nm_cc');
     setEl('nm_ts', ts);
     setEl('nm_float', v('nm_cash') - v('nm_boss'));
     setEl('nm_day', ts);
@@ -661,7 +699,7 @@ function calc(){
   else if(shop === 'tuas_mm'){
     let d = 0, totalBoss = 0;
     ['p1','p2','p3'].forEach(p => {
-      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
+      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
       setEl(p+'_total', tot);
       setEl(p+'_float', v(p+'_cash') - v(p+'_boss'));
       setEl(p+'_net', tot);
@@ -674,7 +712,7 @@ function calc(){
   else if(shop === 'kaki_mm'){
     let d = 0, totalBoss = 0;
     ['p1','p2'].forEach(p => {
-      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
+      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
       setEl(p+'_total', tot);
       setEl(p+'_float', v(p+'_cash') - v(p+'_boss'));
       setEl(p+'_net', tot);
@@ -684,6 +722,7 @@ function calc(){
     setEl('kaki_boss_total', totalBoss);
     setEl('day_tot', d);
   }
+
   const pb = document.getElementById('pvBox');
   if(pb && pb.style.display === 'block') pb.textContent = buildText(shop).txt;
 }
@@ -696,53 +735,53 @@ function getNote(){
 
 function buildText(s){
   const n = new Date();
-  const ds = `${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()}`;
   const ts2 = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
+  const { ds, dayName } = getReportDate();
   const ln = '━'.repeat(32);
   const note = getNote();
-  let t = `🌶️ *786 SPICES GROUP*\n📋 *Daily Sales Report*\n${ln}\n🏪 ${NAMES[s]}\n📅 ${ds}   🕐 ${ts2}   📆 ${DAYS[n.getDay()]}\n${ln}\n`;
+  let t = `🌶️ *786 SPICES GROUP*\n📋 *Daily Sales Report*\n${ln}\n🏪 ${NAMES[s]}\n📅 ${ds}   🕐 ${ts2}   📆 ${dayName}\n${ln}\n`;
   let grand = 0;
 
   if(s === 'muri'){
-    const tot = v('cash')+v('coins')+v('nets')+v('paynow');
+    const tot = v('cash')+v('coins')+v('nets')+v('paynow')+v('cc');
     grand = tot - v('exp');
-    t += `💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales       : ${fmt(tot)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')-v('exp'))}\n`;
+    t += `💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n💳 CC Terminal       : ${fmt(v('cc'))}\n${ln}\n📊 Total Sales       : ${fmt(tot)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')-v('exp'))}\n`;
   }
   else if(s === 'jp_morning'){
-    const cct = v('cc_cash')+v('cc_nets')+v('cc_paynow');
+    const cct = v('cc_cash')+v('cc_nets')+v('cc_paynow')+v('cc_cc');
     const ccg = cct - v('cc_exp');
-    const sst = v('ss_cash')+v('ss_nets')+v('ss_paynow');
+    const sst = v('ss_cash')+v('ss_nets')+v('ss_paynow')+v('ss_cc');
     const ssg = sst - v('ss_exp');
     grand = cct + sst;
-    t += `🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('cc_cash'))}\n💳 NETS    : ${fmt(v('cc_nets'))}\n📱 PayNow  : ${fmt(v('cc_paynow'))}\n📊 Total   : ${fmt(cct)}\n➖ Expenses: ${fmt(v('cc_exp'))}\n✅ Grand   : ${fmt(ccg)}\n${ln}\n🛒 *SMALL SHOP SALES*\n💵 Cash    : ${fmt(v('ss_cash'))}\n💳 NETS    : ${fmt(v('ss_nets'))}\n📱 PayNow  : ${fmt(v('ss_paynow'))}\n📊 Total   : ${fmt(sst)}\n➖ Expenses: ${fmt(v('ss_exp'))}\n✅ Grand   : ${fmt(ssg)}\n${ln}\n🏆 *TOTAL MORNING SALES : ${fmt(grand)}*\n`;
+    t += `🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('cc_cash'))}\n💳 NETS    : ${fmt(v('cc_nets'))}\n📱 PayNow  : ${fmt(v('cc_paynow'))}\n💳 CC Term : ${fmt(v('cc_cc'))}\n📊 Total   : ${fmt(cct)}\n➖ Expenses: ${fmt(v('cc_exp'))}\n✅ Grand   : ${fmt(ccg)}\n${ln}\n🛒 *SMALL SHOP SALES*\n💵 Cash    : ${fmt(v('ss_cash'))}\n💳 NETS    : ${fmt(v('ss_nets'))}\n📱 PayNow  : ${fmt(v('ss_paynow'))}\n💳 CC Term : ${fmt(v('ss_cc'))}\n📊 Total   : ${fmt(sst)}\n➖ Expenses: ${fmt(v('ss_exp'))}\n✅ Grand   : ${fmt(ssg)}\n${ln}\n🏆 *TOTAL MORNING SALES : ${fmt(grand)}*\n`;
   }
   else if(s === 'jp_night'){
-    const ct = v('jn_cc')+v('jn_cn')+v('jn_cp');
-    const cg = ct - v('jn_ce');
-    const kt = v('jn_kc')+v('jn_kn')+v('jn_kp');
+    const ct = v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow')+v('jn_c_cc');
+    const cg = ct - v('jn_c_exp');
+    const kt = v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow')+v('jn_k_cc');
     grand = cg + kt;
-    t += `🌙 *CANTEEN SALES*\n💵 Cash    : ${fmt(v('jn_cc'))}\n💳 NETS    : ${fmt(v('jn_cn'))}\n📱 PayNow  : ${fmt(v('jn_cp'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_ce'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('jn_kc'))}\n💳 NETS    : ${fmt(v('jn_kn'))}\n📱 PayNow  : ${fmt(v('jn_kp'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
+    t += `🌙 *CANTEEN SALES*\n💵 Cash    : ${fmt(v('jn_c_cash'))}\n💳 NETS    : ${fmt(v('jn_c_nets'))}\n📱 PayNow  : ${fmt(v('jn_c_paynow'))}\n💳 CC Term : ${fmt(v('jn_c_cc'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('jn_k_cash'))}\n💳 NETS    : ${fmt(v('jn_k_nets'))}\n📱 PayNow  : ${fmt(v('jn_k_paynow'))}\n💳 CC Term : ${fmt(v('jn_k_cc'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
   }
   else if(s === 'neythal_canteen'){
-    const ct = v('nc_cc')+v('nc_cn')+v('nc_cp');
-    const cg = ct - v('nc_ce');
-    const kt = v('nc_kc')+v('nc_kn')+v('nc_kp');
+    const ct = v('nc_c_cash')+v('nc_c_nets')+v('nc_c_paynow')+v('nc_c_cc');
+    const cg = ct - v('nc_c_exp');
+    const kt = v('nc_k_cash')+v('nc_k_nets')+v('nc_k_paynow')+v('nc_k_cc');
     grand = cg + kt;
-    t += `🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('nc_cc'))}\n💳 NETS    : ${fmt(v('nc_cn'))}\n📱 PayNow  : ${fmt(v('nc_cp'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('nc_ce'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('nc_kc'))}\n💳 NETS    : ${fmt(v('nc_kn'))}\n📱 PayNow  : ${fmt(v('nc_kp'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
+    t += `🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('nc_c_cash'))}\n💳 NETS    : ${fmt(v('nc_c_nets'))}\n📱 PayNow  : ${fmt(v('nc_c_paynow'))}\n💳 CC Term : ${fmt(v('nc_c_cc'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('nc_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('nc_k_cash'))}\n💳 NETS    : ${fmt(v('nc_k_nets'))}\n📱 PayNow  : ${fmt(v('nc_k_paynow'))}\n💳 CC Term : ${fmt(v('nc_k_cc'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
   }
   else if(s === 'neythal_mm'){
-    const tot = v('nm_cash')+v('nm_nets')+v('nm_paynow');
+    const tot = v('nm_cash')+v('nm_nets')+v('nm_paynow')+v('nm_cc');
     grand = tot;
-    t += `💵 Cash              : ${fmt(v('nm_cash'))}\n💳 NETS              : ${fmt(v('nm_nets'))}\n📱 PayNow            : ${fmt(v('nm_paynow'))}\n📊 Total Sales       : ${fmt(tot)}\n${ln}\n❌ Shortage          : ${fmt(v('nm_short'))}\n➕ Extra             : ${fmt(v('nm_extra'))}\n👔 Handover to Boss  : ${fmt(v('nm_boss'))}\n💰 Float Cash        : ${fmt(v('nm_cash')-v('nm_boss'))}\n🏭 Cash to Supplier  : ${fmt(v('nm_supplier'))}\n${ln}\n🏆 *DAY SALES TOTAL  : ${fmt(tot)}*\n`;
+    t += `💵 Cash              : ${fmt(v('nm_cash'))}\n💳 NETS              : ${fmt(v('nm_nets'))}\n📱 PayNow            : ${fmt(v('nm_paynow'))}\n💳 CC Terminal       : ${fmt(v('nm_cc'))}\n📊 Total Sales       : ${fmt(tot)}\n${ln}\n❌ Shortage          : ${fmt(v('nm_short'))}\n➕ Extra             : ${fmt(v('nm_extra'))}\n👔 Handover to Boss  : ${fmt(v('nm_boss'))}\n💰 Float Cash        : ${fmt(v('nm_cash')-v('nm_boss'))}\n🏭 Cash to Supplier  : ${fmt(v('nm_supplier'))}\n${ln}\n🏆 *DAY SALES TOTAL  : ${fmt(tot)}*\n`;
   }
   else if(s === 'tuas_mm'){
     let d = 0, totalBoss = 0;
     ['p1','p2','p3'].forEach((p,i) => {
-      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
+      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
       const fl = v(p+'_cash') - v(p+'_boss');
       d += tot;
       totalBoss += v(p+'_boss');
-      t += `🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n✅ Total POS ${i+1}: ${fmt(tot)}\n${ln}\n`;
+      t += `🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n💳 CC Term : ${fmt(v(p+'_cc'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n✅ Total POS ${i+1}: ${fmt(tot)}\n${ln}\n`;
     });
     grand = d;
     t += `🏭 Cash to Supplier      : ${fmt(v('tuas_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n🏆 *DAY SALES TOTAL      : ${fmt(grand)}*\n`;
@@ -750,11 +789,11 @@ function buildText(s){
   else if(s === 'kaki_mm'){
     let d = 0, totalBoss = 0;
     ['p1','p2'].forEach((p,i) => {
-      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
+      const tot = v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
       const fl = v(p+'_cash') - v(p+'_boss');
       d += tot;
       totalBoss += v(p+'_boss');
-      t += `🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n✅ Total POS ${i+1}: ${fmt(tot)}\n${ln}\n`;
+      t += `🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n💳 CC Term : ${fmt(v(p+'_cc'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n✅ Total POS ${i+1}: ${fmt(tot)}\n${ln}\n`;
     });
     grand = d;
     t += `🏭 Cash to Supplier      : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n🏆 *DAY SALES TOTAL      : ${fmt(grand)}*\n`;
@@ -791,11 +830,13 @@ function saveRpt(){
   if(!shop) return;
   const n = new Date(), {txt, grand} = buildText(shop);
   const note = getNote();
+  const { ds } = getReportDate();
+  const ts2 = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
   const KEY = '786_reports', arr = JSON.parse(localStorage.getItem(KEY)||'[]');
   arr.unshift({
     id: Date.now(), shop, name: NAMES[shop],
-    date: `${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()}`,
-    time: `${pad(n.getHours())}:${pad(n.getMinutes())}`,
+    date: ds,
+    time: ts2,
     grand, txt, note
   });
   localStorage.setItem(KEY, JSON.stringify(arr));
