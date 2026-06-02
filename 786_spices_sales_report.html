@@ -367,8 +367,10 @@ function renderForm(){
   else if(shop==='neythal_canteen'){
     inner=
       salesBlk('nc_c','🍽️','Canteen Sales',{hasCC:true,hasExp:true})+
-      salesBlk('nc_k','🎪','Catering Sales',{hasCC:true,hasExp:false})+
-      trow('Grand Total (Canteen + Catering)','nc_grand','grand');
+      salesBlk('nc_k','🎪','Catering Sales',{hasCC:true,hasExp:true})+
+      secLbl('Summary')+
+      trow('Grand Total (Canteen + Catering)','nc_grand','grand')+
+      trow('Cash in Locker (Canteen CASH + Catering CASH)','nc_locker','sub');
   }
 
   // ── NEYTHAL MINI MART ──
@@ -459,11 +461,13 @@ function calc(){
 
   else if(shop==='neythal_canteen'){
     const ct=v('nc_c_cash')+v('nc_c_nets')+v('nc_c_paynow')+v('nc_c_cc')+v('nc_c_exp');
-    const cg=ct
+    const cg=ct;
     const kt=v('nc_k_cash')+v('nc_k_nets')+v('nc_k_paynow')+v('nc_k_cc');
+    const kg=kt-v('nc_k_exp');
     setEl('nc_c_tot',ct);setEl('nc_c_grand',cg);
-    setEl('nc_k_tot',kt);
-    setEl('nc_grand',cg+kt);
+    setEl('nc_k_tot',kt);setEl('nc_k_grand',kg);
+    setEl('nc_grand',cg+kg);
+    setEl('nc_locker',v('nc_c_cash')+v('nc_k_cash'));
   }
 
   else if(shop==='neythal_mm'){
@@ -543,11 +547,13 @@ function buildText(s){
   }
 
   else if(s==='neythal_canteen'){
-    const ct=v('nc_c_cash')+v('nc_c_nets')+v('nc_c_paynow')+v('nc_c_cc');
-    const cg=ct-v('nc_c_exp');
+    const ct=v('nc_c_cash')+v('nc_c_nets')+v('nc_c_paynow')+v('nc_c_cc')+v('nc_c_exp');
+    const cg=ct;
     const kt=v('nc_k_cash')+v('nc_k_nets')+v('nc_k_paynow')+v('nc_k_cc');
-    grand=cg+kt;
-    t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('nc_c_cash'))}\n💳 NETS    : ${fmt(v('nc_c_nets'))}\n📱 PayNow  : ${fmt(v('nc_c_paynow'))}\n💳 CC Term : ${fmt(v('nc_c_cc'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('nc_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('nc_k_cash'))}\n💳 NETS    : ${fmt(v('nc_k_nets'))}\n📱 PayNow  : ${fmt(v('nc_k_paynow'))}\n💳 CC Term : ${fmt(v('nc_k_cc'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
+    const kg=kt-v('nc_k_exp');
+    const locker=v('nc_c_cash')+v('nc_k_cash');
+    grand=cg+kg;
+    t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('nc_c_cash'))}\n💳 NETS    : ${fmt(v('nc_c_nets'))}\n📱 PayNow  : ${fmt(v('nc_c_paynow'))}\n💳 CC Term : ${fmt(v('nc_c_cc'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('nc_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('nc_k_cash'))}\n💳 NETS    : ${fmt(v('nc_k_nets'))}\n📱 PayNow  : ${fmt(v('nc_k_paynow'))}\n💳 CC Term : ${fmt(v('nc_k_cc'))}\n📊 Total   : ${fmt(kt)}\n➖ Expenses: ${fmt(v('nc_k_exp'))}\n✅ Grand   : ${fmt(kg)}\n${ln}\n🏆 *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash in Locker    : ${fmt(locker)}\n`;
   }
 
   else if(s==='neythal_mm'){
