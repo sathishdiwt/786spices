@@ -309,7 +309,42 @@ function posBlock(p,num,hasCCTerminal){
     blkC();
 }
 
-// Canteen/catering block: optionally includes CC Terminal and Expenses
+// ─── JP MORNING: Canteen + Small Shop (both with COINS) ──────────────────────
+function jpMorningBlk(prefix, icon, title) {
+  return blkO(`${icon} ${title}`) +
+    fld(prefix+'_cash','CASH') +
+    fld(prefix+'_coins','COINS') +
+    fld(prefix+'_nets','NETS') +
+    fld(prefix+'_paynow','PayNow') +
+    trow('Total Sales', prefix+'_tot') +
+    secLbl('Expenses') +
+    fld(prefix+'_exp','Expenses') +
+    trow('Grand Total', prefix+'_grand') +
+    blkC();
+}
+
+// ─── JP NIGHT: Canteen (with expenses info, grand = total) + Catering ────────
+function jpNightCanteenBlk() {
+  return blkO('🌙 Canteen Sales') +
+    fld('jn_c_cash','CASH') +
+    fld('jn_c_nets','NETS') +
+    fld('jn_c_paynow','PayNow') +
+    trow('Total Sales', 'jn_c_tot') +
+    secLbl('Expenses') +
+    fld('jn_c_exp','Expenses') +
+    trow('Canteen Grand Total', 'jn_c_grand') +
+    blkC();
+}
+function jpNightCateringBlk() {
+  return blkO('🎪 Catering Sales') +
+    fld('jn_k_cash','CASH') +
+    fld('jn_k_nets','NETS') +
+    fld('jn_k_paynow','PayNow') +
+    trow('Total Catering Sales', 'jn_k_tot') +
+    blkC();
+}
+
+// Canteen/catering block for other shops
 function salesBlk(prefix,icon,title,opts={}){
   const{hasCC=false,hasExp=false}=opts;
   let html=blkO(`${icon} ${title}`)+
@@ -348,18 +383,24 @@ function renderForm(){
   }
 
   // ── JALAN PAPAN MORNING ──
+  // Canteen: CASH+COINS+NETS+PayNow = Total → Grand = Total − Expenses
+  // Small Shop: CASH+COINS+NETS+PayNow = Total → Grand = Total − Expenses
+  // Total Morning Sales = Canteen Total + Small Shop Total (raw totals, not grands)
   else if(shop==='jp_morning'){
     inner=
-      salesBlk('cc','🍽️','Canteen Sales',{hasCC:false,hasExp:true})+
-      salesBlk('ss','🛒','Small Shop Sales',{hasCC:false,hasExp:true})+
+      jpMorningBlk('cc','🍽️','Canteen Sales')+
+      jpMorningBlk('ss','🛒','Small Shop Sales')+
       trow('Total Morning Sales (Canteen + Small Shop)','morning_total','day');
   }
 
   // ── JALAN PAPAN NIGHT ──
+  // Canteen: CASH+NETS+PayNow = Total; Expenses shown; Grand = Total (not deducted)
+  // Catering: CASH+NETS+PayNow = Total
+  // Grand Total = Canteen Grand + Catering Total
   else if(shop==='jp_night'){
     inner=
-      salesBlk('jn_c','🌙','Canteen Sales',{hasCC:false,hasExp:true})+
-      salesBlk('jn_k','🎪','Catering Sales',{hasCC:false,hasExp:false})+
+      jpNightCanteenBlk()+
+      jpNightCateringBlk()+
       trow('Grand Total (Canteen + Catering)','jn_grand','grand');
   }
 
@@ -440,21 +481,33 @@ function calc(){
     setEl('ctl',v('cash')-v('exp'));
   }
 
+  // JP MORNING:
+  // Canteen Total = CASH+COINS+NETS+PayNow; Grand = Total − Expenses
+  // Small Shop Total = CASH+COINS+NETS+PayNow; Grand = Total − Expenses
+  // Total Morning Sales = Canteen Total + Small Shop Total (raw, NOT grands)
   else if(shop==='jp_morning'){
-    const cct=v('cc_cash')+v('cc_nets')+v('cc_paynow');
-    const ccg=cct-v('cc_exp');
-    const sst=v('ss_cash')+v('ss_nets')+v('ss_paynow');
-    const ssg=sst-v('ss_exp');
-    setEl('cc_tot',cct);setEl('cc_grand',ccg);
-    setEl('ss_tot',sst);setEl('ss_grand',ssg);
-    setEl('morning_total',cct+sst);
+    const cct=v('cc_cash')+v('cc_coins')+v('cc_nets')+v('cc_paynow');
+    const ccg=cct+v('cc_exp');
+    const sst=v('ss_cash')+v('ss_coins')+v('ss_nets')+v('ss_paynow');
+    const ssg=sst+v('ss_exp');
+    setEl('cc_tot',cct);
+    setEl('cc_grand',ccg);
+    setEl('ss_tot',sst);
+    setEl('ss_grand',ssg);
+    // Total Morning Sales = sum of raw totals
+    setEl('morning_total', cct + sst);
   }
 
+  // JP NIGHT:
+  // Canteen Total = CASH+NETS+PayNow; Grand = Total (expenses shown but NOT deducted from grand)
+  // Catering Total = CASH+NETS+PayNow
+  // Grand Total = Canteen Grand + Catering Total
   else if(shop==='jp_night'){
     const ct=v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow');
-    const cg=ct-v('jn_c_exp');
+    const cg=ct+v('jn_c_exp'); // Grand = Total + Expenses
     const kt=v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow');
-    setEl('jn_c_tot',ct);setEl('jn_c_grand',cg);
+    setEl('jn_c_tot',ct);
+    setEl('jn_c_grand',cg);
     setEl('jn_k_tot',kt);
     setEl('jn_grand',cg+kt);
   }
@@ -474,7 +527,6 @@ function calc(){
     const ts=v('nm_cash')+v('nm_nets')+v('nm_paynow');
     setEl('nm_ts',ts);
     setEl('nm_float',v('nm_cash')-v('nm_boss'));
-    // Day Sales Total = raw total (NOT deducting supplier)
     setEl('nm_day',ts);
   }
 
@@ -488,7 +540,6 @@ function calc(){
       d+=tot;totalBoss+=v(p+'_boss');
     });
     setEl('tuas_boss_total',totalBoss);
-    // Day Sales Total = sum of all POS (NOT deducting supplier)
     setEl('day_tot',d);
   }
 
@@ -502,7 +553,6 @@ function calc(){
       d+=tot;totalBoss+=v(p+'_boss');
     });
     setEl('kaki_boss_total',totalBoss);
-    // Day Sales Total = sum of POS (NOT deducting supplier)
     setEl('day_tot',d);
   }
 
@@ -529,18 +579,20 @@ function buildText(s){
     t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales       : ${fmt(ts)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')-v('exp'))}\n`;
   }
 
+  // JP MORNING: Canteen Total + Small Shop Total = Total Morning Sales
   else if(s==='jp_morning'){
-    const cct=v('cc_cash')+v('cc_nets')+v('cc_paynow');
-    const ccg=cct-v('cc_exp');
-    const sst=v('ss_cash')+v('ss_nets')+v('ss_paynow');
-    const ssg=sst-v('ss_exp');
-    grand=cct+sst;
-    t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('cc_cash'))}\n💳 NETS    : ${fmt(v('cc_nets'))}\n📱 PayNow  : ${fmt(v('cc_paynow'))}\n📊 Total   : ${fmt(cct)}\n➖ Expenses: ${fmt(v('cc_exp'))}\n✅ Grand   : ${fmt(ccg)}\n${ln}\n🛒 *SMALL SHOP SALES*\n💵 Cash    : ${fmt(v('ss_cash'))}\n💳 NETS    : ${fmt(v('ss_nets'))}\n📱 PayNow  : ${fmt(v('ss_paynow'))}\n📊 Total   : ${fmt(sst)}\n➖ Expenses: ${fmt(v('ss_exp'))}\n✅ Grand   : ${fmt(ssg)}\n${ln}\n🏆 *TOTAL MORNING SALES : ${fmt(grand)}*\n`;
+    const cct=v('cc_cash')+v('cc_coins')+v('cc_nets')+v('cc_paynow');
+    const ccg=cct+v('cc_exp');
+    const sst=v('ss_cash')+v('ss_coins')+v('ss_nets')+v('ss_paynow');
+    const ssg=sst+v('ss_exp');
+    grand=cct+sst; // Total Morning = raw totals
+    t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('cc_cash'))}\n🪙 Coins   : ${fmt(v('cc_coins'))}\n💳 NETS    : ${fmt(v('cc_nets'))}\n📱 PayNow  : ${fmt(v('cc_paynow'))}\n📊 Total   : ${fmt(cct)}\n➖ Expenses: ${fmt(v('cc_exp'))}\n✅ Grand   : ${fmt(ccg)}\n${ln}\n🛒 *SMALL SHOP SALES*\n💵 Cash    : ${fmt(v('ss_cash'))}\n🪙 Coins   : ${fmt(v('ss_coins'))}\n💳 NETS    : ${fmt(v('ss_nets'))}\n📱 PayNow  : ${fmt(v('ss_paynow'))}\n📊 Total   : ${fmt(sst)}\n➖ Expenses: ${fmt(v('ss_exp'))}\n✅ Grand   : ${fmt(ssg)}\n${ln}\n🏆 *TOTAL MORNING SALES : ${fmt(grand)}*\n`;
   }
 
+  // JP NIGHT: Canteen Grand = Total (expenses shown), Grand Total = Canteen Grand + Catering Total
   else if(s==='jp_night'){
     const ct=v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow');
-    const cg=ct-v('jn_c_exp');
+    const cg=ct+v('jn_c_exp'); // Grand = Total + Expenses
     const kt=v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow');
     grand=cg+kt;
     t+=`🌙 *CANTEEN SALES*\n💵 Cash    : ${fmt(v('jn_c_cash'))}\n💳 NETS    : ${fmt(v('jn_c_nets'))}\n📱 PayNow  : ${fmt(v('jn_c_paynow'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('jn_k_cash'))}\n💳 NETS    : ${fmt(v('jn_k_nets'))}\n📱 PayNow  : ${fmt(v('jn_k_paynow'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
