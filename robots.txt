@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://786spices.vercel.app/sitemap.xml
+
+# Block internal tool pages from indexing
+Disallow: /786_spices_sales_report.html
+Disallow: /pixels_work.html
+Disallow: /pixels-employee-management.html
