@@ -476,7 +476,7 @@ function calc(){
 
   if(shop==='muri'){
     const ts=v('cash')+v('coins')+v('nets')+v('paynow');
-    const gt=ts-v('exp');
+    const gt=ts+v('exp');
     setEl('ts',ts);setEl('gt',gt);
     setEl('ctl',v('cash')-v('exp'));
   }
