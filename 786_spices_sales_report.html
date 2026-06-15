@@ -575,7 +575,7 @@ function buildText(s){
 
   if(s==='muri'){
     const ts=v('cash')+v('coins')+v('nets')+v('paynow');
-    grand=ts-v('exp');
+    grand=ts+v('exp');
     t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales       : ${fmt(ts)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')-v('exp'))}\n`;
   }
 
