@@ -708,8 +708,8 @@ let dragSrc = null;
 
 function initDate() {
   const today = new Date();
+  today.setDate(today.getDate() + 1);
   const fmt = today.toISOString().split('T')[0];
-  document.getElementById('work-date').value = fmt;
   updateDateDisplay();
 }
 
