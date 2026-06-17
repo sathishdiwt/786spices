@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>786 Spices Vegetable Order</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -55,19 +55,52 @@
     line-height: 1.1;
   }
   header h1 span { color: var(--green-300); }
-  header .date-badge {
-    font-size: 12px;
+  .header-datetime {
+    font-size: 13px;
     font-weight: 400;
+    font-style: italic;
     color: var(--green-300);
     background: rgba(109,204,153,0.12);
     border: 1px solid rgba(109,204,153,0.25);
     border-radius: 20px;
-    padding: 5px 14px;
+    padding: 6px 16px;
     white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  /* TABS */
+  .tabs-wrap {
+    background: var(--green-900);
+    padding: 0 40px;
+    border-bottom: 1px solid rgba(109,204,153,0.15);
+  }
+  .tabs {
+    display: flex;
+    gap: 2px;
+  }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn:hover { color: rgba(255,255,255,0.75); }
+  .tab-btn.active {
+    color: var(--green-300);
+    border-bottom-color: var(--green-300);
   }
 
   /* LAYOUT */
   .page { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 
   /* STAT CARDS */
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
@@ -210,14 +243,17 @@
   /* PRINT */
   @media print {
     header { background: #1a6b42 !important; -webkit-print-color-adjust: exact; }
+    .tabs-wrap { display: none; }
     body { background: #fff; }
     .actions, .add-section, .panel-header button, .qty-btn, .remove-btn { display: none !important; }
     .panels { grid-template-columns: 1fr; }
+    .tab-panel { display: block !important; }
   }
 
   /* MOBILE */
   @media (max-width: 700px) {
     header { padding: 20px; flex-direction: column; align-items: flex-start; }
+    .tabs-wrap { padding: 0 16px; }
     .stats { grid-template-columns: 1fr 1fr; }
     .stats .stat-card:last-child { grid-column: span 2; }
     .panels { grid-template-columns: 1fr; }
@@ -230,170 +266,272 @@
 <header>
   <div>
     <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a> <span>Order</span></h1>
-    <div style="font-size:12px;color:var(--green-300);margin-top:6px;opacity:0.85;">Ordered by Shag — 786 Spices Bazaar Pte. Ltd.</div>
+    <div style="font-size:12px;color:var(--green-300);margin-top:6px;opacity:0.85;">786 Spices Bazaar Pte. Ltd.</div>
   </div>
-  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
-    <span class="date-badge" id="header-date"></span>
-    <span class="date-badge" id="header-time" style="font-size:13px;font-weight:500;letter-spacing:0.04em;"></span>
+  <div>
+    <span class="header-datetime" id="header-datetime"></span>
   </div>
 </header>
 
-<div class="page">
-
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat-card">
-      <div class="stat-label">Total items</div>
-      <div class="stat-value" id="stat-total">—</div>
-      <div class="stat-sub">vegetable lines</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">By basket</div>
-      <div class="stat-value green" id="stat-basket">—</div>
-      <div class="stat-sub">basket lines</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">By weight</div>
-      <div class="stat-value amber" id="stat-kg">—</div>
-      <div class="stat-sub">total kilograms</div>
-    </div>
-  </div>
-
-  <div class="panels">
-
-    <!-- ORDER TABLE PANEL -->
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Order list</span>
-        <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll()">Clear all</button>
-      </div>
-      <table class="order-table">
-        <thead>
-          <tr>
-            <th style="width:32px;">#</th>
-            <th>Vegetable</th>
-            <th class="r" style="width:100px;">Qty</th>
-            <th style="width:90px;">Unit</th>
-            <th style="width:36px;"></th>
-          </tr>
-        </thead>
-        <tbody id="order-body"></tbody>
-      </table>
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div style="display:flex;flex-direction:column;gap:20px;">
-
-      <!-- ADD VEG -->
-      <div class="panel">
-        <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
-        <div class="add-section">
-          <label>Name</label>
-          <input class="add-input" id="new-name" type="text" placeholder="e.g. Bitter gourd" />
-          <div class="add-row">
-            <div>
-              <label>Quantity</label>
-              <input class="add-input" id="new-qty" type="number" min="0" value="1" style="margin:0;" />
-            </div>
-            <div>
-              <label>Unit</label>
-              <select class="add-input uom-select" id="new-uom" style="margin:0;padding:9px 10px;">
-                <option>Basket</option>
-                <option>Box</option>
-                <option>Kg</option>
-                <option>Piece</option>
-                <option>Bag</option>
-              </select>
-            </div>
-          </div>
-          <button class="add-btn" onclick="addVeg()">+ Add to order</button>
-        </div>
-      </div>
-
-      <!-- SUMMARY -->
-      <div class="panel">
-        <div class="panel-header"><span class="panel-title">Summary</span></div>
-        <div class="summary-list" id="summary-list"></div>
-        <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
-          <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
-            <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
-            <button class="btn-primary" onclick="copyOrder()">Copy order text</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('box', this)">Box Veg</button>
+    <button class="tab-btn" onclick="switchTab('basket', this)">Basket Veg</button>
   </div>
 </div>
+
+<div class="page">
+
+  <!-- ===== TAB: BOX VEG ===== -->
+  <div id="tab-box" class="tab-panel active">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Total items</div>
+        <div class="stat-value" id="box-stat-total">—</div>
+        <div class="stat-sub">vegetable lines</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">By basket</div>
+        <div class="stat-value green" id="box-stat-basket">—</div>
+        <div class="stat-sub">basket lines</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">By weight</div>
+        <div class="stat-value amber" id="box-stat-kg">—</div>
+        <div class="stat-sub">total kilograms</div>
+      </div>
+    </div>
+
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Order list</span>
+          <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll('box')">Clear all</button>
+        </div>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th style="width:32px;">#</th>
+              <th>Vegetable</th>
+              <th class="r" style="width:100px;">Qty</th>
+              <th style="width:90px;">Unit</th>
+              <th style="width:36px;"></th>
+            </tr>
+          </thead>
+          <tbody id="box-order-body"></tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
+          <div class="add-section">
+            <label>Name</label>
+            <input class="add-input" id="box-new-name" type="text" placeholder="e.g. Bitter gourd" />
+            <div class="add-row">
+              <div>
+                <label>Quantity</label>
+                <input class="add-input" id="box-new-qty" type="number" min="0" value="1" style="margin:0;" />
+              </div>
+              <div>
+                <label>Unit</label>
+                <select class="add-input uom-select" id="box-new-uom" style="margin:0;padding:9px 10px;">
+                  <option>Basket</option>
+                  <option selected>Box</option>
+                  <option>Kg</option>
+                  <option>Piece</option>
+                  <option>Bag</option>
+                </select>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addVeg('box')">+ Add to order</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">Summary</span></div>
+          <div class="summary-list" id="box-summary-list"></div>
+          <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
+            <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
+              <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
+              <button class="btn-primary" onclick="copyOrder('box')">Copy order text</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: BASKET VEG ===== -->
+  <div id="tab-basket" class="tab-panel">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Total items</div>
+        <div class="stat-value" id="basket-stat-total">—</div>
+        <div class="stat-sub">vegetable lines</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">By basket</div>
+        <div class="stat-value green" id="basket-stat-basket">—</div>
+        <div class="stat-sub">basket lines</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">By weight</div>
+        <div class="stat-value amber" id="basket-stat-kg">—</div>
+        <div class="stat-sub">total kilograms</div>
+      </div>
+    </div>
+
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Order list</span>
+          <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll('basket')">Clear all</button>
+        </div>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th style="width:32px;">#</th>
+              <th>Vegetable</th>
+              <th class="r" style="width:100px;">Qty</th>
+              <th style="width:90px;">Unit</th>
+              <th style="width:36px;"></th>
+            </tr>
+          </thead>
+          <tbody id="basket-order-body"></tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
+          <div class="add-section">
+            <label>Name</label>
+            <input class="add-input" id="basket-new-name" type="text" placeholder="e.g. Lady's finger" />
+            <div class="add-row">
+              <div>
+                <label>Quantity</label>
+                <input class="add-input" id="basket-new-qty" type="number" min="0" value="1" style="margin:0;" />
+              </div>
+              <div>
+                <label>Unit</label>
+                <select class="add-input uom-select" id="basket-new-uom" style="margin:0;padding:9px 10px;">
+                  <option selected>Basket</option>
+                  <option>Box</option>
+                  <option>Kg</option>
+                  <option>Piece</option>
+                  <option>Bag</option>
+                </select>
+              </div>
+            </div>
+            <button class="add-btn" onclick="addVeg('basket')">+ Add to order</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">Summary</span></div>
+          <div class="summary-list" id="basket-summary-list"></div>
+          <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
+            <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
+              <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
+              <button class="btn-primary" onclick="copyOrder('basket')">Copy order text</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .page -->
 
 <div id="toast">Copied to clipboard!</div>
 
 <script>
 const UOM_LIST = ['Basket','Box','Kg','Piece','Bag'];
 
-let vegetables = [
-  {name:'Cabbage', qty:0, uom:'Box'},
-  {name:'Big Cabbage', qty:0, uom:'Box'},
-  {name:'Cauliflower', qty:0, uom:'Box'},
-  {name:'Red Cabbage', qty:0, uom:'Box'},
-  {name:'Chinese Cabbage', qty:0, uom:'Box'},
-  {name:'Carrot', qty:0, uom:'Box'},
-  {name:'Broccoli', qty:0, uom:'Box'},
-  {name:'Bitter Gourd', qty:0, uom:'Box'},
-  {name:'Chili', qty:0, uom:'Box'},
-  {name:'Coriander Leaves', qty:0, uom:'Box'},
-  {name:'Cantin Chili', qty:0, uom:'Box'},
-  {name:'Yardlong Bean', qty:0, uom:'Box'},
-  {name:'Lime Leaves', qty:0, uom:'Box'},
-  {name:'Onion', qty:0, uom:'Bag'},
-  {name:'Beetroot', qty:0, uom:'Box'},
-  {name:'Zucchini', qty:0, uom:'Box'},
-  {name:'Round Lime', qty:0, uom:'Box'},
-  {name:'Garlic', qty:0, uom:'Kg'},
-  {name:'Green Brinjal', qty:0, uom:'Box'},
-  {name:'Japanese Cucumber', qty:0, uom:'Box'},
-  {name:'Baby Yam', qty:0, uom:'Box'},
-  {name:'Tomato', qty:0, uom:'Box'},
-  {name:'Capsicum', qty:0, uom:'Box'},
-  {name:'Eggplant', qty:0, uom:'Box'},
-  {name:'Radish', qty:0, uom:'Box'},
-  {name:'Long Brinjal', qty:0, uom:'Box'},
-  {name:'Lemongrass', qty:0, uom:'Box'},
-];
+const data = {
+  box: [
+    {name:'Cabbage', qty:0, uom:'Box'},
+    {name:'Big Cabbage', qty:0, uom:'Box'},
+    {name:'Cauliflower', qty:0, uom:'Box'},
+    {name:'Red Cabbage', qty:0, uom:'Box'},
+    {name:'Chinese Cabbage', qty:0, uom:'Box'},
+    {name:'Carrot', qty:0, uom:'Box'},
+    {name:'Broccoli', qty:0, uom:'Box'},
+    {name:'Bitter Gourd', qty:0, uom:'Box'},
+    {name:'Chili', qty:0, uom:'Box'},
+    {name:'Coriander Leaves', qty:0, uom:'Box'},
+    {name:'Cantin Chili', qty:0, uom:'Box'},
+    {name:'Yardlong Bean', qty:0, uom:'Box'},
+    {name:'Lime Leaves', qty:0, uom:'Box'},
+    {name:'Onion', qty:0, uom:'Bag'},
+    {name:'Beetroot', qty:0, uom:'Box'},
+    {name:'Zucchini', qty:0, uom:'Box'},
+    {name:'Round Lime', qty:0, uom:'Box'},
+    {name:'Garlic', qty:0, uom:'Kg'},
+    {name:'Green Brinjal', qty:0, uom:'Box'},
+    {name:'Japanese Cucumber', qty:0, uom:'Box'},
+    {name:'Baby Yam', qty:0, uom:'Box'},
+    {name:'Tomato', qty:0, uom:'Box'},
+    {name:'Capsicum', qty:0, uom:'Box'},
+    {name:'Eggplant', qty:0, uom:'Box'},
+    {name:'Radish', qty:0, uom:'Box'},
+    {name:'Long Brinjal', qty:0, uom:'Box'},
+    {name:'Lemongrass', qty:0, uom:'Box'},
+  ],
+  basket: [
+    {name:'Pusha', qty:0, uom:'Basket'},
+    {name:'Yam', qty:0, uom:'Basket'},
+    {name:"Lady's Finger", qty:0, uom:'Basket'},
+    {name:'Cucumber (small size)', qty:0, uom:'Basket'},
+    {name:'Labu', qty:0, uom:'Basket'},
+    {name:'Labu - Bangla', qty:0, uom:'Basket'},
+    {name:'Round Brinjal', qty:0, uom:'Basket'},
+    {name:'Long Brinjal', qty:0, uom:'Basket'},
+    {name:'Snake Gourd', qty:0, uom:'Basket'},
+    {name:'Bitter Gourd Long', qty:0, uom:'Basket'},
+    {name:'Long Bean', qty:0, uom:'Basket'},
+    {name:'Papaya', qty:0, uom:'Basket'},
+    {name:'Hairy Gourd', qty:0, uom:'Kg'},
+    {name:'Green Pumpkin', qty:0, uom:'Basket'},
+    {name:'Garlic', qty:0, uom:'Kg'},
+    {name:'Curry Leaves', qty:0, uom:'Kg'},
+  ]
+};
 
 function uomOpts(val) {
   return UOM_LIST.map(u => `<option${u===val?' selected':''}>${u}</option>`).join('');
 }
 
-function render() {
-  const tbody = document.getElementById('order-body');
+function render(tab) {
+  const vegetables = data[tab];
+  const tbody = document.getElementById(`${tab}-order-body`);
   tbody.innerHTML = vegetables.map((v,i) => `
     <tr>
       <td class="muted">${i+1}</td>
       <td>${v.name}</td>
       <td class="r">
         <div class="qty-wrap">
-          <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
-          <input class="qty-num" type="number" min="0" value="${v.qty}" onchange="setQty(${i},this.value)" />
-          <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+          <button class="qty-btn" onclick="changeQty('${tab}',${i},-1)">−</button>
+          <input class="qty-num" type="number" min="0" value="${v.qty}" onchange="setQty('${tab}',${i},this.value)" />
+          <button class="qty-btn" onclick="changeQty('${tab}',${i},1)">+</button>
         </div>
       </td>
       <td>
-        <select class="uom-select" onchange="setUom(${i},this.value)">${uomOpts(v.uom)}</select>
+        <select class="uom-select" onchange="setUom('${tab}',${i},this.value)">${uomOpts(v.uom)}</select>
       </td>
-      <td><button class="remove-btn" onclick="removeVeg(${i})" title="Remove">✕</button></td>
+      <td><button class="remove-btn" onclick="removeVeg('${tab}',${i})" title="Remove">✕</button></td>
     </tr>
   `).join('');
 
-  // Stats
   const basketLines = vegetables.filter(v=>v.uom==='Basket').length;
   const totalKg = vegetables.filter(v=>v.uom==='Kg').reduce((s,v)=>s+v.qty,0);
-  document.getElementById('stat-total').textContent = vegetables.length;
-  document.getElementById('stat-basket').textContent = basketLines;
-  document.getElementById('stat-kg').textContent = totalKg + ' kg';
+  document.getElementById(`${tab}-stat-total`).textContent = vegetables.length;
+  document.getElementById(`${tab}-stat-basket`).textContent = basketLines;
+  document.getElementById(`${tab}-stat-kg`).textContent = totalKg + ' kg';
 
-  // Summary
-  const sl = document.getElementById('summary-list');
+  const sl = document.getElementById(`${tab}-summary-list`);
   const byUom = {};
   vegetables.forEach(v => {
     byUom[v.uom] = byUom[v.uom] || [];
@@ -413,36 +551,40 @@ function render() {
   }).join('<div class="summary-divider"></div>');
 }
 
-function changeQty(i, delta) {
-  vegetables[i].qty = Math.max(0, vegetables[i].qty + delta);
-  render();
+function changeQty(tab, i, delta) {
+  data[tab][i].qty = Math.max(0, data[tab][i].qty + delta);
+  render(tab);
 }
-function setQty(i, val) {
-  vegetables[i].qty = Math.max(0, parseFloat(val)||0);
-  render();
+function setQty(tab, i, val) {
+  data[tab][i].qty = Math.max(0, parseFloat(val)||0);
+  render(tab);
 }
-function setUom(i, val) { vegetables[i].uom = val; render(); }
-function removeVeg(i) { vegetables.splice(i,1); render(); }
-function clearAll() { if(confirm('Clear all items?')) { vegetables=[]; render(); } }
+function setUom(tab, i, val) { data[tab][i].uom = val; render(tab); }
+function removeVeg(tab, i) { data[tab].splice(i,1); render(tab); }
+function clearAll(tab) { if(confirm('Clear all items?')) { data[tab].forEach(v=>v.qty=0); render(tab); } }
 
-function addVeg() {
-  const name = document.getElementById('new-name').value.trim();
-  if(!name) { document.getElementById('new-name').focus(); return; }
-  const qty = parseFloat(document.getElementById('new-qty').value)||0;
-  const uom = document.getElementById('new-uom').value;
-  vegetables.push({name, qty, uom});
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-qty').value = '1';
-  render();
-  document.getElementById('new-name').focus();
+function addVeg(tab) {
+  const name = document.getElementById(`${tab}-new-name`).value.trim();
+  if(!name) { document.getElementById(`${tab}-new-name`).focus(); return; }
+  const qty = parseFloat(document.getElementById(`${tab}-new-qty`).value)||0;
+  const uom = document.getElementById(`${tab}-new-uom`).value;
+  data[tab].push({name, qty, uom});
+  document.getElementById(`${tab}-new-name`).value = '';
+  document.getElementById(`${tab}-new-qty`).value = '1';
+  render(tab);
+  document.getElementById(`${tab}-new-name`).focus();
 }
 
-function copyOrder() {
+document.getElementById('box-new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg('box'); });
+document.getElementById('basket-new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg('basket'); });
+
+function copyOrder(tab) {
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
   const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const lines = vegetables.filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
-  const text = `786 Spices — Vegetable Order\nOrdered by: Shag — 786 Spices Bazaar Pte. Ltd.\nDate: ${dateStr}  |  Time: ${timeStr}\n${'─'.repeat(36)}\n${lines}`;
+  const tabLabel = tab === 'box' ? 'Box Veg' : 'Basket Veg';
+  const lines = data[tab].filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
+  const text = `786 Spices — Vegetable Order (${tabLabel})\n786 Spices Bazaar Pte. Ltd.\n${dateStr}  |  ${timeStr}\n${'─'.repeat(36)}\n${lines || '(no items ordered)'}`;
   navigator.clipboard.writeText(text).then(() => {
     const t = document.getElementById('toast');
     t.classList.add('show');
@@ -450,18 +592,25 @@ function copyOrder() {
   });
 }
 
-document.getElementById('new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg(); });
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+}
 
-// Date & live clock
+// Live date + time combined, italic
 function updateDateTime() {
   const now = new Date();
-  document.getElementById('header-date').textContent = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('header-time').textContent = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('header-datetime').textContent = `${dateStr}  ·  ${timeStr}`;
 }
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
-render();
+render('box');
+render('basket');
 </script>
 </body>
 </html>
