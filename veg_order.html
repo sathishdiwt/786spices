@@ -441,7 +441,7 @@ function copyOrder() {
   const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
   const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const lines = vegetables.filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
-  const text = `786 Spices — Vegetable Order\nOrdered by: Shag — 786 Spices Bazaar Pte. Ltd.\nDate: ${dateStr}  |  Time: ${timeStr}\n${'─'.repeat(36)}\n${lines}`;
+  const text = `786 Spices — Vegetable Order\786 Spices Bazaar Pte. Ltd.\nDate: ${dateStr}  |  Time: ${timeStr}\n${'─'.repeat(36)}\n${lines}`;
   navigator.clipboard.writeText(text).then(() => {
     const t = document.getElementById('toast');
     t.classList.add('show');
