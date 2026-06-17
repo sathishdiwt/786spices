@@ -228,8 +228,14 @@
 <body>
 
 <header>
-  <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a> <span>Order</span></h1>
-  <span class="date-badge" id="header-date"></span>
+  <div>
+    <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a> <span>Order</span></h1>
+    <div style="font-size:12px;color:var(--green-300);margin-top:6px;opacity:0.85;">Ordered by Shag — 786 Spices Bazaar Pte. Ltd.</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+    <span class="date-badge" id="header-date"></span>
+    <span class="date-badge" id="header-time" style="font-size:13px;font-weight:500;letter-spacing:0.04em;"></span>
+  </div>
 </header>
 
 <div class="page">
@@ -310,7 +316,7 @@
         <div class="summary-list" id="summary-list"></div>
         <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
           <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
-            <!--<button class="btn-outline" onclick="window.print()">Print / Save PDF</button>-->
+            <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
             <button class="btn-primary" onclick="copyOrder()">Copy order text</button>
           </div>
         </div>
@@ -431,8 +437,12 @@ function addVeg() {
 }
 
 function copyOrder() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const lines = vegetables.filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
-  navigator.clipboard.writeText(lines).then(() => {
+  const text = `786 Spices — Vegetable Order\nOrdered by: Shag — 786 Spices Bazaar Pte. Ltd.\nDate: ${dateStr}  |  Time: ${timeStr}\n${'─'.repeat(36)}\n${lines}`;
+  navigator.clipboard.writeText(text).then(() => {
     const t = document.getElementById('toast');
     t.classList.add('show');
     setTimeout(()=>t.classList.remove('show'), 2500);
@@ -441,8 +451,14 @@ function copyOrder() {
 
 document.getElementById('new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg(); });
 
-// Date
-document.getElementById('header-date').textContent = new Date().toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
+// Date & live clock
+function updateDateTime() {
+  const now = new Date();
+  document.getElementById('header-date').textContent = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('header-time').textContent = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+updateDateTime();
+setInterval(updateDateTime, 1000);
 
 render();
 </script>
