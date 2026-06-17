@@ -122,12 +122,6 @@
   .order-table tbody td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
   .order-table tbody td.muted { color: var(--stone-400); font-size: 12px; }
   .order-table tbody tr:last-child td { border-bottom: none; }
-  .badge {
-    display: inline-block; font-size: 11px; font-weight: 500;
-    padding: 3px 10px; border-radius: 20px;
-  }
-  .badge-basket { background: var(--green-100); color: var(--green-700); }
-  .badge-kg { background: var(--amber-50); color: var(--amber-700); border: 1px solid #f5c84255; }
 
   /* QTY INPUT */
   .qty-wrap { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
@@ -234,7 +228,7 @@
 <body>
 
 <header>
-  <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a><span>Order</span></h1>
+  <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a> <span>Order</span></h1>
   <span class="date-badge" id="header-date"></span>
 </header>
 
@@ -299,10 +293,10 @@
               <label>Unit</label>
               <select class="add-input uom-select" id="new-uom" style="margin:0;padding:9px 10px;">
                 <option>Basket</option>
+                <option>Box</option>
                 <option>Kg</option>
                 <option>Piece</option>
                 <option>Bag</option>
-                <option>Box</option>
               </select>
             </div>
           </div>
@@ -329,25 +323,35 @@
 <div id="toast">Copied to clipboard!</div>
 
 <script>
-const UOM_LIST = ['Basket','Kg','Bundle','Piece','Bag','Crate','Box'];
+const UOM_LIST = ['Basket','Box','Kg','Piece','Bag'];
 
 let vegetables = [
-  {name:'Pusha', qty:0, uom:'Basket'},
-  {name:'Yam', qty:0, uom:'Basket'},
-  {name:"Lady's finger", qty:0, uom:'Basket'},
-  {name:'Cucumber (small size)', qty:0, uom:'Basket'},
-  {name:'Labu', qty:0, uom:'Basket'},
-  {name:'Labu - Bangla', qty:0, uom:'Basket'},
-  {name:'Round brinjal', qty:0, uom:'Basket'},
-  {name:'Long brinjal', qty:0, uom:'Basket'},
-  {name:'Snake gourd', qty:0, uom:'Basket'},
-  {name:'Bitter gourd long', qty:0, uom:'Basket'},
-  {name:'Long bean', qty:0, uom:'Basket'},
-  {name:'Papaya', qty:0, uom:'Basket'},
-  {name:'Hairy gourd', qty:0, uom:'Kg'},
-  {name:'Green pumpkin', qty:0, uom:'Basket'},
+  {name:'Cabbage', qty:0, uom:'Basket'},
+  {name:'Cauliflower', qty:0, uom:'Basket'},
+  {name:'Red Cabbage', qty:0, uom:'Basket'},
+  {name:'Chinese Cabbage', qty:0, uom:'Basket'},
+  {name:'Carrot', qty:0, uom:'Basket'},
+  {name:'Broccoli', qty:0, uom:'Basket'},
+  {name:'Bitter Gourd', qty:0, uom:'Basket'},
+  {name:'Chili', qty:0, uom:'Basket'},
+  {name:'Coriander Leaves', qty:0, uom:'Basket'},
+  {name:'Cantin Chili', qty:0, uom:'Basket'},
+  {name:'Yardlong Bean', qty:0, uom:'Basket'},
+  {name:'Lime Leaves', qty:0, uom:'Basket'},
+  {name:'Onion', qty:0, uom:'Bag'},
+  {name:'Beetroot', qty:0, uom:'Basket'},
+  {name:'Zucchini', qty:0, uom:'Basket'},
+  {name:'Round Lime', qty:0, uom:'Basket'},
   {name:'Garlic', qty:0, uom:'Kg'},
-  {name:'Curry leaves', qty:0, uom:'Kg'},
+  {name:'Green Brinjal', qty:0, uom:'Basket'},
+  {name:'Japanese Cucumber', qty:0, uom:'Basket'},
+  {name:'Baby Yam', qty:0, uom:'Basket'},
+  {name:'Tomato', qty:0, uom:'Basket'},
+  {name:'Capsicum', qty:0, uom:'Basket'},
+  {name:'Eggplant', qty:0, uom:'Basket'},
+  {name:'Radish', qty:0, uom:'Basket'},
+  {name:'Long Brinjal', qty:0, uom:'Basket'},
+  {name:'Lemongrass', qty:0, uom:'Basket'},
 ];
 
 function uomOpts(val) {
