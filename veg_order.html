@@ -484,7 +484,7 @@ const data = {
     {name:'Pusha', qty:0, uom:'Basket'},
     {name:'Yam', qty:0, uom:'Basket'},
     {name:"Lady's Finger", qty:0, uom:'Basket'},
-    {name:'Cucumber (small size)', qty:0, uom:'Basket'},
+    {name:'Cucumber (SMALL)', qty:0, uom:'Basket'},
     {name:'Labu', qty:0, uom:'Basket'},
     {name:'Labu - Bangla', qty:0, uom:'Basket'},
     {name:'Round Brinjal', qty:0, uom:'Basket'},
@@ -584,7 +584,7 @@ function copyOrder(tab) {
   const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const tabLabel = tab === 'box' ? 'Box Veg' : 'Basket Veg';
   const lines = data[tab].filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
-  const text = `786 Spices — Vegetable Order (${tabLabel})\n786 Spices Bazaar Pte. Ltd.\n${dateStr}  |  ${timeStr}\n${'─'.repeat(36)}\n${lines || '(no items ordered)'}`;
+  const text = `Vegetable Order\n786 Spices Bazaar Pte. Ltd.\n${dateStr}\n${'─'.repeat(17)}\n${lines || '(no items ordered)'}`;
   navigator.clipboard.writeText(text).then(() => {
     const t = document.getElementById('toast');
     t.classList.add('show');
