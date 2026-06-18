@@ -379,7 +379,7 @@ function renderForm(){
       secLbl('Expenses')+
       fld('exp','Expenses','neg')+
       trow('Grand Total','gt','grand')+
-      trow('Cash to Locker (Cash + coins − Expenses)','ctl','sub');
+      trow('Cash to Locker (Cash + Coins − Expenses)','ctl','sub');
   }
 
   // ── JALAN PAPAN MORNING ──
@@ -478,7 +478,7 @@ function calc(){
     const ts=v('cash')+v('coins')+v('nets')+v('paynow');
     const gt=ts+v('exp');
     setEl('ts',ts);setEl('gt',gt);
-    setEl('ctl',v('cash')-v('exp'));
+    setEl('ctl',v('cash')+v('coins')-v('exp'));
   }
 
   // JP MORNING:
