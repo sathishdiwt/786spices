@@ -576,7 +576,7 @@ function buildText(s){
   if(s==='muri'){
     const ts=v('cash')+v('coins')+v('nets')+v('paynow');
     grand=ts+v('exp');
-    t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales       : ${fmt(ts)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')+v('coins')-v('exp'))}\n`;
+    t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS             : ${fmt(v('nets'))}\n📱 PayNow         : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales     : ${fmt(ts)}\n➖ Expenses       : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL : ${fmt(grand)}*\n🔒 Cash to Locker : ${fmt(v('cash')+v('coins')-v('exp'))}\n`;
   }
 
   // JP MORNING: Canteen Total + Small Shop Total = Total Morning Sales
@@ -595,7 +595,7 @@ function buildText(s){
     const cg=ct+v('jn_c_exp'); // Grand = Total + Expenses
     const kt=v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow');
     grand=cg+kt;
-    t+=`🌙 *CANTEEN SALES*\n💵 Cash    : ${fmt(v('jn_c_cash'))}\n💳 NETS    : ${fmt(v('jn_c_nets'))}\n📱 PayNow  : ${fmt(v('jn_c_paynow'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('jn_k_cash'))}\n💳 NETS    : ${fmt(v('jn_k_nets'))}\n📱 PayNow  : ${fmt(v('jn_k_paynow'))}\n📊 Total   : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
+    t+=`🌙 *CANTEEN SALES*\n💵 Cash : ${fmt(v('jn_c_cash'))}\n💳 NETS : ${fmt(v('jn_c_nets'))}\n📱 PayNow : ${fmt(v('jn_c_paynow'))}\n📊 Total : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_c_exp'))}\n✅ Grand : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash : ${fmt(v('jn_k_cash'))}\n💳 NETS : ${fmt(v('jn_k_nets'))}\n📱 PayNow : ${fmt(v('jn_k_paynow'))}\n📊 Total : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
   }
 
   else if(s==='neythal_canteen'){
