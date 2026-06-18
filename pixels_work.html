@@ -986,10 +986,10 @@ function generateSummary() {
   }) : 'Date not set';
 
   let txt = `*WORK SCHEDULE*\n`;
-  txt += `${'─'.repeat(30)}\n`;
+  txt += `${'─'.repeat(20)}\n`;
   txt += `Schedule Date: _${d}_\n`;
   if (notes) txt += `Notes: _${notes}_\n`;
-  txt += `${'─'.repeat(30)}\n\n`;
+  txt += `${'─'.repeat(20)}\n\n`;
 
   sites.forEach(site => {
     txt += `📍 *${site.name.toUpperCase()}*\n`;
