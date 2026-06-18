@@ -568,7 +568,7 @@ function buildText(s){
   const n=new Date();
   const ts2=`${pad(n.getHours())}:${pad(n.getMinutes())}`;
   const{ds,dayName}=getReportDate();
-  const ln='━'.repeat(32);
+  const ln='━'.repeat(20);
   const note=getNote();
   let t=`🕋 *786 SPICES GROUP*\n📋 *Daily Sales Report*\n${ln}\n🏪 ${NAMES[s]}\n📅 ${ds}   🕐 ${ts2}   📆 ${dayName}\n${ln}\n`;
   let grand=0;
