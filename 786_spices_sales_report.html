@@ -114,6 +114,9 @@ body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--text);m
 .trow.neg-row{background:#FFF7EC;border-color:#E5C9A0;margin-top:8px}
 .trow.neg-row .trow-lbl{color:var(--red)}
 .trow.neg-row .trow-val{color:var(--red)}
+.trow.cash-row{background:#F0FFF4;border-color:#A8D5BC;margin-top:8px}
+.trow.cash-row .trow-lbl{color:#1E6E4A;font-weight:600}
+.trow.cash-row .trow-val{color:#1E6E4A;font-weight:700}
 
 /* NOTES */
 .notes-wrap textarea{width:100%;min-height:90px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius2);font-family:'Outfit',sans-serif;font-size:14px;font-weight:400;color:var(--text);background:var(--cream);resize:vertical;line-height:1.6;transition:border-color 0.15s}
@@ -296,20 +299,37 @@ function blkO(title){return`<div class="blk"><div class="blk-title">${title}</di
 function blkC(){return`</div>`}
 function secLbl(txt){return`<div class="sec-lbl">${txt}</div>`}
 
-function posBlock(p,num,hasCCTerminal){
-  const ccField=hasCCTerminal?fld(p+'_cc','CC Terminal','cc'):'';
+// ─── POS BLOCK for Tuas (with CC) and Kaki (no CC) ──────────────────────────
+// Layout per spec:
+//   Total Cash (= CASH field value, displayed live)
+//   CASH input
+//   NETS input
+//   PayNow input
+//   [CC Terminal input — Tuas only]
+//   Total Sales POS N (= CASH+NETS+PayNow[+CC])
+//   ── Adjustments ──
+//   Shortage (neg)
+//   Extra
+//   Handover to Boss
+//   Float Cash (= Total Cash − Handover to Boss  i.e. CASH − Boss)
+function posBlock(p, num, hasCC){
+  const ccField = hasCC ? fld(p+'_cc','CC Terminal','cc') : '';
   return blkO(`🖥️ POS ${num} Sales`)+
-    fld(p+'_cash','CASH')+fld(p+'_nets','NETS')+fld(p+'_paynow','PayNow')+ccField+
-    trow(`Total Sales POS ${num}`,p+'_total')+
+    fld(p+'_total_cash','Total Cash Collection')+
+    fld(p+'_cash','CASH')+
+    fld(p+'_nets','NETS')+
+    fld(p+'_paynow','PayNow')+
+    ccField+
+    trow(`Total Sales POS ${num}`, p+'_total')+
     secLbl('Adjustments')+
-    fld(p+'_short','Shortage','neg')+fld(p+'_extra','Extra')+
+    fld(p+'_short','Shortage','neg')+
+    fld(p+'_extra','Extra')+
     fld(p+'_boss','Handover to Boss')+
-    trow('Float Cash (Cash − Boss)',p+'_float','sub')+
-    trow(`Net Sales POS ${num}`,p+'_net','sub')+
+    trow('Float Cash (Total Cash − Boss)', p+'_float', 'sub')+
     blkC();
 }
 
-// ─── JP MORNING: Canteen + Small Shop (both with COINS) ──────────────────────
+// ─── JP MORNING blocks ───────────────────────────────────────────────────────
 function jpMorningBlk(prefix, icon, title) {
   return blkO(`${icon} ${title}`) +
     fld(prefix+'_cash','CASH') +
@@ -323,7 +343,7 @@ function jpMorningBlk(prefix, icon, title) {
     blkC();
 }
 
-// ─── JP NIGHT: Canteen (with expenses info, grand = total) + Catering ────────
+// ─── JP NIGHT blocks ─────────────────────────────────────────────────────────
 function jpNightCanteenBlk() {
   return blkO('🌙 Canteen Sales') +
     fld('jn_c_cash','CASH') +
@@ -344,7 +364,7 @@ function jpNightCateringBlk() {
     blkC();
 }
 
-// Canteen/catering block for other shops
+// ─── Generic sales block (Neythal Canteen) ───────────────────────────────────
 function salesBlk(prefix,icon,title,opts={}){
   const{hasCC=false,hasExp=false}=opts;
   let html=blkO(`${icon} ${title}`)+
@@ -383,9 +403,6 @@ function renderForm(){
   }
 
   // ── JALAN PAPAN MORNING ──
-  // Canteen: CASH+COINS+NETS+PayNow = Total → Grand = Total − Expenses
-  // Small Shop: CASH+COINS+NETS+PayNow = Total → Grand = Total − Expenses
-  // Total Morning Sales = Canteen Total + Small Shop Total (raw totals, not grands)
   else if(shop==='jp_morning'){
     inner=
       jpMorningBlk('cc','🍽️','Canteen Sales')+
@@ -394,9 +411,6 @@ function renderForm(){
   }
 
   // ── JALAN PAPAN NIGHT ──
-  // Canteen: CASH+NETS+PayNow = Total; Expenses shown; Grand = Total (not deducted)
-  // Catering: CASH+NETS+PayNow = Total
-  // Grand Total = Canteen Grand + Catering Total
   else if(shop==='jp_night'){
     inner=
       jpNightCanteenBlk()+
@@ -415,38 +429,49 @@ function renderForm(){
   }
 
   // ── NEYTHAL MINI MART ──
+  // Total Cash = CASH field value
+  // Total Sales = CASH + NETS + PayNow
+  // Float Cash = Total Cash − Handover to Boss  (i.e. CASH − Boss)
+  // Day Sales Total = Total Sales
   else if(shop==='neythal_mm'){
     inner=
       secLbl('Sales Breakdown')+
-      fld('nm_cash','CASH')+fld('nm_nets','NETS')+fld('nm_paynow','PayNow')+
+      fld('nm_total_cash','Total Cash Collection')+
+      fld('nm_cash','CASH')+
+      fld('nm_nets','NETS')+
+      fld('nm_paynow','PayNow')+
       trow('Total Sales','nm_ts')+
       secLbl('Adjustments')+
-      fld('nm_short','Shortage','neg')+fld('nm_extra','Extra')+
+      fld('nm_short','Shortage','neg')+
+      fld('nm_extra','Extra')+
       fld('nm_boss','Handover to Boss')+
       trow('Float Cash (Cash − Boss)','nm_float','sub')+
       secLbl('Expenses')+
-      fld('nm_supplier','Cash to Supplier','neg')+
+      fld('nm_supplier','Cash Paid to Supplier','neg')+
       trow('Day Sales Total','nm_day','day');
   }
 
-  // ── TUAS MINI MART ──
+  // ── TUAS MINI MART — 3 POS with CC ──
   else if(shop==='tuas_mm'){
     inner=
-      posBlock('p1',1,true)+posBlock('p2',2,true)+posBlock('p3',3,true)+
+      posBlock('p1',1,true)+
+      posBlock('p2',2,true)+
+      posBlock('p3',3,true)+
       secLbl('Summary')+
-      fld('tuas_supplier','Cash to Supplier','neg')+
+      fld('tuas_supplier','Cash Paid to Supplier','neg')+
       trow('Total Handover to Boss','tuas_boss_total','sub')+
-      trow('Day Sales Total (POS 1+2+3)','day_tot','day');
+      trow('Day Sales Total (POS 1 + POS 2 + POS 3)','day_tot','day');
   }
 
-  // ── KAKI BUKIT MINI MART ──
+  // ── KAKI BUKIT MINI MART — 2 POS no CC ──
   else if(shop==='kaki_mm'){
     inner=
-      posBlock('p1',1,false)+posBlock('p2',2,false)+
+      posBlock('p1',1,false)+
+      posBlock('p2',2,false)+
       secLbl('Summary')+
-      fld('kaki_supplier','Cash to Supplier','neg')+
+      fld('kaki_supplier','Cash Paid to Supplier','neg')+
       trow('Total Handover to Boss','kaki_boss_total','sub')+
-      trow('Day Sales Total (POS 1+2)','day_tot','day');
+      trow('Day Sales Total (POS 1 + POS 2)','day_tot','day');
   }
 
   inner+=notesBlock();
@@ -469,7 +494,7 @@ function renderForm(){
   calc();
 }
 
-// ─── CALC ─────────────────────────────────────────────────────────────────────
+// ─── CALC ────────────────────────────────────────────────────────────────────
 
 function calc(){
   if(!shop)return;
@@ -481,33 +506,21 @@ function calc(){
     setEl('ctl',v('cash')+v('coins')-v('exp'));
   }
 
-  // JP MORNING:
-  // Canteen Total = CASH+COINS+NETS+PayNow; Grand = Total − Expenses
-  // Small Shop Total = CASH+COINS+NETS+PayNow; Grand = Total − Expenses
-  // Total Morning Sales = Canteen Total + Small Shop Total (raw, NOT grands)
   else if(shop==='jp_morning'){
     const cct=v('cc_cash')+v('cc_coins')+v('cc_nets')+v('cc_paynow');
     const ccg=cct+v('cc_exp');
     const sst=v('ss_cash')+v('ss_coins')+v('ss_nets')+v('ss_paynow');
     const ssg=sst+v('ss_exp');
-    setEl('cc_tot',cct);
-    setEl('cc_grand',ccg);
-    setEl('ss_tot',sst);
-    setEl('ss_grand',ssg);
-    // Total Morning Sales = sum of raw totals
-    setEl('morning_total', cct + sst);
+    setEl('cc_tot',cct);setEl('cc_grand',ccg);
+    setEl('ss_tot',sst);setEl('ss_grand',ssg);
+    setEl('morning_total',cct+sst);
   }
 
-  // JP NIGHT:
-  // Canteen Total = CASH+NETS+PayNow; Grand = Total (expenses shown but NOT deducted from grand)
-  // Catering Total = CASH+NETS+PayNow
-  // Grand Total = Canteen Grand + Catering Total
   else if(shop==='jp_night'){
     const ct=v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow');
-    const cg=ct+v('jn_c_exp'); // Grand = Total + Expenses
+    const cg=ct+v('jn_c_exp');
     const kt=v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow');
-    setEl('jn_c_tot',ct);
-    setEl('jn_c_grand',cg);
+    setEl('jn_c_tot',ct);setEl('jn_c_grand',cg);
     setEl('jn_k_tot',kt);
     setEl('jn_grand',cg+kt);
   }
@@ -523,44 +536,58 @@ function calc(){
     setEl('nc_locker',v('nc_c_cash')+v('nc_k_cash'));
   }
 
+  // NEYTHAL MM:
+  // Total Cash = CASH (displayed live before input fields)
+  // Total Sales = CASH + NETS + PayNow
+  // Float Cash = CASH − Handover to Boss
+  // Day Sales Total = Total Sales (CASH+NETS+PayNow)
   else if(shop==='neythal_mm'){
-    const ts=v('nm_cash')+v('nm_nets')+v('nm_paynow');
-    setEl('nm_ts',ts);
-    setEl('nm_float',v('nm_cash')-v('nm_boss'));
-    setEl('nm_day',ts);
+    const cash=v('nm_cash');
+    const ts=cash+v('nm_nets')+v('nm_paynow');
+    setEl('nm_ts', ts);
+    setEl('nm_float', v('nm_total_cash') - v('nm_boss'));
+    setEl('nm_day', ts);
   }
 
+  // TUAS MM:
+  // Per POS: Total Cash = CASH; Total Sales = CASH+NETS+PayNow+CC; Float = CASH − Boss
+  // Day Sales Total = sum of all POS Total Sales (NOT deducting supplier)
   else if(shop==='tuas_mm'){
-    let d=0,totalBoss=0;
+    let dayTotal=0, totalBoss=0;
     ['p1','p2','p3'].forEach(p=>{
-      const tot=v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
-      setEl(p+'_total',tot);
-      setEl(p+'_float',v(p+'_cash')-v(p+'_boss'));
-      setEl(p+'_net',tot);
-      d+=tot;totalBoss+=v(p+'_boss');
+      const cash=v(p+'_cash');
+      const tot=cash+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
+      setEl(p+'_total', tot);
+      setEl(p+'_float', v(p+'_total_cash') - v(p+'_boss'));
+      dayTotal+=tot;
+      totalBoss+=v(p+'_boss');
     });
-    setEl('tuas_boss_total',totalBoss);
-    setEl('day_tot',d);
+    setEl('tuas_boss_total', totalBoss);
+    setEl('day_tot', dayTotal);
   }
 
+  // KAKI MM:
+  // Per POS: Total Cash = CASH; Total Sales = CASH+NETS+PayNow (no CC); Float = CASH − Boss
+  // Day Sales Total = sum of all POS Total Sales
   else if(shop==='kaki_mm'){
-    let d=0,totalBoss=0;
+    let dayTotal=0, totalBoss=0;
     ['p1','p2'].forEach(p=>{
-      const tot=v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
-      setEl(p+'_total',tot);
-      setEl(p+'_float',v(p+'_cash')-v(p+'_boss'));
-      setEl(p+'_net',tot);
-      d+=tot;totalBoss+=v(p+'_boss');
+      const cash=v(p+'_cash');
+      const tot=cash+v(p+'_nets')+v(p+'_paynow');
+      setEl(p+'_total', tot);
+      setEl(p+'_float', v(p+'_total_cash') - v(p+'_boss'));
+      dayTotal+=tot;
+      totalBoss+=v(p+'_boss');
     });
-    setEl('kaki_boss_total',totalBoss);
-    setEl('day_tot',d);
+    setEl('kaki_boss_total', totalBoss);
+    setEl('day_tot', dayTotal);
   }
 
   const pb=document.getElementById('pvBox');
   if(pb&&pb.style.display==='block')pb.textContent=buildText(shop).txt;
 }
 
-// ─── BUILD REPORT TEXT ────────────────────────────────────────────────────────
+// ─── BUILD REPORT TEXT ───────────────────────────────────────────────────────
 
 function getNote(){const n=document.getElementById('notes');return n?n.value.trim():''}
 
@@ -576,26 +603,24 @@ function buildText(s){
   if(s==='muri'){
     const ts=v('cash')+v('coins')+v('nets')+v('paynow');
     grand=ts+v('exp');
-    t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS             : ${fmt(v('nets'))}\n📱 PayNow         : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales     : ${fmt(ts)}\n➖ Expenses       : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL : ${fmt(grand)}*\n🔒 Cash to Locker : ${fmt(v('cash')+v('coins')-v('exp'))}\n`;
+    t+=`💵 Cash              : ${fmt(v('cash'))}\n🪙 Coins             : ${fmt(v('coins'))}\n💳 NETS              : ${fmt(v('nets'))}\n📱 PayNow            : ${fmt(v('paynow'))}\n${ln}\n📊 Total Sales       : ${fmt(ts)}\n➖ Expenses          : ${fmt(v('exp'))}\n${ln}\n✅ *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash to Locker    : ${fmt(v('cash')+v('coins')-v('exp'))}\n`;
   }
 
-  // JP MORNING: Canteen Total + Small Shop Total = Total Morning Sales
   else if(s==='jp_morning'){
     const cct=v('cc_cash')+v('cc_coins')+v('cc_nets')+v('cc_paynow');
     const ccg=cct+v('cc_exp');
     const sst=v('ss_cash')+v('ss_coins')+v('ss_nets')+v('ss_paynow');
     const ssg=sst+v('ss_exp');
-    grand=cct+sst; // Total Morning = raw totals
+    grand=cct+sst;
     t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('cc_cash'))}\n🪙 Coins   : ${fmt(v('cc_coins'))}\n💳 NETS    : ${fmt(v('cc_nets'))}\n📱 PayNow  : ${fmt(v('cc_paynow'))}\n📊 Total   : ${fmt(cct)}\n➖ Expenses: ${fmt(v('cc_exp'))}\n✅ Grand   : ${fmt(ccg)}\n${ln}\n🛒 *SMALL SHOP SALES*\n💵 Cash    : ${fmt(v('ss_cash'))}\n🪙 Coins   : ${fmt(v('ss_coins'))}\n💳 NETS    : ${fmt(v('ss_nets'))}\n📱 PayNow  : ${fmt(v('ss_paynow'))}\n📊 Total   : ${fmt(sst)}\n➖ Expenses: ${fmt(v('ss_exp'))}\n✅ Grand   : ${fmt(ssg)}\n${ln}\n🏆 *TOTAL MORNING SALES : ${fmt(grand)}*\n`;
   }
 
-  // JP NIGHT: Canteen Grand = Total (expenses shown), Grand Total = Canteen Grand + Catering Total
   else if(s==='jp_night'){
     const ct=v('jn_c_cash')+v('jn_c_nets')+v('jn_c_paynow');
-    const cg=ct+v('jn_c_exp'); // Grand = Total + Expenses
+    const cg=ct+v('jn_c_exp');
     const kt=v('jn_k_cash')+v('jn_k_nets')+v('jn_k_paynow');
     grand=cg+kt;
-    t+=`🌙 *CANTEEN SALES*\n💵 Cash : ${fmt(v('jn_c_cash'))}\n💳 NETS : ${fmt(v('jn_c_nets'))}\n📱 PayNow : ${fmt(v('jn_c_paynow'))}\n📊 Total : ${fmt(ct)}\n➖ Expenses: ${fmt(v('jn_c_exp'))}\n✅ Grand : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash : ${fmt(v('jn_k_cash'))}\n💳 NETS : ${fmt(v('jn_k_nets'))}\n📱 PayNow : ${fmt(v('jn_k_paynow'))}\n📊 Total : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
+    t+=`🌙 *CANTEEN SALES*\n💵 Cash     : ${fmt(v('jn_c_cash'))}\n💳 NETS     : ${fmt(v('jn_c_nets'))}\n📱 PayNow   : ${fmt(v('jn_c_paynow'))}\n📊 Total    : ${fmt(ct)}\n➖ Expenses : ${fmt(v('jn_c_exp'))}\n✅ Grand    : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash     : ${fmt(v('jn_k_cash'))}\n💳 NETS     : ${fmt(v('jn_k_nets'))}\n📱 PayNow   : ${fmt(v('jn_k_paynow'))}\n📊 Total    : ${fmt(kt)}\n${ln}\n🏆 *GRAND TOTAL : ${fmt(grand)}*\n`;
   }
 
   else if(s==='neythal_canteen'){
@@ -608,34 +633,45 @@ function buildText(s){
     t+=`🍽️ *CANTEEN SALES*\n💵 Cash    : ${fmt(v('nc_c_cash'))}\n💳 NETS    : ${fmt(v('nc_c_nets'))}\n📱 PayNow  : ${fmt(v('nc_c_paynow'))}\n💳 CC Term : ${fmt(v('nc_c_cc'))}\n📊 Total   : ${fmt(ct)}\n➖ Expenses: ${fmt(v('nc_c_exp'))}\n✅ Grand   : ${fmt(cg)}\n${ln}\n🎪 *CATERING SALES*\n💵 Cash    : ${fmt(v('nc_k_cash'))}\n💳 NETS    : ${fmt(v('nc_k_nets'))}\n📱 PayNow  : ${fmt(v('nc_k_paynow'))}\n💳 CC Term : ${fmt(v('nc_k_cc'))}\n📊 Total   : ${fmt(kt)}\n➖ Expenses: ${fmt(v('nc_k_exp'))}\n✅ Grand   : ${fmt(kg)}\n${ln}\n🏆 *GRAND TOTAL      : ${fmt(grand)}*\n🔒 Cash in Locker    : ${fmt(locker)}\n`;
   }
 
+  // NEYTHAL MM WhatsApp text
   else if(s==='neythal_mm'){
-    const tot=v('nm_cash')+v('nm_nets')+v('nm_paynow');
-    grand=tot;
-    t+=`💵 Cash              : ${fmt(v('nm_cash'))}\n💳 NETS              : ${fmt(v('nm_nets'))}\n📱 PayNow            : ${fmt(v('nm_paynow'))}\n📊 Total Sales       : ${fmt(tot)}\n${ln}\n❌ Shortage          : ${fmt(v('nm_short'))}\n➕ Extra             : ${fmt(v('nm_extra'))}\n👔 Handover to Boss  : ${fmt(v('nm_boss'))}\n💰 Float Cash        : ${fmt(v('nm_cash')-v('nm_boss'))}\n🏭 Cash to Supplier  : ${fmt(v('nm_supplier'))}\n${ln}\n🏆 *DAY SALES TOTAL  : ${fmt(grand)}*\n`;
+    const nmTotalCash=v('nm_total_cash');
+    const cash=v('nm_cash');
+    const ts=cash+v('nm_nets')+v('nm_paynow');
+    grand=ts;
+    t+=`💰 Total Cash Collection : ${fmt(nmTotalCash)}\n${ln}\n💵 CASH              : ${fmt(cash)}\n💳 NETS              : ${fmt(v('nm_nets'))}\n📱 PayNow            : ${fmt(v('nm_paynow'))}\n📊 Total Sales       : ${fmt(ts)}\n${ln}\n❌ Shortage          : ${fmt(v('nm_short'))}\n➕ Extra             : ${fmt(v('nm_extra'))}\n👔 Handover to Boss  : ${fmt(v('nm_boss'))}\n💰 Float Cash        : ${fmt(nmTotalCash - v('nm_boss'))}\n${ln}\n🏭 Cash Paid to Supplier : ${fmt(v('nm_supplier'))}\n${ln}\n🏆 *DAY SALES TOTAL  : ${fmt(grand)}*\n`;
   }
 
+  // TUAS MM WhatsApp text
   else if(s==='tuas_mm'){
-    let d=0,totalBoss=0;
+    let dayTotal=0, totalBoss=0;
     ['p1','p2','p3'].forEach((p,i)=>{
-      const tot=v(p+'_cash')+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
-      const fl=v(p+'_cash')-v(p+'_boss');
-      d+=tot;totalBoss+=v(p+'_boss');
-      t+=`🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n💳 CC Term : ${fmt(v(p+'_cc'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n${ln}\n`;
+      const cash=v(p+'_cash');
+      const pTotalCash=v(p+'_total_cash');
+      const tot=cash+v(p+'_nets')+v(p+'_paynow')+v(p+'_cc');
+      const fl=pTotalCash-v(p+'_boss');
+      dayTotal+=tot;
+      totalBoss+=v(p+'_boss');
+      t+=`🖥️ *POS ${i+1} SALES*\n💰 Total Cash Collection : ${fmt(pTotalCash)}\n💵 CASH        : ${fmt(cash)}\n💳 NETS        : ${fmt(v(p+'_nets'))}\n📱 PayNow      : ${fmt(v(p+'_paynow'))}\n💳 CC Terminal : ${fmt(v(p+'_cc'))}\n📊 Total Sales : ${fmt(tot)}\n❌ Shortage    : ${fmt(v(p+'_short'))}\n➕ Extra       : ${fmt(v(p+'_extra'))}\n👔 Boss        : ${fmt(v(p+'_boss'))}\n💰 Float Cash  : ${fmt(fl)}\n${ln}\n`;
     });
-    grand=d;
-    t+=`🏭 Cash to Supplier      : ${fmt(v('tuas_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n🏆 *DAY SALES TOTAL      : ${fmt(grand)}*\n`;
+    grand=dayTotal;
+    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('tuas_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
   }
 
+  // KAKI MM WhatsApp text
   else if(s==='kaki_mm'){
-    let d=0,totalBoss=0;
+    let dayTotal=0, totalBoss=0;
     ['p1','p2'].forEach((p,i)=>{
-      const tot=v(p+'_cash')+v(p+'_nets')+v(p+'_paynow');
-      const fl=v(p+'_cash')-v(p+'_boss');
-      d+=tot;totalBoss+=v(p+'_boss');
-      t+=`🖥️ *POS ${i+1}*\n💵 Cash    : ${fmt(v(p+'_cash'))}\n💳 NETS    : ${fmt(v(p+'_nets'))}\n📱 PayNow  : ${fmt(v(p+'_paynow'))}\n📊 Total   : ${fmt(tot)}\n❌ Shortage: ${fmt(v(p+'_short'))}\n➕ Extra   : ${fmt(v(p+'_extra'))}\n👔 Boss    : ${fmt(v(p+'_boss'))}\n💰 Float   : ${fmt(fl)}\n${ln}\n`;
+      const cash=v(p+'_cash');
+      const pTotalCash=v(p+'_total_cash');
+      const tot=cash+v(p+'_nets')+v(p+'_paynow');
+      const fl=pTotalCash-v(p+'_boss');
+      dayTotal+=tot;
+      totalBoss+=v(p+'_boss');
+      t+=`🖥️ *POS ${i+1} SALES*\n💰 Total Cash Collection : ${fmt(pTotalCash)}\n💵 CASH        : ${fmt(cash)}\n💳 NETS        : ${fmt(v(p+'_nets'))}\n📱 PayNow      : ${fmt(v(p+'_paynow'))}\n📊 Total Sales : ${fmt(tot)}\n❌ Shortage    : ${fmt(v(p+'_short'))}\n➕ Extra       : ${fmt(v(p+'_extra'))}\n👔 Boss        : ${fmt(v(p+'_boss'))}\n💰 Float Cash  : ${fmt(fl)}\n${ln}\n`;
     });
-    grand=d;
-    t+=`🏭 Cash to Supplier      : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n🏆 *DAY SALES TOTAL      : ${fmt(grand)}*\n`;
+    grand=dayTotal;
+    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
   }
 
   if(note){t+=`${ln}\n📝 *NOTES*\n${note}\n`}
@@ -643,7 +679,7 @@ function buildText(s){
   return{txt:t,grand};
 }
 
-// ─── UI ACTIONS ───────────────────────────────────────────────────────────────
+// ─── UI ACTIONS ──────────────────────────────────────────────────────────────
 
 function togglePv(){
   const pb=document.getElementById('pvBox'),sr=document.getElementById('shareRow');
