@@ -992,7 +992,7 @@ function generateSummary() {
   txt += `${'─'.repeat(20)}\n\n`;
 
   sites.forEach(site => {
-    txt += `📍 *${site.name.toUpperCase()}*(${s.employees.length})\n`;
+    txt += `📍 *${site.name.toUpperCase()}*(${badge.textContent()})\n`;
     site.shifts.forEach(sh => {
       if (sh.label) txt += `  [${sh.label}]\n`;
       sh.employees.forEach(emp => txt += `  • ${emp}\n`);
