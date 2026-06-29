@@ -386,7 +386,7 @@ function generateSummary() {
   txt += `${'─'.repeat(20)}\n\n`;
   sites.forEach(site => {
     const total = site.shifts.reduce((a,s) => a + s.employees.length, 0);
-    txt += `📍 *${site.name.toUpperCase()}* (${total})\n`;
+    txt += `📍 *${site.name.toUpperCase()}* _(${total})_\n`;
     site.shifts.forEach(sh => { if (sh.label) txt += `  [${sh.label}]\n`; sh.employees.forEach(emp => txt += `  • ${emp}\n`); });
     txt += '\n';
   });
