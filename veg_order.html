@@ -7,257 +7,148 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --green-50: #f0faf4;
-    --green-100: #d4f0e0;
-    --green-300: #6dcc99;
-    --green-500: #2e9e66;
-    --green-700: #1a6b42;
-    --green-900: #0d3d25;
-    --amber-50: #fef9ec;
-    --amber-300: #f5c842;
+    --green-50: #f0faf4; --green-100: #d4f0e0; --green-300: #6dcc99;
+    --green-500: #2e9e66; --green-700: #1a6b42; --green-900: #0d3d25;
     --amber-500: #d4900e;
-    --amber-700: #8a5c06;
-    --stone-50: #fafaf8;
-    --stone-100: #f3f2ee;
-    --stone-200: #e8e6df;
-    --stone-400: #a8a49a;
-    --stone-600: #6b665c;
-    --stone-800: #2e2b24;
-    --stone-900: #1a1814;
-    --radius: 10px;
-    --radius-lg: 16px;
+    --stone-50: #fafaf8; --stone-100: #f3f2ee; --stone-200: #e8e6df;
+    --stone-400: #a8a49a; --stone-600: #6b665c; --stone-800: #2e2b24; --stone-900: #1a1814;
+    --radius: 10px; --radius-lg: 16px;
   }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--stone-100);
-    color: var(--stone-800);
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  header {
-    background: var(--green-900);
-    color: #fff;
-    padding: 28px 40px 24px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--stone-100); color: var(--stone-800); min-height: 100vh; }
+  header { background: var(--green-900); color: #fff; padding: 28px 40px 24px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  header h1 { font-family: 'DM Serif Display', serif; font-size: 28px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
   header h1 span { color: var(--green-300); }
-  .header-datetime {
-    font-size: 13px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--green-300);
-    background: rgba(109,204,153,0.12);
-    border: 1px solid rgba(109,204,153,0.25);
-    border-radius: 20px;
-    padding: 6px 16px;
-    white-space: nowrap;
-    letter-spacing: 0.01em;
-  }
-
-  /* TABS */
-  .tabs-wrap {
-    background: var(--green-900);
-    padding: 0 40px;
-    border-bottom: 1px solid rgba(109,204,153,0.15);
-  }
-  .tabs {
-    display: flex;
-    gap: 2px;
-  }
-  .tab-btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 22px;
-    border: none;
-    background: transparent;
-    color: rgba(255,255,255,0.45);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
-  }
+  .header-datetime { font-size: 13px; font-style: italic; color: var(--green-300); background: rgba(109,204,153,0.12); border: 1px solid rgba(109,204,153,0.25); border-radius: 20px; padding: 6px 16px; white-space: nowrap; }
+  .tabs-wrap { background: var(--green-900); padding: 0 40px; border-bottom: 1px solid rgba(109,204,153,0.15); }
+  .tabs { display: flex; gap: 2px; }
+  .tab-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 22px; border: none; background: transparent; color: rgba(255,255,255,0.45); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; letter-spacing: 0.02em; }
   .tab-btn:hover { color: rgba(255,255,255,0.75); }
-  .tab-btn.active {
-    color: var(--green-300);
-    border-bottom-color: var(--green-300);
-  }
-
-  /* LAYOUT */
-  .page { max-width: 960px; margin: 0 auto; padding: 32px 24px 60px; }
+  .tab-btn.active { color: var(--green-300); border-bottom-color: var(--green-300); }
+  .page { max-width: 1060px; margin: 0 auto; padding: 32px 24px 60px; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
-
-  /* STAT CARDS */
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
-  .stat-card {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--stone-200);
-    padding: 16px 20px;
-    transition: border-color 0.2s;
-  }
+  .stat-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--stone-200); padding: 16px 20px; transition: border-color 0.2s; }
   .stat-card:hover { border-color: var(--green-300); }
   .stat-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--stone-400); margin-bottom: 6px; }
   .stat-value { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--stone-900); line-height: 1; }
   .stat-value.green { color: var(--green-500); }
   .stat-value.amber { color: var(--amber-500); }
   .stat-sub { font-size: 12px; color: var(--stone-400); margin-top: 4px; }
-
-  /* TWO-PANEL */
   .panels { display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
-
-  /* PANEL CARD */
-  .panel {
-    background: #fff;
-    border: 1px solid var(--stone-200);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--stone-200);
-    background: var(--stone-50);
-  }
+  .panel { background: #fff; border: 1px solid var(--stone-200); border-radius: var(--radius-lg); overflow: hidden; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--stone-200); background: var(--stone-50); }
   .panel-title { font-size: 13px; font-weight: 500; color: var(--stone-600); text-transform: uppercase; letter-spacing: 0.06em; }
-
-  /* ORDER TABLE */
   .order-table { width: 100%; border-collapse: collapse; }
-  .order-table thead th {
-    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--stone-400); padding: 10px 12px; text-align: left;
-    border-bottom: 1px solid var(--stone-200); background: var(--stone-50);
-  }
+  .order-table thead th { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone-400); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--stone-200); background: var(--stone-50); }
   .order-table thead th.r { text-align: right; }
   .order-table tbody tr { transition: background 0.15s; }
   .order-table tbody tr:hover { background: var(--stone-50); }
-  .order-table tbody td {
-    padding: 9px 12px; font-size: 14px; border-bottom: 1px solid var(--stone-100);
-    vertical-align: middle; color: var(--stone-800);
-  }
+  .order-table tbody td { padding: 9px 12px; font-size: 14px; border-bottom: 1px solid var(--stone-100); vertical-align: middle; color: var(--stone-800); }
   .order-table tbody td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
   .order-table tbody td.muted { color: var(--stone-400); font-size: 12px; }
   .order-table tbody tr:last-child td { border-bottom: none; }
-
-  /* QTY INPUT */
   .qty-wrap { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
-  .qty-btn {
-    width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--stone-200);
-    background: #fff; color: var(--stone-600); font-size: 14px; line-height: 1;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s; flex-shrink: 0;
-  }
+  .qty-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--stone-200); background: #fff; color: var(--stone-600); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
   .qty-btn:hover { background: var(--green-100); border-color: var(--green-300); color: var(--green-700); }
-  .qty-num {
-    width: 36px; text-align: center; font-size: 14px; font-weight: 500;
-    border: 1px solid var(--stone-200); border-radius: 6px; padding: 3px 4px;
-    background: var(--stone-50); color: var(--stone-900);
-  }
+  .qty-num { width: 36px; text-align: center; font-size: 14px; font-weight: 500; border: 1px solid var(--stone-200); border-radius: 6px; padding: 3px 4px; background: var(--stone-50); color: var(--stone-900); }
   .qty-num:focus { outline: none; border-color: var(--green-300); background: #fff; }
-
-  .uom-select {
-    font-size: 12px; padding: 4px 6px; border: 1px solid var(--stone-200);
-    border-radius: 6px; background: var(--stone-50); color: var(--stone-700);
-    font-family: 'DM Sans', sans-serif; cursor: pointer;
-  }
+  .uom-select { font-size: 12px; padding: 4px 6px; border: 1px solid var(--stone-200); border-radius: 6px; background: var(--stone-50); color: var(--stone-700); font-family: 'DM Sans', sans-serif; cursor: pointer; }
   .uom-select:focus { outline: none; border-color: var(--green-300); }
 
-  /* ADD VEG PANEL */
+  /* MULTI-LOCATION CHECKBOXES */
+  .loc-checks { display: flex; flex-direction: column; gap: 3px; min-width: 120px; }
+  .loc-check-label {
+    display: flex; align-items: center; gap: 5px; cursor: pointer;
+    font-size: 11px; color: var(--stone-600); white-space: nowrap;
+    padding: 2px 4px; border-radius: 5px; transition: background 0.12s;
+    user-select: none;
+  }
+  .loc-check-label:hover { background: var(--green-50); }
+  .loc-check-label input[type=checkbox] { accent-color: var(--green-500); width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; }
+  .loc-check-label.checked { color: var(--green-700); font-weight: 500; }
+
+  /* LOC PILLS in summary */
+  .loc-pill { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 10px; background: var(--green-100); color: var(--green-700); font-weight: 500; margin-left: 4px; margin-top: 1px; }
+
   .add-section { padding: 16px 20px; }
   .add-section label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone-400); margin-bottom: 6px; }
-  .add-input {
-    width: 100%; padding: 9px 12px; font-size: 14px; font-family: 'DM Sans', sans-serif;
-    border: 1px solid var(--stone-200); border-radius: var(--radius); background: var(--stone-50);
-    color: var(--stone-900); margin-bottom: 10px; transition: border-color 0.2s;
-  }
+  .add-input { width: 100%; padding: 9px 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--stone-200); border-radius: var(--radius); background: var(--stone-50); color: var(--stone-900); margin-bottom: 10px; transition: border-color 0.2s; }
   .add-input:focus { outline: none; border-color: var(--green-300); background: #fff; }
-  .add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .add-btn {
-    width: 100%; padding: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-    background: var(--green-500); color: #fff; border: none; border-radius: var(--radius);
-    cursor: pointer; transition: background 0.2s, transform 0.1s;
-  }
+  .add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+
+  /* ADD FORM: loc checkboxes */
+  .add-loc-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .add-loc-label { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--stone-700); cursor: pointer; padding: 5px 10px; border: 1px solid var(--stone-200); border-radius: 20px; transition: all 0.15s; user-select: none; }
+  .add-loc-label:hover { border-color: var(--green-300); background: var(--green-50); }
+  .add-loc-label input { accent-color: var(--green-500); width: 13px; height: 13px; cursor: pointer; }
+  .add-loc-label.checked { border-color: var(--green-500); background: var(--green-50); color: var(--green-700); font-weight: 500; }
+
+  .add-btn { width: 100%; padding: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--green-500); color: #fff; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.2s, transform 0.1s; }
   .add-btn:hover { background: var(--green-700); }
   .add-btn:active { transform: scale(0.98); }
-
-  /* SUMMARY PANEL */
   .summary-list { padding: 0; }
-  .summary-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 20px; border-bottom: 1px solid var(--stone-100); font-size: 14px;
-  }
+  .summary-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 20px; border-bottom: 1px solid var(--stone-100); font-size: 14px; gap: 8px; }
   .summary-item:last-child { border-bottom: none; }
-  .summary-item .s-name { color: var(--stone-700); }
-  .summary-item .s-val { font-weight: 500; color: var(--stone-900); }
+  .summary-item .s-name { color: var(--stone-700); flex: 1; }
+  .summary-item .s-val { font-weight: 500; color: var(--stone-900); white-space: nowrap; }
   .summary-divider { height: 1px; background: var(--stone-200); margin: 0 20px; }
-
-  /* PRINT BTN */
-  .actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
-  .btn-outline {
-    padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-    border: 1px solid var(--stone-200); border-radius: var(--radius); background: #fff;
-    color: var(--stone-700); cursor: pointer; transition: all 0.15s;
-  }
+  .btn-outline { padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; border: 1px solid var(--stone-200); border-radius: var(--radius); background: #fff; color: var(--stone-700); cursor: pointer; transition: all 0.15s; }
   .btn-outline:hover { border-color: var(--green-300); color: var(--green-700); }
-  .btn-primary {
-    padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-    border: none; border-radius: var(--radius); background: var(--green-700); color: #fff;
-    cursor: pointer; transition: background 0.15s, transform 0.1s;
-  }
+  .btn-primary { padding: 10px 22px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; border: none; border-radius: var(--radius); background: var(--green-700); color: #fff; cursor: pointer; transition: background 0.15s, transform 0.1s; }
   .btn-primary:hover { background: var(--green-900); }
   .btn-primary:active { transform: scale(0.98); }
-
-  /* REMOVE BTN */
-  .remove-btn {
-    background: none; border: 1px solid transparent; border-radius: 6px;
-    color: var(--stone-400); font-size: 13px; cursor: pointer; padding: 2px 6px;
-    transition: all 0.15s;
-  }
+  .remove-btn { background: none; border: 1px solid transparent; border-radius: 6px; color: var(--stone-400); font-size: 13px; cursor: pointer; padding: 2px 6px; transition: all 0.15s; }
   .remove-btn:hover { border-color: #f0a0a0; color: #c0392b; background: #fff5f5; }
-
-  /* TOAST */
-  #toast {
-    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--green-900); color: #fff; font-size: 13px; padding: 10px 22px;
-    border-radius: 20px; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 99;
-  }
+  #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--green-900); color: #fff; font-size: 13px; padding: 10px 22px; border-radius: 20px; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 99; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* PRINT */
+  /* SHOP-WISE REPORT */
+  .report-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .report-toolbar h2 { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; color: var(--stone-900); }
+  .report-toolbar h2 span { color: var(--green-500); }
+  .report-actions { display: flex; gap: 8px; }
+  .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .shop-card { background: #fff; border: 1px solid var(--stone-200); border-radius: var(--radius-lg); overflow: hidden; }
+  .shop-card-header { padding: 12px 16px; border-bottom: 1px solid var(--stone-200); background: var(--green-50); }
+  .shop-card-header .shop-name { font-size: 14px; font-weight: 500; color: var(--green-700); }
+  .shop-card-header .shop-addr { font-size: 11px; color: var(--stone-400); margin-top: 2px; }
+  .shop-item-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 16px; border-bottom: 1px solid var(--stone-100); font-size: 13px; }
+  .shop-item-row:last-child { border-bottom: none; }
+  .shop-item-row .si-name { color: var(--stone-700); }
+  .shop-item-row .si-qty { font-weight: 600; color: var(--stone-900); }
+  .shop-item-row .si-uom { font-size: 11px; color: var(--stone-400); margin-left: 2px; }
+  .shop-empty { padding: 18px 16px; font-size: 13px; color: var(--stone-400); font-style: italic; }
+  .shop-section-label { padding: 6px 16px 4px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone-400); background: var(--stone-50); border-bottom: 1px solid var(--stone-100); }
+  .report-summary-panel { background: #fff; border: 1px solid var(--stone-200); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; }
+  .report-summary-table { width: 100%; border-collapse: collapse; }
+  .report-summary-table th { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--stone-400); padding: 9px 14px; text-align: left; background: var(--stone-50); border-bottom: 1px solid var(--stone-200); }
+  .report-summary-table th.r { text-align: center; }
+  .report-summary-table td { padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--stone-100); color: var(--stone-800); vertical-align: middle; }
+  .report-summary-table td.r { text-align: center; font-variant-numeric: tabular-nums; }
+  .report-summary-table tr:last-child td { border-bottom: none; }
+  .tick { color: var(--green-500); font-size: 14px; font-weight: 700; }
+  .dash-cell { color: var(--stone-200); }
+
   @media print {
     header { background: #1a6b42 !important; -webkit-print-color-adjust: exact; }
     .tabs-wrap { display: none; }
     body { background: #fff; }
-    .actions, .add-section, .panel-header button, .qty-btn, .remove-btn { display: none !important; }
+    .panel-header button, .qty-btn, .remove-btn, .add-section, .report-actions { display: none !important; }
     .panels { grid-template-columns: 1fr; }
+    .shop-grid { grid-template-columns: repeat(3, 1fr); }
     .tab-panel { display: block !important; }
   }
-
-  /* MOBILE */
   @media (max-width: 700px) {
     header { padding: 20px; flex-direction: column; align-items: flex-start; }
-    .tabs-wrap { padding: 0 16px; }
+    .tabs-wrap { padding: 0 10px; }
+    .tab-btn { padding: 10px 12px; font-size: 12px; }
     .stats { grid-template-columns: 1fr 1fr; }
     .stats .stat-card:last-child { grid-column: span 2; }
     .panels { grid-template-columns: 1fr; }
     .page { padding: 20px 14px 40px; }
+    .shop-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -265,44 +156,29 @@
 
 <header>
   <div>
-    <h1><a href="index.html" style="color: inherit; text-decoration: none;">786 Spices Vegetable</a> <span>Order</span></h1>
+    <h1><a href="index.html" style="color:inherit;text-decoration:none;">786 Spices Vegetable</a> <span>Order</span></h1>
     <div style="font-size:12px;color:var(--green-300);margin-top:6px;opacity:0.85;">786 Spices Bazaar Pte. Ltd.</div>
   </div>
-  <div>
-    <span class="header-datetime" id="header-datetime"></span>
-  </div>
+  <div><span class="header-datetime" id="header-datetime"></span></div>
 </header>
 
-<!-- TABS -->
 <div class="tabs-wrap">
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('box', this)">Box Veg</button>
-    <button class="tab-btn" onclick="switchTab('basket', this)">Basket Veg</button>
+    <button class="tab-btn active" onclick="switchTab('box',this)">Box Veg</button>
+    <button class="tab-btn" onclick="switchTab('basket',this)">Basket Veg</button>
+    <button class="tab-btn" onclick="switchTab('report',this)">Shop-wise Report</button>
   </div>
 </div>
 
 <div class="page">
 
-  <!-- ===== TAB: BOX VEG ===== -->
+  <!-- BOX VEG -->
   <div id="tab-box" class="tab-panel active">
     <div class="stats">
-      <div class="stat-card">
-        <div class="stat-label">Total items</div>
-        <div class="stat-value" id="box-stat-total">—</div>
-        <div class="stat-sub">vegetable lines</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">By basket</div>
-        <div class="stat-value green" id="box-stat-basket">—</div>
-        <div class="stat-sub">basket lines</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">By weight</div>
-        <div class="stat-value amber" id="box-stat-kg">—</div>
-        <div class="stat-sub">total kilograms</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">Total items</div><div class="stat-value" id="box-stat-total">—</div><div class="stat-sub">vegetable lines</div></div>
+      <div class="stat-card"><div class="stat-label">By basket</div><div class="stat-value green" id="box-stat-basket">—</div><div class="stat-sub">basket lines</div></div>
+      <div class="stat-card"><div class="stat-label">By weight</div><div class="stat-value amber" id="box-stat-kg">—</div><div class="stat-sub">total kilograms</div></div>
     </div>
-
     <div class="panels">
       <div class="panel">
         <div class="panel-header">
@@ -310,19 +186,17 @@
           <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll('box')">Clear all</button>
         </div>
         <table class="order-table">
-          <thead>
-            <tr>
-              <th style="width:32px;">#</th>
-              <th>Vegetable</th>
-              <th class="r" style="width:100px;">Qty</th>
-              <th style="width:90px;">Unit</th>
-              <th style="width:36px;"></th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th style="width:32px;">#</th>
+            <th>Vegetable</th>
+            <th class="r" style="width:100px;">Qty</th>
+            <th style="width:75px;">Unit</th>
+            <th style="width:145px;">Location</th>
+            <th style="width:36px;"></th>
+          </tr></thead>
           <tbody id="box-order-body"></tbody>
         </table>
       </div>
-
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div class="panel">
           <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
@@ -330,30 +204,23 @@
             <label>Name</label>
             <input class="add-input" id="box-new-name" type="text" placeholder="e.g. Bitter gourd" />
             <div class="add-row">
-              <div>
-                <label>Quantity</label>
-                <input class="add-input" id="box-new-qty" type="number" min="0" value="1" style="margin:0;" />
-              </div>
-              <div>
-                <label>Unit</label>
-                <select class="add-input uom-select" id="box-new-uom" style="margin:0;padding:9px 10px;">
-                  <option>Basket</option>
-                  <option selected>Box</option>
-                  <option>Kg</option>
-                  <option>Piece</option>
-                  <option>Bag</option>
-                </select>
-              </div>
+              <div><label>Quantity</label><input class="add-input" id="box-new-qty" type="number" min="0" value="1" style="margin:0;" /></div>
+              <div><label>Unit</label><select class="add-input uom-select" id="box-new-uom" style="margin:0;padding:9px 10px;"><option>Basket</option><option selected>Box</option><option>Kg</option><option>Piece</option><option>Bag</option></select></div>
+            </div>
+            <label>Location</label>
+            <div class="add-loc-group" id="box-add-loc-group">
+              <label class="add-loc-label" id="box-addloc-0"><input type="checkbox" value="20 Neythal Rd" onchange="toggleAddLoc('box',this)"> 20 Neythal Rd</label>
+              <label class="add-loc-label" id="box-addloc-1"><input type="checkbox" value="36 Tuas" onchange="toggleAddLoc('box',this)"> 36 Tuas</label>
+              <label class="add-loc-label" id="box-addloc-2"><input type="checkbox" value="18 Kaki Bukit" onchange="toggleAddLoc('box',this)"> 18 Kaki Bukit</label>
             </div>
             <button class="add-btn" onclick="addVeg('box')">+ Add to order</button>
           </div>
         </div>
-
         <div class="panel">
           <div class="panel-header"><span class="panel-title">Summary</span></div>
           <div class="summary-list" id="box-summary-list"></div>
           <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
-            <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
+            <div style="display:flex;flex-direction:column;gap:8px;">
               <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
               <button class="btn-primary" onclick="copyOrder('box')">Copy order text</button>
             </div>
@@ -363,26 +230,13 @@
     </div>
   </div>
 
-  <!-- ===== TAB: BASKET VEG ===== -->
+  <!-- BASKET VEG -->
   <div id="tab-basket" class="tab-panel">
     <div class="stats">
-      <div class="stat-card">
-        <div class="stat-label">Total items</div>
-        <div class="stat-value" id="basket-stat-total">—</div>
-        <div class="stat-sub">vegetable lines</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">By basket</div>
-        <div class="stat-value green" id="basket-stat-basket">—</div>
-        <div class="stat-sub">basket lines</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">By weight</div>
-        <div class="stat-value amber" id="basket-stat-kg">—</div>
-        <div class="stat-sub">total kilograms</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">Total items</div><div class="stat-value" id="basket-stat-total">—</div><div class="stat-sub">vegetable lines</div></div>
+      <div class="stat-card"><div class="stat-label">By basket</div><div class="stat-value green" id="basket-stat-basket">—</div><div class="stat-sub">basket lines</div></div>
+      <div class="stat-card"><div class="stat-label">By weight</div><div class="stat-value amber" id="basket-stat-kg">—</div><div class="stat-sub">total kilograms</div></div>
     </div>
-
     <div class="panels">
       <div class="panel">
         <div class="panel-header">
@@ -390,19 +244,17 @@
           <button class="btn-outline" style="padding:5px 14px;font-size:12px;" onclick="clearAll('basket')">Clear all</button>
         </div>
         <table class="order-table">
-          <thead>
-            <tr>
-              <th style="width:32px;">#</th>
-              <th>Vegetable</th>
-              <th class="r" style="width:100px;">Qty</th>
-              <th style="width:90px;">Unit</th>
-              <th style="width:36px;"></th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th style="width:32px;">#</th>
+            <th>Vegetable</th>
+            <th class="r" style="width:100px;">Qty</th>
+            <th style="width:75px;">Unit</th>
+            <th style="width:145px;">Location</th>
+            <th style="width:36px;"></th>
+          </tr></thead>
           <tbody id="basket-order-body"></tbody>
         </table>
       </div>
-
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div class="panel">
           <div class="panel-header"><span class="panel-title">Add vegetable</span></div>
@@ -410,30 +262,23 @@
             <label>Name</label>
             <input class="add-input" id="basket-new-name" type="text" placeholder="e.g. Lady's finger" />
             <div class="add-row">
-              <div>
-                <label>Quantity</label>
-                <input class="add-input" id="basket-new-qty" type="number" min="0" value="1" style="margin:0;" />
-              </div>
-              <div>
-                <label>Unit</label>
-                <select class="add-input uom-select" id="basket-new-uom" style="margin:0;padding:9px 10px;">
-                  <option selected>Basket</option>
-                  <option>Box</option>
-                  <option>Kg</option>
-                  <option>Piece</option>
-                  <option>Bag</option>
-                </select>
-              </div>
+              <div><label>Quantity</label><input class="add-input" id="basket-new-qty" type="number" min="0" value="1" style="margin:0;" /></div>
+              <div><label>Unit</label><select class="add-input uom-select" id="basket-new-uom" style="margin:0;padding:9px 10px;"><option selected>Basket</option><option>Box</option><option>Kg</option><option>Piece</option><option>Bag</option></select></div>
+            </div>
+            <label>Location</label>
+            <div class="add-loc-group" id="basket-add-loc-group">
+              <label class="add-loc-label" id="basket-addloc-0"><input type="checkbox" value="20 Neythal Rd" onchange="toggleAddLoc('basket',this)"> 20 Neythal Rd</label>
+              <label class="add-loc-label" id="basket-addloc-1"><input type="checkbox" value="36 Tuas" onchange="toggleAddLoc('basket',this)"> 36 Tuas</label>
+              <label class="add-loc-label" id="basket-addloc-2"><input type="checkbox" value="18 Kaki Bukit" onchange="toggleAddLoc('basket',this)"> 18 Kaki Bukit</label>
             </div>
             <button class="add-btn" onclick="addVeg('basket')">+ Add to order</button>
           </div>
         </div>
-
         <div class="panel">
           <div class="panel-header"><span class="panel-title">Summary</span></div>
           <div class="summary-list" id="basket-summary-list"></div>
           <div style="padding:16px 20px;border-top:1px solid var(--stone-200);">
-            <div class="actions" style="margin:0;justify-content:stretch;flex-direction:column;gap:8px;">
+            <div style="display:flex;flex-direction:column;gap:8px;">
               <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
               <button class="btn-primary" onclick="copyOrder('basket')">Copy order text</button>
             </div>
@@ -443,174 +288,282 @@
     </div>
   </div>
 
-</div><!-- end .page -->
+  <!-- SHOP-WISE REPORT -->
+  <div id="tab-report" class="tab-panel">
+    <div class="report-toolbar">
+      <h2>Shop-wise <span>Report</span></h2>
+      <div class="report-actions">
+        <button class="btn-outline" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn-primary" onclick="copyReport()">Copy report text</button>
+      </div>
+    </div>
+    <div class="report-summary-panel">
+      <div class="panel-header"><span class="panel-title">All items — by location</span></div>
+      <div style="overflow-x:auto;">
+        <table class="report-summary-table">
+          <thead><tr>
+            <th>Vegetable</th><th>Tab</th><th>Unit</th>
+            <th class="r">20 Neythal Rd</th>
+            <th class="r">36 Tuas</th>
+            <th class="r">18 Kaki Bukit</th>
+          </tr></thead>
+          <tbody id="report-summary-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="shop-grid" id="shop-cards-grid"></div>
+  </div>
 
-<div id="toast">Copied to clipboard!</div>
+</div>
+
+<div id="toast">Copied!</div>
 
 <script>
 const UOM_LIST = ['Basket','Box','Kg','Piece','Bag'];
+const LOCATIONS = ['20 Neythal Rd','36 Tuas','18 Kaki Bukit'];
+const LOC_SHORT = {'20 Neythal Rd':'Neythal','36 Tuas':'Tuas','18 Kaki Bukit':'Kaki Bukit'};
 
 const data = {
   box: [
-    {name:'Cabbage', qty:0, uom:'Box'},
-    {name:'Big Cabbage', qty:0, uom:'Box'},
-    {name:'Cauliflower', qty:0, uom:'Box'},
-    {name:'Red Cabbage', qty:0, uom:'Box'},
-    {name:'Chinese Cabbage', qty:0, uom:'Box'},
-    {name:'Carrot', qty:0, uom:'Box'},
-    {name:'Broccoli', qty:0, uom:'Box'},
-    {name:'Bitter Gourd', qty:0, uom:'Box'},
-    {name:'Chili', qty:0, uom:'Box'},
-    {name:'Coriander Leaves', qty:0, uom:'Box'},
-    {name:'Cantin Chili', qty:0, uom:'Box'},
-    {name:'Yardlong Bean', qty:0, uom:'Box'},
-    {name:'Lime Leaves', qty:0, uom:'Box'},
-    {name:'Onion', qty:0, uom:'Bag'},
-    {name:'Beetroot', qty:0, uom:'Box'},
-    {name:'Zucchini', qty:0, uom:'Box'},
-    {name:'Round Lime', qty:0, uom:'Box'},
-    {name:'Garlic', qty:0, uom:'Kg'},
-    {name:'Green Brinjal', qty:0, uom:'Box'},
-    {name:'Japanese Cucumber', qty:0, uom:'Box'},
-    {name:'Baby Yam', qty:0, uom:'Box'},
-    {name:'Tomato', qty:0, uom:'Box'},
-    {name:'Capsicum', qty:0, uom:'Box'},
-    {name:'Eggplant', qty:0, uom:'Box'},
-    {name:'Radish', qty:0, uom:'Box'},
-    {name:'Long Brinjal', qty:0, uom:'Box'},
-    {name:'Lemongrass', qty:0, uom:'Box'},
+    {name:'Cabbage',qty:0,uom:'Box',locs:[]},
+    {name:'Big Cabbage',qty:0,uom:'Box',locs:[]},
+    {name:'Cauliflower',qty:0,uom:'Box',locs:[]},
+    {name:'Red Cabbage',qty:0,uom:'Box',locs:[]},
+    {name:'Chinese Cabbage',qty:0,uom:'Box',locs:[]},
+    {name:'Carrot',qty:0,uom:'Box',locs:[]},
+    {name:'Broccoli',qty:0,uom:'Box',locs:[]},
+    {name:'Bitter Gourd',qty:0,uom:'Box',locs:[]},
+    {name:'Chili',qty:0,uom:'Box',locs:[]},
+    {name:'Coriander Leaves',qty:0,uom:'Box',locs:[]},
+    {name:'Cantin Chili',qty:0,uom:'Box',locs:[]},
+    {name:'Yardlong Bean',qty:0,uom:'Box',locs:[]},
+    {name:'Lime Leaves',qty:0,uom:'Box',locs:[]},
+    {name:'Onion',qty:0,uom:'Bag',locs:[]},
+    {name:'Beetroot',qty:0,uom:'Box',locs:[]},
+    {name:'Zucchini',qty:0,uom:'Box',locs:[]},
+    {name:'Round Lime',qty:0,uom:'Box',locs:[]},
+    {name:'Garlic',qty:0,uom:'Kg',locs:[]},
+    {name:'Green Brinjal',qty:0,uom:'Box',locs:[]},
+    {name:'Japanese Cucumber',qty:0,uom:'Box',locs:[]},
+    {name:'Baby Yam',qty:0,uom:'Box',locs:[]},
+    {name:'Tomato',qty:0,uom:'Box',locs:[]},
+    {name:'Capsicum',qty:0,uom:'Box',locs:[]},
+    {name:'Eggplant',qty:0,uom:'Box',locs:[]},
+    {name:'Radish',qty:0,uom:'Box',locs:[]},
+    {name:'Long Brinjal',qty:0,uom:'Box',locs:[]},
+    {name:'Lemongrass',qty:0,uom:'Box',locs:[]},
   ],
   basket: [
-    {name:'Pusha', qty:0, uom:'Basket'},
-    {name:'Yam', qty:0, uom:'Basket'},
-    {name:"Lady's Finger", qty:0, uom:'Basket'},
-    {name:'Cucumber (SMALL)', qty:0, uom:'Basket'},
-    {name:'Labu', qty:0, uom:'Basket'},
-    {name:'Labu - Bangla', qty:0, uom:'Basket'},
-    {name:'Round Brinjal', qty:0, uom:'Basket'},
-    {name:'Long Brinjal', qty:0, uom:'Basket'},
-    {name:'Snake Gourd', qty:0, uom:'Basket'},
-    {name:'Bitter Gourd Long', qty:0, uom:'Basket'},
-    {name:'Long Bean', qty:0, uom:'Basket'},
-    {name:'Papaya', qty:0, uom:'Basket'},
-    {name:'Hairy Gourd', qty:0, uom:'Kg'},
-    {name:'Green Pumpkin', qty:0, uom:'Basket'},
-    {name:'Garlic', qty:0, uom:'Kg'},
-    {name:'Curry Leaves', qty:0, uom:'Kg'},
+    {name:'Pusha',qty:0,uom:'Basket',locs:[]},
+    {name:'Yam',qty:0,uom:'Basket',locs:[]},
+    {name:"Lady's Finger",qty:0,uom:'Basket',locs:[]},
+    {name:'Cucumber (SMALL)',qty:0,uom:'Basket',locs:[]},
+    {name:'Labu',qty:0,uom:'Basket',locs:[]},
+    {name:'Labu - Bangla',qty:0,uom:'Basket',locs:[]},
+    {name:'Round Brinjal',qty:0,uom:'Basket',locs:[]},
+    {name:'Long Brinjal',qty:0,uom:'Basket',locs:[]},
+    {name:'Snake Gourd',qty:0,uom:'Basket',locs:[]},
+    {name:'Bitter Gourd Long',qty:0,uom:'Basket',locs:[]},
+    {name:'Long Bean',qty:0,uom:'Basket',locs:[]},
+    {name:'Papaya',qty:0,uom:'Basket',locs:[]},
+    {name:'Hairy Gourd',qty:0,uom:'Kg',locs:[]},
+    {name:'Green Pumpkin',qty:0,uom:'Basket',locs:[]},
+    {name:'Garlic',qty:0,uom:'Kg',locs:[]},
+    {name:'Curry Leaves',qty:0,uom:'Kg',locs:[]},
   ]
 };
 
-function uomOpts(val) {
-  return UOM_LIST.map(u => `<option${u===val?' selected':''}>${u}</option>`).join('');
+function uomOpts(val){
+  return UOM_LIST.map(u=>`<option${u===val?' selected':''}>${u}</option>`).join('');
 }
 
-function render(tab) {
-  const vegetables = data[tab];
-  const tbody = document.getElementById(`${tab}-order-body`);
-  tbody.innerHTML = vegetables.map((v,i) => `
+// Render inline checkboxes for a row
+function locChecksHtml(tab, i){
+  const v = data[tab][i];
+  return `<div class="loc-checks">` +
+    LOCATIONS.map((loc,li) => {
+      const chk = v.locs.includes(loc) ? 'checked' : '';
+      const cls = v.locs.includes(loc) ? ' checked' : '';
+      return `<label class="loc-check-label${cls}"><input type="checkbox" ${chk} onchange="toggleLoc('${tab}',${i},'${loc}',this)"> ${LOC_SHORT[loc]}</label>`;
+    }).join('') +
+  `</div>`;
+}
+
+function render(tab){
+  const veg = data[tab];
+  document.getElementById(`${tab}-order-body`).innerHTML = veg.map((v,i)=>`
     <tr>
       <td class="muted">${i+1}</td>
       <td>${v.name}</td>
-      <td class="r">
-        <div class="qty-wrap">
-          <button class="qty-btn" onclick="changeQty('${tab}',${i},-1)">−</button>
-          <input class="qty-num" type="number" min="0" value="${v.qty}" onchange="setQty('${tab}',${i},this.value)" />
-          <button class="qty-btn" onclick="changeQty('${tab}',${i},1)">+</button>
-        </div>
-      </td>
-      <td>
-        <select class="uom-select" onchange="setUom('${tab}',${i},this.value)">${uomOpts(v.uom)}</select>
-      </td>
+      <td class="r"><div class="qty-wrap">
+        <button class="qty-btn" onclick="changeQty('${tab}',${i},-1)">−</button>
+        <input class="qty-num" type="number" min="0" value="${v.qty}" onchange="setQty('${tab}',${i},this.value)"/>
+        <button class="qty-btn" onclick="changeQty('${tab}',${i},1)">+</button>
+      </div></td>
+      <td><select class="uom-select" onchange="setUom('${tab}',${i},this.value)">${uomOpts(v.uom)}</select></td>
+      <td>${locChecksHtml(tab,i)}</td>
       <td><button class="remove-btn" onclick="removeVeg('${tab}',${i})" title="Remove">✕</button></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 
-  const basketLines = vegetables.filter(v=>v.uom==='Basket').length;
-  const totalKg = vegetables.filter(v=>v.uom==='Kg').reduce((s,v)=>s+v.qty,0);
-  document.getElementById(`${tab}-stat-total`).textContent = vegetables.length;
-  document.getElementById(`${tab}-stat-basket`).textContent = basketLines;
-  document.getElementById(`${tab}-stat-kg`).textContent = totalKg + ' kg';
+  document.getElementById(`${tab}-stat-total`).textContent = veg.length;
+  document.getElementById(`${tab}-stat-basket`).textContent = veg.filter(v=>v.uom==='Basket').length;
+  document.getElementById(`${tab}-stat-kg`).textContent = veg.filter(v=>v.uom==='Kg').reduce((s,v)=>s+v.qty,0)+' kg';
 
-  const sl = document.getElementById(`${tab}-summary-list`);
   const byUom = {};
-  vegetables.forEach(v => {
-    byUom[v.uom] = byUom[v.uom] || [];
-    byUom[v.uom].push(v);
-  });
-  sl.innerHTML = Object.entries(byUom).map(([uom, items]) => {
-    const rows = items.map(v=>`
-      <div class="summary-item">
-        <span class="s-name">${v.name}</span>
-        <span class="s-val">${v.qty} <span style="font-weight:400;color:var(--stone-400);font-size:12px;">${v.uom}</span></span>
-      </div>
-    `).join('');
-    return `
-      <div style="padding:8px 20px 2px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone-400);">${uom}</div>
-      ${rows}
-    `;
-  }).join('<div class="summary-divider"></div>');
+  veg.forEach(v=>{byUom[v.uom]=byUom[v.uom]||[];byUom[v.uom].push(v);});
+  document.getElementById(`${tab}-summary-list`).innerHTML = Object.entries(byUom).map(([uom,items])=>`
+    <div style="padding:8px 20px 2px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone-400);">${uom}</div>
+    ${items.map(v=>`<div class="summary-item">
+      <span class="s-name">${v.name}
+        ${v.locs.length ? v.locs.map(l=>`<span class="loc-pill">${LOC_SHORT[l]}</span>`).join('') : ''}
+      </span>
+      <span class="s-val">${v.qty} <span style="font-weight:400;color:var(--stone-400);font-size:12px;">${v.uom}</span></span>
+    </div>`).join('')}`).join('<div class="summary-divider"></div>');
+
+  renderReport();
 }
 
-function changeQty(tab, i, delta) {
-  data[tab][i].qty = Math.max(0, data[tab][i].qty + delta);
-  render(tab);
+function toggleLoc(tab, i, loc, el){
+  const locs = data[tab][i].locs;
+  if(el.checked){ if(!locs.includes(loc)) locs.push(loc); }
+  else { data[tab][i].locs = locs.filter(l=>l!==loc); }
+  // update label class without full re-render
+  el.parentElement.classList.toggle('checked', el.checked);
+  renderReport();
+  // update summary quietly
+  const byUom = {};
+  data[tab].forEach(v=>{byUom[v.uom]=byUom[v.uom]||[];byUom[v.uom].push(v);});
+  document.getElementById(`${tab}-summary-list`).innerHTML = Object.entries(byUom).map(([uom,items])=>`
+    <div style="padding:8px 20px 2px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--stone-400);">${uom}</div>
+    ${items.map(v=>`<div class="summary-item">
+      <span class="s-name">${v.name}
+        ${v.locs.length ? v.locs.map(l=>`<span class="loc-pill">${LOC_SHORT[l]}</span>`).join('') : ''}
+      </span>
+      <span class="s-val">${v.qty} <span style="font-weight:400;color:var(--stone-400);font-size:12px;">${v.uom}</span></span>
+    </div>`).join('')}`).join('<div class="summary-divider"></div>');
 }
-function setQty(tab, i, val) {
-  data[tab][i].qty = Math.max(0, parseFloat(val)||0);
-  render(tab);
-}
-function setUom(tab, i, val) { data[tab][i].uom = val; render(tab); }
-function removeVeg(tab, i) { data[tab].splice(i,1); render(tab); }
-function clearAll(tab) { if(confirm('Clear all items?')) { data[tab].forEach(v=>v.qty=0); render(tab); } }
 
-function addVeg(tab) {
+function toggleAddLoc(tab, el){
+  el.parentElement.classList.toggle('checked', el.checked);
+}
+
+function changeQty(tab,i,d){data[tab][i].qty=Math.max(0,data[tab][i].qty+d);render(tab);}
+function setQty(tab,i,v){data[tab][i].qty=Math.max(0,parseFloat(v)||0);render(tab);}
+function setUom(tab,i,v){data[tab][i].uom=v;render(tab);}
+function removeVeg(tab,i){data[tab].splice(i,1);render(tab);}
+function clearAll(tab){
+  if(confirm('Clear all items?')){
+    data[tab].forEach(v=>{v.qty=0;v.locs=[];});
+    render(tab);
+  }
+}
+
+function addVeg(tab){
   const name = document.getElementById(`${tab}-new-name`).value.trim();
-  if(!name) { document.getElementById(`${tab}-new-name`).focus(); return; }
+  if(!name){document.getElementById(`${tab}-new-name`).focus();return;}
   const qty = parseFloat(document.getElementById(`${tab}-new-qty`).value)||0;
   const uom = document.getElementById(`${tab}-new-uom`).value;
-  data[tab].push({name, qty, uom});
-  document.getElementById(`${tab}-new-name`).value = '';
-  document.getElementById(`${tab}-new-qty`).value = '1';
+  const checks = document.querySelectorAll(`#${tab}-add-loc-group input[type=checkbox]:checked`);
+  const locs = Array.from(checks).map(c=>c.value);
+  data[tab].push({name,qty,uom,locs});
+  document.getElementById(`${tab}-new-name`).value='';
+  document.getElementById(`${tab}-new-qty`).value='1';
+  // reset add-form checkboxes
+  document.querySelectorAll(`#${tab}-add-loc-group input[type=checkbox]`).forEach(c=>{c.checked=false;c.parentElement.classList.remove('checked');});
   render(tab);
   document.getElementById(`${tab}-new-name`).focus();
 }
 
-document.getElementById('box-new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg('box'); });
-document.getElementById('basket-new-name').addEventListener('keydown', e => { if(e.key==='Enter') addVeg('basket'); });
+document.getElementById('box-new-name').addEventListener('keydown',e=>{if(e.key==='Enter')addVeg('box');});
+document.getElementById('basket-new-name').addEventListener('keydown',e=>{if(e.key==='Enter')addVeg('basket');});
 
-function copyOrder(tab) {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
-  const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const tabLabel = tab === 'box' ? 'Box Veg' : 'Basket Veg';
-  const lines = data[tab].filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}`).join('\n');
-  const text = `Vegetable Order\n786 Spices Bazaar Pte. Ltd.\n${dateStr}\n${'─'.repeat(17)}\n${lines || '(no items ordered)'}`;
-  navigator.clipboard.writeText(text).then(() => {
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 2500);
-  });
+// ===== REPORT =====
+function renderReport(){
+  const all=[
+    ...data.box.map(v=>({...v,locs:[...v.locs],tab:'Box Veg'})),
+    ...data.basket.map(v=>({...v,locs:[...v.locs],tab:'Basket Veg'}))
+  ].filter(v=>v.qty>0);
+
+  // Summary table
+  const tbody=document.getElementById('report-summary-body');
+  tbody.innerHTML = all.length ? all.map(v=>{
+    const cell = (loc) => v.locs.includes(loc)
+      ? `<td class="r"><span class="tick">✓</span> <span style="font-weight:600;">${v.qty}</span></td>`
+      : `<td class="r dash-cell">—</td>`;
+    return `<tr>
+      <td>${v.name}</td>
+      <td style="font-size:11px;color:var(--stone-400);">${v.tab}</td>
+      <td style="font-size:12px;color:var(--stone-400);">${v.uom}</td>
+      ${LOCATIONS.map(l=>cell(l)).join('')}
+    </tr>`;
+  }).join('') : `<tr><td colspan="6" style="padding:16px 14px;color:var(--stone-400);font-style:italic;font-size:13px;">No items with qty &gt; 0 yet.</td></tr>`;
+
+  // Shop cards
+  const shopDefs=[
+    {key:'20 Neythal Rd',label:'Neythal Rd',addr:'20 Neythal Road'},
+    {key:'36 Tuas',label:'Tuas',addr:'36 Tuas View Square'},
+    {key:'18 Kaki Bukit',label:'Kaki Bukit',addr:'18 Kaki Bukit'},
+  ];
+  document.getElementById('shop-cards-grid').innerHTML = shopDefs.map(shop=>{
+    const items = all.filter(v=>v.locs.includes(shop.key));
+    const boxItems = items.filter(v=>v.tab==='Box Veg');
+    const baskItems = items.filter(v=>v.tab==='Basket Veg');
+    let inner='';
+    if(!items.length){ inner=`<div class="shop-empty">No items assigned.</div>`; }
+    else{
+      if(boxItems.length){ inner+=`<div class="shop-section-label">Box Veg</div>`+boxItems.map(v=>`<div class="shop-item-row"><span class="si-name">${v.name}</span><span class="si-qty">${v.qty}<span class="si-uom"> ${v.uom}</span></span></div>`).join(''); }
+      if(baskItems.length){ inner+=`<div class="shop-section-label">Basket Veg</div>`+baskItems.map(v=>`<div class="shop-item-row"><span class="si-name">${v.name}</span><span class="si-qty">${v.qty}<span class="si-uom"> ${v.uom}</span></span></div>`).join(''); }
+    }
+    return `<div class="shop-card"><div class="shop-card-header"><div class="shop-name">${shop.label}</div><div class="shop-addr">${shop.addr}</div></div>${inner}</div>`;
+  }).join('');
 }
 
-function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+function copyReport(){
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  const all=[...data.box.map(v=>({...v,tab:'Box Veg'})),...data.basket.map(v=>({...v,tab:'Basket Veg'}))].filter(v=>v.qty>0);
+  const shopDefs=[{key:'20 Neythal Rd'},{key:'36 Tuas'},{key:'18 Kaki Bukit'}];
+  let txt=`Shop-wise Vegetable Report\n786 Spices Bazaar Pte. Ltd.\n${dateStr}\n${'═'.repeat(30)}\n`;
+  shopDefs.forEach(s=>{
+    const items=all.filter(v=>v.locs.includes(s.key));
+    txt+=`\n📍 ${s.key}\n${'─'.repeat(20)}\n`;
+    txt+=items.length?items.map(v=>`${v.name}: ${v.qty} ${v.uom} [${v.tab}]`).join('\n')+'\n':'(no items)\n';
+  });
+  const unassigned=all.filter(v=>!v.locs.length);
+  if(unassigned.length){ txt+=`\n📍 Unassigned\n${'─'.repeat(20)}\n`+unassigned.map(v=>`${v.name}: ${v.qty} ${v.uom} [${v.tab}]`).join('\n')+'\n'; }
+  navigator.clipboard.writeText(txt).then(()=>showToast('Report copied!'));
+}
+
+function copyOrder(tab){
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  const lines=data[tab].filter(v=>v.qty>0).map(v=>`${v.name}: ${v.qty} ${v.uom}${v.locs.length?' ('+v.locs.map(l=>LOC_SHORT[l]).join(', ')+')':''}`).join('\n');
+  const text=`Vegetable Order\n786 Spices Bazaar Pte. Ltd.\n${dateStr}\n${'─'.repeat(17)}\n${lines||'(no items ordered)'}`;
+  navigator.clipboard.writeText(text).then(()=>showToast('Copied to clipboard!'));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(`tab-${tab}`).classList.add('active');
+  if(tab==='report')renderReport();
 }
 
-// Live date + time combined, italic
-function updateDateTime() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-SG', {weekday:'short',day:'numeric',month:'long',year:'numeric'});
-  const timeStr = now.toLocaleTimeString('en-SG', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  document.getElementById('header-datetime').textContent = `${dateStr}  ·  ${timeStr}`;
+function updateDateTime(){
+  const now=new Date();
+  const d=now.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+  const t=now.toLocaleTimeString('en-SG',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('header-datetime').textContent=`${d}  ·  ${t}`;
 }
-updateDateTime();
-setInterval(updateDateTime, 1000);
-
-render('box');
-render('basket');
+updateDateTime();setInterval(updateDateTime,1000);
+render('box');render('basket');
 </script>
 </body>
 </html>
