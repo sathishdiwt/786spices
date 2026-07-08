@@ -689,7 +689,7 @@ function buildText(s){
     const inets=v('p1_nets')+v('p2_nets');
     const ipaynow=v('p1_paynow')+v('p2_paynow');
     grand=dayTotal;
-    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n📊 *FOR INFOTECH SOFTWARE*\n💵 Total Cash Sales   : ${fmt(icash)}\n💳 Total NETS Sales   : ${fmt(inets)}\n📱 Total PayNow Sales : ${fmt(ipaynow)}\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
+    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n📊 _*FOR INFOTECH SOFTWARE*_\n💵 _Total Cash Sales   : ${fmt(icash)}_\n💳 _Total NETS Sales   : ${fmt(inets)}_\n📱 _Total PayNow Sales : ${fmt(ipaynow)}_\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
   }
 
   if(note){t+=`${ln}\n📝 *NOTES*\n${note}\n`}
