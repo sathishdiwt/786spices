@@ -312,21 +312,28 @@ function secLbl(txt){return`<div class="sec-lbl">${txt}</div>`}
 //   Extra
 //   Handover to Boss
 //   Float Cash (= Total Cash − Handover to Boss  i.e. CASH − Boss)
-function posBlock(p, num, hasCC){
+function posBlock(p, num, hasCC, totalAtEnd){
   const ccField = hasCC ? fld(p+'_cc','CC Terminal','cc') : '';
-  return blkO(`🖥️ POS ${num} Sales`)+
+  const totalRow = trow(`Total Sales POS ${num}`, p+'_total');
+  let html = blkO(`🖥️ POS ${num} Sales`)+
     fld(p+'_total_cash','Total Cash Collection')+
     fld(p+'_cash','CASH')+
     fld(p+'_nets','NETS')+
     fld(p+'_paynow','PayNow')+
-    ccField+
-    trow(`Total Sales POS ${num}`, p+'_total')+
-    secLbl('Adjustments')+
+    ccField;
+  if(!totalAtEnd){
+    html += totalRow;
+  }
+  html += secLbl('Adjustments')+
     fld(p+'_short','Shortage','neg')+
     fld(p+'_extra','Extra')+
     fld(p+'_boss','Handover to Boss')+
-    trow('Float Cash (Total Cash − Boss)', p+'_float', 'sub')+
-    blkC();
+    trow('Float Cash (Total Cash − Boss)', p+'_float', 'sub');
+  if(totalAtEnd){
+    html += totalRow;
+  }
+  html += blkC();
+  return html;
 }
 
 // ─── JP MORNING blocks ───────────────────────────────────────────────────────
@@ -466,11 +473,15 @@ function renderForm(){
   // ── KAKI BUKIT MINI MART — 2 POS no CC ──
   else if(shop==='kaki_mm'){
     inner=
-      posBlock('p1',1,false)+
-      posBlock('p2',2,false)+
+      posBlock('p1',1,false,true)+
+      posBlock('p2',2,false,true)+
       secLbl('Summary')+
       fld('kaki_supplier','Cash Paid to Supplier','neg')+
       trow('Total Handover to Boss','kaki_boss_total','sub')+
+      secLbl('For Infotech Software')+
+      trow('Total Cash Sales (POS 1 + POS 2)','kaki_ic')+
+      trow('Total NETS Sales (POS 1 + POS 2)','kaki_in')+
+      trow('Total PayNow Sales (POS 1 + POS 2)','kaki_ip')+
       trow('Day Sales Total (POS 1 + POS 2)','day_tot','day');
   }
 
@@ -569,6 +580,7 @@ function calc(){
   // KAKI MM:
   // Per POS: Total Cash = CASH; Total Sales = CASH+NETS+PayNow (no CC); Float = CASH − Boss
   // Day Sales Total = sum of all POS Total Sales
+  // Infotech Software summary = combined CASH / NETS / PayNow across both POS
   else if(shop==='kaki_mm'){
     let dayTotal=0, totalBoss=0;
     ['p1','p2'].forEach(p=>{
@@ -580,6 +592,9 @@ function calc(){
       totalBoss+=v(p+'_boss');
     });
     setEl('kaki_boss_total', totalBoss);
+    setEl('kaki_ic', v('p1_cash')+v('p2_cash'));
+    setEl('kaki_in', v('p1_nets')+v('p2_nets'));
+    setEl('kaki_ip', v('p1_paynow')+v('p2_paynow'));
     setEl('day_tot', dayTotal);
   }
 
@@ -668,10 +683,13 @@ function buildText(s){
       const fl=pTotalCash-v(p+'_boss');
       dayTotal+=tot;
       totalBoss+=v(p+'_boss');
-      t+=`🖥️ *POS ${i+1} SALES*\n💰 Total Cash Collection : ${fmt(pTotalCash)}\n💵 CASH        : ${fmt(cash)}\n💳 NETS        : ${fmt(v(p+'_nets'))}\n📱 PayNow      : ${fmt(v(p+'_paynow'))}\n📊 Total Sales : ${fmt(tot)}\n❌ Shortage    : ${fmt(v(p+'_short'))}\n➕ Extra       : ${fmt(v(p+'_extra'))}\n👔 Boss        : ${fmt(v(p+'_boss'))}\n💰 Float Cash  : ${fmt(fl)}\n${ln}\n`;
+      t+=`🖥️ *POS ${i+1} SALES*\n💰 Total Cash Collection : ${fmt(pTotalCash)}\n💵 CASH        : ${fmt(cash)}\n💳 NETS        : ${fmt(v(p+'_nets'))}\n📱 PayNow      : ${fmt(v(p+'_paynow'))}\n❌ Shortage    : ${fmt(v(p+'_short'))}\n➕ Extra       : ${fmt(v(p+'_extra'))}\n👔 Boss        : ${fmt(v(p+'_boss'))}\n💰 Float Cash  : ${fmt(fl)}\n📊 Total Sales : ${fmt(tot)}\n${ln}\n`;
     });
+    const icash=v('p1_cash')+v('p2_cash');
+    const inets=v('p1_nets')+v('p2_nets');
+    const ipaynow=v('p1_paynow')+v('p2_paynow');
     grand=dayTotal;
-    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
+    t+=`🏭 Cash Paid to Supplier  : ${fmt(v('kaki_supplier'))}\n👔 Total Handover to Boss : ${fmt(totalBoss)}\n${ln}\n📊 *FOR INFOTECH SOFTWARE*\n💵 Total Cash Sales   : ${fmt(icash)}\n💳 Total NETS Sales   : ${fmt(inets)}\n📱 Total PayNow Sales : ${fmt(ipaynow)}\n${ln}\n🏆 *DAY SALES TOTAL       : ${fmt(grand)}*\n`;
   }
 
   if(note){t+=`${ln}\n📝 *NOTES*\n${note}\n`}
