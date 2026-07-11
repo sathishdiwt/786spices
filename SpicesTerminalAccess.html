@@ -89,7 +89,30 @@
     max-width:260px;
     line-height:1.5;
     text-align:right;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
   }
+
+  .home-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:transparent;
+    color:var(--turmeric);
+    text-decoration:none;
+    font-weight:600;
+    font-size:13px;
+    padding:8px 14px;
+    border:1px solid rgba(227,166,38,0.4);
+    border-radius:8px;
+    white-space:nowrap;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .home-btn svg{ width:14px; height:14px; }
+  .home-btn:hover{ background:rgba(227,166,38,0.12); }
+  .home-btn:focus-visible{ outline:2px solid var(--turmeric); outline-offset:2px; }
 
   .provider{
     margin-bottom:44px;
@@ -233,7 +256,7 @@
   @media (max-width:640px){
     .wrap{ padding:40px 16px 80px; }
     header.top{ flex-direction:column; align-items:flex-start; }
-    .top-note{ text-align:left; }
+    .top-note{ text-align:left; align-items:flex-start; }
     .provider-head{ flex-direction:column; align-items:flex-start; }
     table.devices th:nth-child(1), table.devices td:nth-child(1){ padding-left:20px; }
     table.devices th:last-child, table.devices td:last-child{ padding-right:20px; }
@@ -253,7 +276,13 @@
         <div class="brand-sub">786 Spices &middot; Payment &amp; Sound Box Directory</div>
       </div>
     </div>
-    <div class="top-note">One place for every terminal login and its paired device ID, by outlet.</div>
+    <div class="top-note">
+      <a class="home-btn" href="https://786spices.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+        Home
+      </a>
+      One place for every terminal login and its paired device ID, by outlet.
+    </div>
   </header>
 
   <!-- AXS -->
