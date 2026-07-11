@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>786 Spices — Terminal Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cumin:#2B1A10;
+    --cumin-deep:#1C1009;
+    --turmeric:#E3A626;
+    --chili:#C1440E;
+    --cardamom:#5C6B32;
+    --cream:#F7EFE0;
+    --cream-dim:#E8DCC4;
+    --line: rgba(247,239,224,0.14);
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(227,166,38,0.10), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(193,68,14,0.10), transparent 55%),
+      var(--cumin);
+    color:var(--cream);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:64px 24px 100px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:56px;
+    padding-bottom:28px;
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .mark{
+    width:46px;height:46px;
+    border-radius:10px;
+    background: conic-gradient(from 210deg, var(--turmeric), var(--chili) 40%, var(--cardamom) 75%, var(--turmeric));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--cumin-deep);
+    flex-shrink:0;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px, 4vw, 40px);
+    margin:0;
+    letter-spacing:-0.01em;
+    line-height:1.05;
+  }
+
+  .brand-sub{
+    font-size:13px;
+    color:var(--cream-dim);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-top:4px;
+  }
+
+  .top-note{
+    font-size:13px;
+    color:var(--cream-dim);
+    max-width:260px;
+    line-height:1.5;
+    text-align:right;
+  }
+
+  .provider{
+    margin-bottom:44px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background: rgba(247,239,224,0.03);
+    overflow:hidden;
+  }
+
+  .provider-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:24px 28px;
+    flex-wrap:wrap;
+  }
+
+  .provider-title-row{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .provider-name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0;
+  }
+
+  .provider-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--turmeric);
+    border:1px solid rgba(227,166,38,0.35);
+    padding:3px 8px;
+    border-radius:999px;
+  }
+
+  .login-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--chili);
+    color:var(--cream);
+    text-decoration:none;
+    font-weight:600;
+    font-size:14px;
+    padding:11px 18px;
+    border-radius:9px;
+    white-space:nowrap;
+    transition:transform 0.15s ease, background 0.15s ease;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .login-btn:hover{ background:#a83a0c; transform:translateY(-1px); }
+  .login-btn:focus-visible{ outline:2px solid var(--turmeric); outline-offset:2px; }
+  .login-btn svg{ width:14px; height:14px; flex-shrink:0; }
+
+  .url-line{
+    padding:0 28px 18px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--cream-dim);
+    word-break:break-all;
+  }
+  .url-line a{ color:var(--cream-dim); }
+
+  table.devices{
+    width:100%;
+    border-collapse:collapse;
+    border-top:1px solid var(--line);
+  }
+  table.devices th{
+    text-align:left;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    font-weight:600;
+    padding:12px 28px 10px;
+    background:rgba(0,0,0,0.15);
+  }
+  table.devices td{
+    padding:14px 28px;
+    font-size:14.5px;
+    border-top:1px solid var(--line);
+  }
+  table.devices tr:hover td{ background:rgba(227,166,38,0.05); }
+
+  .loc-name{ font-weight:500; }
+
+  .dev-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13.5px;
+    color:var(--turmeric);
+    letter-spacing:0.02em;
+  }
+
+  .copy-btn{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--cream-dim);
+    font-size:11px;
+    font-family:'IBM Plex Sans', sans-serif;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:border-color 0.15s ease, color 0.15s ease;
+  }
+  .copy-btn:hover{ border-color:var(--turmeric); color:var(--turmeric); }
+  .copy-btn:focus-visible{ outline:2px solid var(--turmeric); outline-offset:2px; }
+  .copy-btn.copied{ color:var(--cardamom); border-color:var(--cardamom); }
+
+  td.action{ text-align:right; }
+
+  .no-devices{
+    padding:20px 28px 26px;
+    font-size:13.5px;
+    color:var(--cream-dim);
+    border-top:1px solid var(--line);
+  }
+
+  footer{
+    margin-top:40px;
+    text-align:center;
+    font-size:12px;
+    color:rgba(247,239,224,0.35);
+    letter-spacing:0.04em;
+  }
+
+  @media (max-width:640px){
+    .wrap{ padding:40px 16px 80px; }
+    header.top{ flex-direction:column; align-items:flex-start; }
+    .top-note{ text-align:left; }
+    .provider-head{ flex-direction:column; align-items:flex-start; }
+    table.devices th:nth-child(1), table.devices td:nth-child(1){ padding-left:20px; }
+    table.devices th:last-child, table.devices td:last-child{ padding-right:20px; }
+    .url-line{ padding-left:20px; padding-right:20px; }
+    .provider-head{ padding:20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="mark">786</div>
+      <div>
+        <h1>Terminal Access</h1>
+        <div class="brand-sub">786 Spices &middot; Payment &amp; Sound Box Directory</div>
+      </div>
+    </div>
+    <div class="top-note">One place for every terminal login and its paired device ID, by outlet.</div>
+  </header>
+
+  <!-- AXS -->
+  <section class="provider">
+    <div class="provider-head">
+      <div class="provider-title-row">
+        <h2 class="provider-name">AXS</h2>
+        <span class="provider-tag">Sound Box &amp; Terminal</span>
+      </div>
+      <a class="login-btn" href="https://merchant.axsasia.com/v2/home" target="_blank" rel="noopener noreferrer">
+        Open login
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="url-line"><a href="https://merchant.axsasia.com/v2/home" target="_blank" rel="noopener noreferrer">merchant.axsasia.com/v2/home</a></div>
+    <table class="devices">
+      <thead><tr><th>Outlet</th><th>Device ID</th><th></th></tr></thead>
+      <tbody id="axs-body"></tbody>
+    </table>
+  </section>
+
+  <!-- K Pay -->
+  <section class="provider">
+    <div class="provider-head">
+      <div class="provider-title-row">
+        <h2 class="provider-name">K Pay</h2>
+        <span class="provider-tag">Payment Terminal</span>
+      </div>
+      <a class="login-btn" href="https://pc.sg.kpay-group.com/user/login" target="_blank" rel="noopener noreferrer">
+        Open login
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="url-line"><a href="https://pc.sg.kpay-group.com/user/login" target="_blank" rel="noopener noreferrer">pc.sg.kpay-group.com/user/login</a></div>
+    <table class="devices">
+      <thead><tr><th>Outlet</th><th>Device ID</th><th></th></tr></thead>
+      <tbody id="kpay-body"></tbody>
+    </table>
+  </section>
+
+  <!-- EPOS QR Sound Box -->
+  <section class="provider">
+    <div class="provider-head">
+      <div class="provider-title-row">
+        <h2 class="provider-name">EPOS</h2>
+        <span class="provider-tag">QR Sound Box</span>
+      </div>
+      <a class="login-btn" href="https://pixel.eposdata.com/access_control/user/sign_in" target="_blank" rel="noopener noreferrer">
+        Open login
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="url-line"><a href="https://pixel.eposdata.com/access_control/user/sign_in" target="_blank" rel="noopener noreferrer">pixel.eposdata.com/access_control/user/sign_in</a></div>
+    <table class="devices">
+      <thead><tr><th>Outlet</th><th>Device ID</th><th></th></tr></thead>
+      <tbody id="eposqr-body"></tbody>
+    </table>
+  </section>
+
+  <!-- EPOS Card Terminal -->
+  <section class="provider">
+    <div class="provider-head">
+      <div class="provider-title-row">
+        <h2 class="provider-name">EPOS</h2>
+        <span class="provider-tag">Card Terminal</span>
+      </div>
+      <a class="login-btn" href="https://console.epos.com/login" target="_blank" rel="noopener noreferrer">
+        Open login
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="url-line"><a href="https://console.epos.com/login" target="_blank" rel="noopener noreferrer">console.epos.com/login</a></div>
+    <table class="devices">
+      <thead><tr><th>Outlet</th><th>Device ID</th><th></th></tr></thead>
+      <tbody id="eposcard-body"></tbody>
+    </table>
+  </section>
+
+  <footer>Internal use &middot; 786 Spices outlets</footer>
+</div>
+
+<script>
+  const data = {
+    "axs-body": [
+      ["Jalan Papan Food Stall", "10001021"],
+      ["Jalan Papan Snacks Stall", "10001022"],
+      ["Neythal Road Canteen", "10001020"],
+      ["Kaki Bukit Mini Mart", "10001023"],
+    ],
+    "kpay-body": [
+      ["Kaki Bukit", "00005204"],
+      ["Neythal Road", "00005339"],
+      ["Tuas 1", "00005338"],
+      ["Tuas 2", "00005337"],
+    ],
+    "eposqr-body": [
+      ["Tuas 1", "38260107540380"],
+      ["Tuas 2", "38260107540365"],
+      ["Kaki Bukit 1", "38260107540370"],
+      ["Kaki Bukit 2", "38260107540364"],
+    ],
+    "eposcard-body": [
+      ["Tuas", "0QTSAZ052"],
+      ["Jalan Papan", "0XQ6K2056"],
+      ["Neythal Rd Canteen", "04FJJ8054"],
+      ["Office", "0D25KC058"],
+    ],
+  };
+
+  function copyIcon(){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;vertical-align:-1px;margin-right:5px;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  }
+
+  Object.entries(data).forEach(([bodyId, rows]) => {
+    const tbody = document.getElementById(bodyId);
+    rows.forEach(([name, id]) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="loc-name">${name}</td>
+        <td class="dev-id">${id}</td>
+        <td class="action"><button class="copy-btn" data-id="${id}">${copyIcon()}Copy</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+
+  document.body.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if(!btn) return;
+    const id = btn.getAttribute('data-id');
+    navigator.clipboard.writeText(id).then(() => {
+      const original = btn.innerHTML;
+      btn.innerHTML = copyIcon() + 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.classList.remove('copied');
+      }, 1400);
+    });
+  });
+</script>
+</body>
+</html>
