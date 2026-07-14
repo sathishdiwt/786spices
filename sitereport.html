@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixels Connect — Site Progress Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2735;
+    --navy-2:#243447;
+    --paper:#F5F2EA;
+    --panel:#FFFFFF;
+    --steel:#3B6E8F;
+    --amber:#E8A93B;
+    --green:#4C8C6B;
+    --red:#C0523D;
+    --ink:#20262C;
+    --muted:#6B7280;
+    --border:#DCD6C8;
+    --border-dark:#33455A;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ===== Top bar ===== */
+  .topbar{background:var(--navy);color:#fff;padding:26px 40px;position:relative;overflow:hidden;}
+  .topbar::before{content:"";position:absolute;top:0;right:-60px;width:260px;height:260px;
+    background:repeating-linear-gradient(45deg, rgba(232,169,59,0.08) 0 2px, transparent 2px 14px);
+    transform:rotate(12deg);pointer-events:none;}
+  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:1;}
+  .brandmark{display:flex;align-items:center;gap:14px;}
+  .brandmark .badge{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--amber),#c98a1f);
+    display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;color:var(--navy);font-size:18px;flex-shrink:0;}
+  .brandmark .co{display:flex;flex-direction:column;}
+  .brandmark .co-name{font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:0.2px;}
+  .brandmark .co-sub{font-size:11.5px;color:#A9B7C6;text-transform:uppercase;letter-spacing:1.6px;margin-top:2px;}
+  .doctitle{text-align:right;}
+  .doctitle .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-weight:600;}
+  .doctitle h1{font-size:24px;margin:4px 0 0;font-weight:600;}
+
+  /* ===== Meta form row ===== */
+  .metabar{background:var(--navy-2);border-top:1px solid var(--border-dark);padding:18px 40px;
+    display:flex;gap:28px;flex-wrap:wrap;position:relative;z-index:1;}
+  .metafield{display:flex;flex-direction:column;gap:6px;min-width:200px;}
+  .metafield label{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:#93A3B4;font-weight:600;}
+  .metafield input{background:#0F1822;border:1px solid var(--border-dark);color:#fff;padding:9px 12px;
+    border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:14px;}
+  .metafield input::placeholder{color:#5B6B7C;}
+  .metafield input:focus{outline:2px solid var(--amber);outline-offset:1px;}
+  .metafield.grow{flex:1;min-width:260px;}
+
+  /* ===== Main ===== */
+  main{max-width:1180px;margin:0 auto;padding:36px 40px 90px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .section-head h2{font-size:15px;text-transform:uppercase;letter-spacing:2px;color:var(--steel);font-weight:600;margin:0;}
+  .section-head .hint{font-size:12.5px;color:var(--muted);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;}
+
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:22px;
+    box-shadow:0 1px 2px rgba(27,39,53,0.04);position:relative;}
+  .card .removeBtn{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:6px;
+    border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;}
+  .card .removeBtn:hover{border-color:var(--red);color:var(--red);}
+
+  .locHead{display:flex;gap:14px;align-items:center;margin-bottom:18px;padding-right:30px;}
+  .logoDrop{width:64px;height:64px;border-radius:10px;border:1.5px dashed var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;overflow:hidden;
+    background:#FBFAF6;transition:border-color .15s;}
+  .logoDrop:hover{border-color:var(--steel);}
+  .logoDrop img{width:100%;height:100%;object-fit:contain;}
+  .logoDrop .plus{color:var(--muted);font-size:20px;}
+  .locName input{border:none;background:transparent;font-family:'Space Grotesk';font-size:18px;font-weight:600;
+    color:var(--ink);width:100%;padding:2px 0;border-bottom:1px solid transparent;}
+  .locName input:focus{outline:none;border-bottom:1px solid var(--steel);}
+  .locName .caption{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+  .gauge{margin-bottom:14px;}
+  .gauge:last-child{margin-bottom:0;}
+  .gauge-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .gauge-top .label{font-size:13px;color:var(--ink);font-weight:500;}
+  .gauge-top .pct{font-size:13px;font-weight:600;min-width:42px;text-align:right;}
+  .gauge-track{position:relative;height:10px;border-radius:6px;background:#EDEAE0;overflow:hidden;
+    border:1px solid var(--border);}
+  .gauge-track .ticks{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9.9%,rgba(27,39,53,0.10) 9.9% 10%);pointer-events:none;}
+  .gauge-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;transition:width .12s ease;}
+  .gauge input[type="range"]{width:100%;margin-top:7px;accent-color:var(--steel);height:16px;cursor:pointer;}
+
+  .addCard{border:1.5px dashed var(--border);background:transparent;border-radius:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    min-height:220px;cursor:pointer;color:var(--muted);transition:.15s;}
+  .addCard:hover{border-color:var(--steel);color:var(--steel);background:#FBFAF6;}
+  .addCard .icon{width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;
+    display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .addCard span.label{font-size:13px;font-weight:600;letter-spacing:.3px;}
+
+  /* ===== Footer / actions ===== */
+  .actions{max-width:1180px;margin:0 auto;padding:0 40px 60px;display:flex;justify-content:flex-end;gap:12px;}
+  .btn{font-family:'Inter';font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;
+    border:1px solid transparent;letter-spacing:.2px;}
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:#0F1822;}
+  .btn-ghost{background:transparent;border-color:var(--border);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--steel);color:var(--steel);}
+
+  input[type="file"]{display:none;}
+
+  /* ===== Print summary (report output) ===== */
+  #printSummary{display:none;}
+
+  @media print{
+    body{background:#fff;}
+    .topbar, .metabar, main, .actions{display:none !important;}
+    #printSummary{display:block !important;}
+  }
+
+  .rpt-page{max-width:900px;margin:0 auto;padding:50px 46px;font-family:'Inter',sans-serif;color:var(--ink);}
+  .rpt-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--navy);padding-bottom:18px;margin-bottom:26px;}
+  .rpt-co{display:flex;gap:12px;align-items:center;}
+  .rpt-co .badge{width:40px;height:40px;border-radius:9px;background:linear-gradient(135deg,var(--amber),#c98a1f);
+    display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;color:var(--navy);font-size:16px;}
+  .rpt-co .name{font-family:'Space Grotesk';font-weight:700;font-size:16px;}
+  .rpt-co .tag{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;}
+  .rpt-meta{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);}
+  .rpt-meta .site{font-family:'Space Grotesk',sans-serif;font-size:18px;color:var(--ink);font-weight:600;margin-bottom:4px;}
+  .rpt-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);font-weight:600;margin:0 0 22px;}
+
+  .rpt-loc{border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px;break-inside:avoid;}
+  .rpt-loc-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .rpt-loc-head img{width:42px;height:42px;object-fit:contain;border-radius:6px;border:1px solid var(--border);background:#fff;}
+  .rpt-loc-head .noimg{width:42px;height:42px;border-radius:6px;border:1px dashed var(--border);}
+  .rpt-loc-head h3{margin:0;font-size:16px;}
+  .rpt-loc-head .avg{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;}
+  .rpt-row{display:grid;grid-template-columns:190px 1fr 44px;align-items:center;gap:10px;font-size:12.5px;margin-bottom:7px;}
+  .rpt-row:last-child{margin-bottom:0;}
+  .rpt-track{height:8px;border-radius:5px;background:#EDEAE0;border:1px solid var(--border);overflow:hidden;}
+  .rpt-fill{height:100%;border-radius:5px;}
+  .rpt-pct{font-family:'IBM Plex Mono',monospace;text-align:right;font-weight:600;}
+  .rpt-footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-size:10.5px;color:var(--muted);
+    display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="topbar">
+    <div class="brandrow">
+      <div class="brandmark">
+        <div class="badge">PC</div>
+        <div class="co">
+          <div class="co-name">Pixels Connect Pte Ltd</div>
+          <div class="co-sub">Solar EPC · Field Reporting</div>
+        </div>
+      </div>
+      <div class="doctitle">
+        <div class="eyebrow">Daily Field Update</div>
+        <h1>Site Progress Report</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="metabar">
+    <div class="metafield">
+      <label for="reportDate">Report date</label>
+      <input type="date" id="reportDate">
+    </div>
+    <div class="metafield grow">
+      <label for="siteName">Site name</label>
+      <input type="text" id="siteName" placeholder="e.g. Jurong Industrial Estate — Block 12">
+    </div>
+  </div>
+
+  <main>
+    <div class="section-head">
+      <h2>Locations</h2>
+      <div class="hint">Add a logo and set progress for each area of the site</div>
+    </div>
+    <div class="grid" id="locGrid"></div>
+  </main>
+
+  <div class="actions">
+    <button class="btn btn-ghost" id="addLocBtn2" style="display:none;"></button>
+    <button class="btn btn-ghost" id="printBtn">Generate report / Print</button>
+  </div>
+</div>
+
+<div id="printSummary"></div>
+
+<script>
+const PROGRESS_FIELDS = [
+  { key: 'mounting', label: 'Mounting structure installation' },
+  { key: 'lps', label: 'LPS' },
+  { key: 'dcTrunking', label: 'DC Trunking Installation' },
+  { key: 'dcPulling', label: 'DC Cable Pulling' },
+  { key: 'dcCover', label: 'DC Trunking Cover Closing' },
+  { key: 'pvPanel', label: 'PV Panel Installation' },
+  { key: 'dcTermination', label: 'DC Cable Termination' },
+];
+
+let idCounter = 0;
+function freshProgress(){
+  const p = {};
+  PROGRESS_FIELDS.forEach(f => p[f.key] = 0);
+  return p;
+}
+
+let state = {
+  locations: [
+    { id: idCounter++, name: 'RC Roof', logo: null, progress: freshProgress() },
+    { id: idCounter++, name: 'ST Engg', logo: null, progress: freshProgress() },
+    { id: idCounter++, name: 'SN-5',    logo: null, progress: freshProgress() },
+  ]
+};
+
+function colorForPct(pct){
+  if (pct < 34) return getMix('#C0523D', '#E8A93B', pct/34);
+  if (pct < 100) return getMix('#E8A93B', '#4C8C6B', (pct-34)/66);
+  return '#4C8C6B';
+}
+function getMix(hexA, hexB, t){
+  const a = hexToRgb(hexA), b = hexToRgb(hexB);
+  const r = Math.round(a[0] + (b[0]-a[0])*t);
+  const g = Math.round(a[1] + (b[1]-a[1])*t);
+  const bl = Math.round(a[2] + (b[2]-a[2])*t);
+  return `rgb(${r},${g},${bl})`;
+}
+function hexToRgb(hex){
+  hex = hex.replace('#','');
+  return [parseInt(hex.substring(0,2),16), parseInt(hex.substring(2,4),16), parseInt(hex.substring(4,6),16)];
+}
+
+const grid = document.getElementById('locGrid');
+
+function render(){
+  grid.innerHTML = '';
+  state.locations.forEach(loc => grid.appendChild(renderCard(loc)));
+  grid.appendChild(renderAddCard());
+  renderPrintSummary();
+}
+
+function renderCard(loc){
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'removeBtn';
+  removeBtn.innerHTML = '&times;';
+  removeBtn.title = 'Remove location';
+  removeBtn.onclick = () => {
+    state.locations = state.locations.filter(l => l.id !== loc.id);
+    render();
+  };
+  card.appendChild(removeBtn);
+
+  const head = document.createElement('div');
+  head.className = 'locHead';
+
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { loc.logo = ev.target.result; render(); };
+    reader.readAsDataURL(file);
+  };
+
+  const logoDrop = document.createElement('div');
+  logoDrop.className = 'logoDrop';
+  logoDrop.onclick = () => fileInput.click();
+  if(loc.logo){
+    const img = document.createElement('img');
+    img.src = loc.logo;
+    logoDrop.appendChild(img);
+  } else {
+    logoDrop.innerHTML = '<span class="plus">+</span>';
+  }
+  logoDrop.appendChild(fileInput);
+
+  const nameWrap = document.createElement('div');
+  nameWrap.className = 'locName';
+  nameWrap.style.flex = '1';
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.value = loc.name;
+  nameInput.placeholder = 'Location name';
+  nameInput.oninput = (e) => { loc.name = e.target.value; renderPrintSummary(); };
+  const caption = document.createElement('div');
+  caption.className = 'caption';
+  caption.textContent = 'Tap logo to upload';
+  nameWrap.appendChild(nameInput);
+  nameWrap.appendChild(caption);
+
+  head.appendChild(logoDrop);
+  head.appendChild(nameWrap);
+  card.appendChild(head);
+
+  PROGRESS_FIELDS.forEach(f => card.appendChild(renderGauge(loc, f)));
+
+  return card;
+}
+
+function renderGauge(loc, field){
+  const wrap = document.createElement('div');
+  wrap.className = 'gauge';
+
+  const top = document.createElement('div');
+  top.className = 'gauge-top';
+  const label = document.createElement('div');
+  label.className = 'label';
+  label.textContent = field.label;
+  const pct = document.createElement('div');
+  pct.className = 'pct mono';
+  pct.textContent = loc.progress[field.key] + '%';
+  top.appendChild(label);
+  top.appendChild(pct);
+
+  const track = document.createElement('div');
+  track.className = 'gauge-track';
+  const ticks = document.createElement('div');
+  ticks.className = 'ticks';
+  const fill = document.createElement('div');
+  fill.className = 'gauge-fill';
+  fill.style.width = loc.progress[field.key] + '%';
+  fill.style.background = colorForPct(loc.progress[field.key]);
+  track.appendChild(fill);
+  track.appendChild(ticks);
+
+  const range = document.createElement('input');
+  range.type = 'range';
+  range.min = 0;
+  range.max = 100;
+  range.step = 1;
+  range.value = loc.progress[field.key];
+  range.oninput = (e) => {
+    const v = parseInt(e.target.value, 10);
+    loc.progress[field.key] = v;
+    pct.textContent = v + '%';
+    fill.style.width = v + '%';
+    fill.style.background = colorForPct(v);
+    renderPrintSummary();
+  };
+
+  wrap.appendChild(top);
+  wrap.appendChild(track);
+  wrap.appendChild(range);
+  return wrap;
+}
+
+function renderAddCard(){
+  const card = document.createElement('div');
+  card.className = 'addCard';
+  card.innerHTML = '<div class="icon">+</div><span class="label">Add location</span>';
+  card.onclick = () => {
+    state.locations.push({ id: idCounter++, name: 'New Location', logo: null, progress: freshProgress() });
+    render();
+  };
+  return card;
+}
+
+function fmtDate(d){
+  if(!d) return '';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function renderPrintSummary(){
+  const dateVal = document.getElementById('reportDate').value;
+  const siteVal = document.getElementById('siteName').value || 'Untitled Site';
+  const container = document.getElementById('printSummary');
+
+  let locsHtml = '';
+  state.locations.forEach(loc => {
+    const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
+    const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
+    const logoHtml = loc.logo
+      ? `<img src="${loc.logo}" alt="${loc.name} logo">`
+      : `<div class="noimg"></div>`;
+    const rows = PROGRESS_FIELDS.map(f => {
+      const v = loc.progress[f.key];
+      return `<div class="rpt-row">
+        <div>${f.label}</div>
+        <div class="rpt-track"><div class="rpt-fill" style="width:${v}%;background:${colorForPct(v)};"></div></div>
+        <div class="rpt-pct">${v}%</div>
+      </div>`;
+    }).join('');
+    locsHtml += `<div class="rpt-loc">
+      <div class="rpt-loc-head">
+        ${logoHtml}
+        <h3>${loc.name || 'Unnamed location'}</h3>
+        <div class="avg" style="color:${colorForPct(avg)}">${avg}% avg</div>
+      </div>
+      ${rows}
+    </div>`;
+  });
+
+  container.innerHTML = `
+    <div class="rpt-page">
+      <div class="rpt-header">
+        <div class="rpt-co">
+          <div class="badge">PC</div>
+          <div>
+            <div class="name">Pixels Connect Pte Ltd</div>
+            <div class="tag">Solar EPC · Field Reporting</div>
+          </div>
+        </div>
+        <div class="rpt-meta">
+          <div class="site">${siteVal}</div>
+          Report date: ${fmtDate(dateVal)}
+        </div>
+      </div>
+      <div class="rpt-title">Site Progress Report</div>
+      ${locsHtml}
+      <div class="rpt-footer">
+        <span>Generated by Pixels Connect Site Report Tool</span>
+        <span>${fmtDate(dateVal)}</span>
+      </div>
+    </div>
+  `;
+}
+
+// init date to today
+const dateInput = document.getElementById('reportDate');
+const today = new Date();
+dateInput.value = today.toISOString().slice(0,10);
+dateInput.onchange = renderPrintSummary;
+document.getElementById('siteName').oninput = renderPrintSummary;
+document.getElementById('printBtn').onclick = () => window.print();
+
+render();
+</script>
+
+</body>
+</html>
