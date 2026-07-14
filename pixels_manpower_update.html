@@ -1,0 +1,408 @@
+
+<div style="padding: 1.5rem 0; font-family: var(--font-sans); background: var(--surface-0);">
+  
+  <!-- FORM SECTION -->
+  <div id="formSection" style="max-width: 700px;">
+    <div style="margin-bottom: 2rem;">
+      <h1 style="font-size: 28px; font-weight: 500; margin: 0 0 8px; color: var(--text-primary);">Daily Manpower Report</h1>
+      <p style="font-size: 14px; color: var(--text-secondary); margin: 0;">Pixels Connect Pte. Ltd.</p>
+    </div>
+
+    <div style="background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.5rem; display: grid; gap: 1.5rem;">
+      
+      <!-- Row 1: Project & Site -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Project</label>
+          <select id="projectSelect" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);">
+            <option value="">Select project</option>
+            <option value="ST Engineering">ST Engineering</option>
+            <option value="NCS">NCS</option>
+            <option value="PSA">PSA</option>
+            <option value="Changi Airport">Changi Airport</option>
+            <option value="DBS">DBS</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Site / Location</label>
+          <select id="siteSelect" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);">
+            <option value="">Select site</option>
+            <option value="Neythal Rd">Neythal Rd</option>
+            <option value="Jurong (JP)">Jurong (JP)</option>
+            <option value="Tuas">Tuas</option>
+            <option value="Kaki Bukit">Kaki Bukit</option>
+            <option value="Logos Park">Logos Park</option>
+            <option value="KWSH">KWSH</option>
+            <option value="ARMY Camp">ARMY Camp</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 2: Date & Manpower -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Date</label>
+          <input id="dateInput" type="date" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);" />
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Total Manpower</label>
+          <input id="manpowerInput" type="number" min="0" placeholder="Enter count" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);" />
+        </div>
+      </div>
+
+      <!-- Activities Section -->
+      <div style="border-top: 0.5px solid var(--border); padding-top: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <label style="font-size: 13px; font-weight: 500; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Activities</label>
+          <span id="actCount" style="font-size: 12px; background: var(--bg-accent); color: var(--text-accent); padding: 4px 8px; border-radius: var(--radius);">0 added</span>
+        </div>
+
+        <div style="background: var(--surface-1); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;">
+          <div style="display: grid; gap: 10px; margin-bottom: 12px;">
+            <input id="activityInput" type="text" placeholder="What activity was performed?" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);" />
+            <input id="durationInput" type="text" placeholder="Duration (e.g., 8 hours, 2:30 PM - 6:00 PM)" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary);" />
+            <textarea id="descriptionInput" placeholder="Add details, notes, or achievements (optional)" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--surface-2); color: var(--text-primary); resize: vertical; min-height: 60px; font-family: var(--font-sans);" ></textarea>
+          </div>
+          <button id="addActivityBtn" style="width: 100%; padding: 10px; background: var(--fill-accent); color: var(--on-accent); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;">
+            <i class="ti ti-plus" style="font-size: 16px;"></i> Add Activity
+          </button>
+        </div>
+
+        <div id="activitiesList" style="display: grid; gap: 10px;">
+          <div id="noActivities" style="text-align: center; padding: 1.5rem; color: var(--text-secondary); font-size: 13px;">
+            <i class="ti ti-inbox" style="font-size: 32px; opacity: 0.5; display: block; margin-bottom: 8px;"></i>
+            No activities added yet
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 0.5px solid var(--border); padding-top: 1.5rem;">
+        <button id="viewReportBtn" style="padding: 12px 16px; background: var(--fill-accent); color: var(--on-accent); border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: opacity 0.2s;">
+          <i class="ti ti-eye" style="font-size: 16px;"></i> Preview Report
+        </button>
+        <button id="resetBtn" style="padding: 12px 16px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <i class="ti ti-refresh" style="font-size: 16px;"></i> Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT SECTION -->
+  <div id="reportSection" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h1 style="font-size: 28px; font-weight: 500; margin: 0; color: var(--text-primary);">Daily Manpower Report</h1>
+      <button id="backBtn" style="padding: 8px 16px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+        <i class="ti ti-arrow-left" style="font-size: 16px;"></i> Edit
+      </button>
+    </div>
+
+    <div style="background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+      
+      <!-- Header Info Cards -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+        <div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Project</p>
+          <p id="rptProject" style="font-size: 18px; font-weight: 500; color: var(--text-primary); margin: 0;">—</p>
+        </div>
+        <div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Site Location</p>
+          <p id="rptSite" style="font-size: 18px; font-weight: 500; color: var(--text-primary); margin: 0;">—</p>
+        </div>
+        <div>
+          <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Date</p>
+          <p id="rptDate" style="font-size: 18px; font-weight: 500; color: var(--text-primary); margin: 0;">—</p>
+        </div>
+        <div style="background: var(--bg-accent); border-radius: var(--radius); padding: 12px; border: 0.5px solid var(--border-accent);">
+          <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Total Manpower</p>
+          <p id="rptManpower" style="font-size: 24px; font-weight: 500; color: var(--text-accent); margin: 0;">—</p>
+        </div>
+      </div>
+
+      <!-- Activities Table -->
+      <div style="border-top: 0.5px solid var(--border); padding-top: 1.5rem;">
+        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 1rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Activities Summary</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 0.5px solid var(--border);">
+                <th style="text-align: left; padding: 10px 0; font-weight: 500; color: var(--text-secondary); width: 50px;">#</th>
+                <th style="text-align: left; padding: 10px 0; font-weight: 500; color: var(--text-secondary);">Activity</th>
+                <th style="text-align: left; padding: 10px 0; font-weight: 500; color: var(--text-secondary); width: 150px;">Duration</th>
+              </tr>
+            </thead>
+            <tbody id="reportActivities">
+              <tr><td colspan="3" style="text-align: center; padding: 1.5rem; color: var(--text-secondary);">No activities</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Company Info -->
+      <div style="border-top: 0.5px solid var(--border); margin-top: 1.5rem; padding-top: 1rem;">
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Company</p>
+        <p style="font-size: 13px; color: var(--text-primary); margin: 6px 0 0;">Pixels Connect Pte. Ltd.</p>
+      </div>
+    </div>
+
+    <!-- WhatsApp Message Preview -->
+    <div style="background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+      <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 1rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+        <i class="ti ti-brand-whatsapp" style="font-size: 16px; margin-right: 6px;"></i> WhatsApp Message Preview
+      </h3>
+      <textarea id="messagePreview" readonly style="width: 100%; padding: 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 13px; background: var(--surface-1); color: var(--text-primary); resize: vertical; min-height: 200px; font-family: 'Courier New', monospace; line-height: 1.6;" ></textarea>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+      <button id="printBtn" style="padding: 12px 16px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <i class="ti ti-printer" style="font-size: 16px;"></i> Print
+      </button>
+      <button id="exportBtn" style="padding: 12px 16px; background: transparent; border: 0.5px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <i class="ti ti-download" style="font-size: 16px;"></i> Download
+      </button>
+      <button id="copyBtn" style="padding: 12px 16px; background: var(--bg-success); border: 0.5px solid var(--border-success); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-success); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <i class="ti ti-copy" style="font-size: 16px;"></i> Copy Text
+      </button>
+      <button id="whatsappBtn" style="padding: 12px 16px; background: var(--bg-success); border: 0.5px solid var(--border-success); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-success); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <i class="ti ti-brand-whatsapp" style="font-size: 16px;"></i> WhatsApp
+      </button>
+    </div>
+
+    <!-- Copy Confirmation Toast -->
+    <div id="copyToast" style="display: none; position: fixed; bottom: 20px; left: 20px; background: var(--fill-success); color: var(--on-success); padding: 12px 20px; border-radius: var(--radius); font-size: 14px; z-index: 9999; box-shadow: 0 2px 8px rgba(0,0,0,0.15); animation: slideIn 0.3s ease;">
+      <i class="ti ti-check" style="font-size: 16px; margin-right: 8px;"></i> Copied to clipboard!
+    </div>
+
+    <style>
+      @keyframes slideIn {
+        from { transform: translateY(100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+    </style>
+  </div>
+</div>
+
+<script>
+let activities = [];
+
+function setToday() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('dateInput').value = today;
+}
+
+function updateActivityCount() {
+  const count = activities.length;
+  document.getElementById('actCount').textContent = count + (count === 1 ? ' added' : ' added');
+}
+
+document.getElementById('addActivityBtn').addEventListener('click', () => {
+  const activity = document.getElementById('activityInput').value.trim();
+  const duration = document.getElementById('durationInput').value.trim();
+  
+  if (!activity) {
+    alert('Please enter activity description');
+    return;
+  }
+
+  activities.push({
+    activity: activity,
+    duration: duration || '—',
+    description: document.getElementById('descriptionInput').value.trim()
+  });
+
+  document.getElementById('activityInput').value = '';
+  document.getElementById('durationInput').value = '';
+  document.getElementById('descriptionInput').value = '';
+  renderActivities();
+  updateActivityCount();
+  document.getElementById('activityInput').focus();
+});
+
+function renderActivities() {
+  const list = document.getElementById('activitiesList');
+  
+  if (activities.length === 0) {
+    list.innerHTML = '<div id="noActivities" style="text-align: center; padding: 1.5rem; color: var(--text-secondary); font-size: 13px;"><i class="ti ti-inbox" style="font-size: 32px; opacity: 0.5; display: block; margin-bottom: 8px;"></i>No activities added yet</div>';
+  } else {
+    list.innerHTML = activities.map((item, idx) => `
+      <div style="background: var(--surface-2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start;">
+        <div>
+          <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+            <span style="font-weight: 500; color: var(--text-primary); min-width: 24px;">${idx + 1}.</span>
+            <div style="width: 100%;">
+              <p style="font-size: 14px; font-weight: 500; color: var(--text-primary); margin: 0 0 4px;">${item.activity}</p>
+              <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">⏱ ${item.duration}</p>
+              ${item.description ? `<p style="font-size: 12px; color: var(--text-secondary); margin: 6px 0 0; font-style: italic;">${item.description}</p>` : ''}
+            </div>
+          </div>
+        </div>
+        <button onclick="removeActivity(${idx})" style="padding: 4px 8px; background: transparent; border: 0.5px solid var(--border); border-radius: var(--radius); cursor: pointer; color: var(--text-primary); display: flex; align-items: center; flex-shrink: 0;">
+          <i class="ti ti-trash" style="font-size: 16px;"></i>
+        </button>
+      </div>
+    `).join('');
+  }
+}
+
+window.removeActivity = (idx) => {
+  activities.splice(idx, 1);
+  renderActivities();
+  updateActivityCount();
+};
+
+function generateWhatsAppMessage() {
+  const project = document.getElementById('rptProject').textContent;
+  const site = document.getElementById('rptSite').textContent;
+  const date = document.getElementById('rptDate').textContent;
+  const manpower = document.getElementById('rptManpower').textContent;
+  
+  let message = `📋 *Daily Manpower Report* 📋\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `*Company:* Pixels Connect Pte. Ltd.\n`;
+  message += `*Project:* ${project}\n`;
+  message += `*Site:* ${site}\n`;
+  message += `*Date:* ${date}\n`;
+  message += `*Total Manpower:* ${manpower} persons\n\n`;
+  
+  message += `*📌 Activities:*\n`;
+  if (activities.length > 0) {
+    activities.forEach((item, idx) => {
+      message += `${idx + 1}. ${item.activity}`;
+      if (item.duration && item.duration !== '—') message += ` (${item.duration})`;
+      message += `\n`;
+      if (item.description) message += `   📝 ${item.description}\n`;
+    });
+  } else {
+    message += `No activities recorded\n`;
+  }
+  
+  message += `━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `Generated on: ${new Date().toLocaleString()}`;
+
+  return message;
+}
+
+document.getElementById('viewReportBtn').addEventListener('click', () => {
+  const project = document.getElementById('projectSelect').value;
+  const site = document.getElementById('siteSelect').value;
+  const date = document.getElementById('dateInput').value;
+  const manpower = document.getElementById('manpowerInput').value;
+
+  if (!project || !site || !date || !manpower) {
+    alert('Please fill in all required fields: Project, Site, Date, and Total Manpower');
+    return;
+  }
+
+  if (activities.length === 0) {
+    alert('Please add at least one activity');
+    return;
+  }
+
+  document.getElementById('rptProject').textContent = project;
+  document.getElementById('rptSite').textContent = site;
+  document.getElementById('rptDate').textContent = new Date(date).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
+  document.getElementById('rptManpower').textContent = manpower;
+
+  const activitiesHtml = activities.map((item, idx) => `
+    <tr style="border-bottom: 0.5px solid var(--border);">
+      <td style="padding: 12px 0; color: var(--text-primary); font-weight: 500;">${idx + 1}</td>
+      <td style="padding: 12px 0; color: var(--text-primary);">
+        <div>${item.activity}</div>
+        ${item.description ? `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">${item.description}</div>` : ''}
+      </td>
+      <td style="padding: 12px 0; color: var(--text-secondary);">${item.duration}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('reportActivities').innerHTML = activitiesHtml;
+
+  // Generate and display message preview
+  const message = generateWhatsAppMessage();
+  document.getElementById('messagePreview').value = message;
+
+  document.getElementById('formSection').style.display = 'none';
+  document.getElementById('reportSection').style.display = 'block';
+  window.scrollTo(0, 0);
+});
+
+document.getElementById('backBtn').addEventListener('click', () => {
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('reportSection').style.display = 'none';
+  window.scrollTo(0, 0);
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('projectSelect').value = '';
+  document.getElementById('siteSelect').value = '';
+  document.getElementById('manpowerInput').value = '';
+  document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+  document.getElementById('activityInput').value = '';
+  document.getElementById('durationInput').value = '';
+  document.getElementById('descriptionInput').value = '';
+  activities = [];
+  renderActivities();
+  updateActivityCount();
+});
+
+document.getElementById('printBtn').addEventListener('click', () => {
+  window.print();
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const data = {
+    project: document.getElementById('rptProject').textContent,
+    site: document.getElementById('rptSite').textContent,
+    date: document.getElementById('rptDate').textContent,
+    company: 'Pixels Connect Pte. Ltd.',
+    totalManpower: document.getElementById('rptManpower').textContent,
+    activities: activities
+  };
+  
+  const csv = [
+    ['Daily Manpower Report'],
+    ['Company', data.company],
+    ['Project', data.project],
+    ['Site Location', data.site],
+    ['Date', data.date],
+    ['Total Manpower', data.totalManpower],
+    [],
+    ['S.No', 'Activity', 'Duration', 'Details'],
+    ...data.activities.map((a, i) => [i + 1, a.activity, a.duration, a.description])
+  ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `manpower_report_${data.date.replace(/\\s/g, '_')}.csv`);
+  link.click();
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const message = document.getElementById('messagePreview').value;
+  navigator.clipboard.writeText(message).then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.style.display = 'flex';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 3000);
+  }).catch(() => {
+    alert('Failed to copy. Try selecting the text in preview box and copy manually.');
+  });
+});
+
+document.getElementById('whatsappBtn').addEventListener('click', () => {
+  const message = document.getElementById('messagePreview').value;
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+  window.open(whatsappUrl, '_blank');
+});
+
+setToday();
+renderActivities();
+updateActivityCount();
+</script>
