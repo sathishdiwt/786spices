@@ -109,6 +109,21 @@
 
   input[type="file"]{display:none;}
 
+  /* WhatsApp Export Modal */
+  .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;}
+  .modal.active{display:flex;}
+  .modal-content{background:#fff;border-radius:12px;padding:30px;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+  .modal-content h2{margin:0 0 16px;color:var(--navy);}
+  .modal-content .close{float:right;cursor:pointer;font-size:24px;color:var(--muted);}
+  .modal-content .close:hover{color:var(--ink);}
+  .export-options{display:flex;gap:12px;margin:20px 0;}
+  .export-btn{flex:1;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;font-weight:600;transition:.2s;}
+  .export-btn:hover{border-color:var(--steel);background:#f9f9f9;}
+  .text-output{background:#f5f2ea;padding:16px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto;margin:16px 0;}
+  .copy-btn{background:var(--steel);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-weight:600;width:100%;margin-top:12px;}
+  .copy-btn:hover{background:#2d5a7a;}
+  .copy-btn.copied{background:var(--green);}
+
   /* ===== Print summary (report output) ===== */
   #printSummary{display:none;}
 
@@ -184,7 +199,21 @@
 
   <div class="actions">
     <button class="btn btn-ghost" id="addLocBtn2" style="display:none;"></button>
-    <button class="btn btn-ghost" id="printBtn">Generate report / Print</button>
+    <button class="btn btn-ghost" id="whatsappBtn">📱 Export for WhatsApp</button>
+    <button class="btn btn-primary" id="printBtn">🖨️ Print Report</button>
+  </div>
+</div>
+
+<!-- WhatsApp Export Modal -->
+<div id="whatsappModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeWhatsAppModal()">&times;</span>
+    <h2>📱 Export for WhatsApp</h2>
+    <div class="export-options">
+      <div class="export-btn" onclick="generateTextReport()">📋 Copy Text</div>
+      <div class="export-btn" onclick="generateImageReport()">📸 Download Image</div>
+    </div>
+    <div id="exportPreview"></div>
   </div>
 </div>
 
@@ -210,7 +239,9 @@ function freshProgress(){
 
 let state = {
   locations: [
-    { id: idCounter++, name: 'RC Roof', logo: null, progress: freshProgress() },
+    { id: idCounter++, name: 'ST Engg', area: 'RC Roof, Annex Building, Annex Small Roof', logo: null, progress: freshProgress() },
+    { id: idCounter++, name: 'Logos', area: 'Upper RC Roof', logo: null, progress: freshProgress() },
+    { id: idCounter++, name: 'SN-5', area: 'AC Works', logo: null, progress: freshProgress() },
   ]
 };
 
@@ -290,7 +321,7 @@ function renderCard(loc){
   nameInput.oninput = (e) => { loc.name = e.target.value; renderPrintSummary(); };
   const caption = document.createElement('div');
   caption.className = 'caption';
-  caption.textContent = 'Tap logo to upload';
+  caption.textContent = loc.area || 'Tap logo to upload';
   nameWrap.appendChild(nameInput);
   nameWrap.appendChild(caption);
 
@@ -355,7 +386,7 @@ function renderAddCard(){
   card.className = 'addCard';
   card.innerHTML = '<div class="icon">+</div><span class="label">Add location</span>';
   card.onclick = () => {
-    state.locations.push({ id: idCounter++, name: 'New Location', logo: null, progress: freshProgress() });
+    state.locations.push({ id: idCounter++, name: 'New Location', area: '', logo: null, progress: freshProgress() });
     render();
   };
   return card;
@@ -390,7 +421,10 @@ function renderPrintSummary(){
     locsHtml += `<div class="rpt-loc">
       <div class="rpt-loc-head">
         ${logoHtml}
-        <h3>${loc.name || 'Unnamed location'}</h3>
+        <div style="flex:1;">
+          <h3>${loc.name || 'Unnamed location'}</h3>
+          ${loc.area ? `<div style="font-size:11px;color:#666;margin-top:2px;">${loc.area}</div>` : ''}
+        </div>
         <div class="avg" style="color:${colorForPct(avg)}">${avg}% avg</div>
       </div>
       ${rows}
@@ -429,6 +463,102 @@ dateInput.value = today.toISOString().slice(0,10);
 dateInput.onchange = renderPrintSummary;
 document.getElementById('siteName').oninput = renderPrintSummary;
 document.getElementById('printBtn').onclick = () => window.print();
+document.getElementById('whatsappBtn').onclick = () => document.getElementById('whatsappModal').classList.add('active');
+
+function closeWhatsAppModal(){
+  document.getElementById('whatsappModal').classList.remove('active');
+}
+
+function generateTextReport(){
+  const dateVal = document.getElementById('reportDate').value;
+  const siteVal = document.getElementById('siteName').value || 'Untitled Site';
+  
+  let text = '═══════════════════════════════════════════════════\n';
+  text += 'PIXELS CONNECT - SITE PROGRESS REPORT\n';
+  text += '═══════════════════════════════════════════════════\n\n';
+  text += `📍 REPORT DATE: ${fmtDate(dateVal)}\n`;
+  text += `🏗️  SITE NAME: ${siteVal}\n\n`;
+  
+  state.locations.forEach((loc, idx) => {
+    text += '───────────────────────────────────────────────────\n';
+    text += `LOCATION ${idx+1}: ${loc.name}\n`;
+    text += '───────────────────────────────────────────────────\n';
+    if(loc.area) text += `📌 Area: ${loc.area}\n\n`;
+    
+    const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
+    PROGRESS_FIELDS.forEach((f, i) => {
+      const v = loc.progress[f.key];
+      const bar = '█'.repeat(Math.floor(v/10)) + '░'.repeat(10-Math.floor(v/10));
+      text += `✓ ${f.label}: ${v}% ${bar}\n`;
+    });
+    
+    const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
+    text += `\n📊 Average Progress: ${avg}%\n\n`;
+  });
+  
+  text += '═══════════════════════════════════════════════════\n';
+  text += 'Generated by Pixels Connect\n';
+  text += '═══════════════════════════════════════════════════\n';
+  
+  const preview = document.getElementById('exportPreview');
+  preview.innerHTML = `
+    <div class="text-output">${text}</div>
+    <button class="copy-btn" id="copyTextBtn" onclick="copyTextToClipboard(this)">📋 Copy to Clipboard</button>
+  `;
+  
+  window.currentTextReport = text;
+}
+
+function copyTextToClipboard(btn){
+  navigator.clipboard.writeText(window.currentTextReport).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function generateImageReport(){
+  const report = document.getElementById('printSummary');
+  if(!report.innerHTML){
+    alert('Please fill in the report details first!');
+    return;
+  }
+  
+  const preview = document.getElementById('exportPreview');
+  preview.innerHTML = '<div style="text-align:center;padding:20px;color:#666;"><p>Loading html2canvas...</p></div>';
+  
+  // Load html2canvas library
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  script.onload = () => {
+    html2canvas(report.querySelector('.rpt-page'), {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      logging: false
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `site-report-${new Date().toISOString().split('T')[0]}.png`;
+      
+      preview.innerHTML = `
+        <div style="text-align:center;">
+          <p style="color:#666;font-size:12px;">Image preview:</p>
+          <img src="${link.href}" style="max-width:100%;border-radius:8px;border:1px solid #ddd;margin:12px 0;"/>
+          <button class="copy-btn" id="downloadBtn" onclick="this.nextElementSibling.click(); this.textContent='✅ Downloaded!'">📥 Download Image</button>
+          <a href="${link.href}" download="site-report.png" style="display:none;"></a>
+          <p style="font-size:11px;color:#999;margin-top:12px;">Open WhatsApp and paste the downloaded image</p>
+        </div>
+      `;
+    }).catch(err => {
+      preview.innerHTML = '<div style="padding:20px;color:#c0523d;"><strong>Error generating image.</strong> Try using the Print option instead.</div>';
+    });
+  };
+  document.head.appendChild(script);
+}
 
 render();
 </script>
