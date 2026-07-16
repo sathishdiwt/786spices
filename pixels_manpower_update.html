@@ -529,7 +529,7 @@
     <div class="form-view" id="formView">
       <div class="header">
         <h1>Daily Manpower Report</h1>
-        <h2></h2><p>Pixels Connect Pte. Ltd.</p></h2>
+        <p>Pixels Connect Pte. Ltd.</p>
       </div>
 
       <div class="form-section">
@@ -549,7 +549,8 @@
             <select id="siteSelect">
               <option value="">Select site</option>
               <option value="10 Changi Creek Way">10 Changi Creek Way</option>
-              <option value="14 tukang DSV">14 tukang DSV</option>
+              <option value="Bedok BLK- 92 & 94">Bedok BLK- 92 & 94</option>
+              <option value="14 Tukang Innovation Dr">14 Tukang Innovation Dr</option>
             </select>
           </div>
         </div>
@@ -695,9 +696,28 @@
   <script>
     let activities = [];
 
+    // Project to Site mapping - Auto-populate when project is selected
+    const projectSiteMap = {
+      'ST Engineering': '10 Changi Creek Way',
+      'SN-5': 'Bedok BLK- 92 & 94',
+      'Logos': '14 Tukang Innovation Dr'
+    };
+
     function setToday() {
       document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
     }
+
+    // Auto-populate site location when project is selected
+    document.getElementById('projectSelect').addEventListener('change', function() {
+      const selectedProject = this.value;
+      const siteSelect = document.getElementById('siteSelect');
+      
+      if (selectedProject && projectSiteMap[selectedProject]) {
+        siteSelect.value = projectSiteMap[selectedProject];
+      } else {
+        siteSelect.value = '';
+      }
+    });
 
     function updateActivityCount() {
       const count = activities.length;
