@@ -529,7 +529,7 @@
     <div class="form-view" id="formView">
       <div class="header">
         <h1>Daily Manpower Report</h1>
-        <p>Pixels Connect Pte. Ltd.</p>
+        <h2></h2><p>Pixels Connect Pte. Ltd.</p></h2>
       </div>
 
       <div class="form-section">
@@ -775,7 +775,7 @@
       const date = document.getElementById('rptDate').textContent;
       const manpower = document.getElementById('rptManpower').textContent;
 
-      let message = `📋 *Daily Manpower Report* 📋\n`;
+      let message = `*Daily Manpower Report*\n`;
       message += `━━━━━━━━━━━━━━━━━━━━\n`;
       message += `*Company:* Pixels Connect Pte. Ltd.\n`;
       message += `*Project:* ${project}\n`;
@@ -783,7 +783,7 @@
       message += `*Date:* ${date}\n`;
       message += `*Total Manpower:* ${manpower} persons\n\n`;
 
-      message += `*📌 Activities:*\n`;
+      message += `*🔩 Activities:*\n`;
       if (activities.length > 0) {
         activities.forEach((item, idx) => {
           message += `${idx + 1}. ${item.activity}`;
@@ -794,9 +794,6 @@
       } else {
         message += `No activities recorded\n`;
       }
-
-      message += `━━━━━━━━━━━━━━━━━━━━\n`;
-      message += `Generated on: ${new Date().toLocaleString()}`;
 
       return message;
     }
