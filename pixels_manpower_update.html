@@ -426,7 +426,7 @@
               <option value="">Select project</option>
               <option value="ST Engineering">ST Engineering</option>
               <option value="SN-5">SN-5</option>
-              
+			  <option value="Ngee Ann Poly">Ngee Ann Poly</option>
             </select>
           </div>
           <div class="form-group">
@@ -435,7 +435,9 @@
               <option value="">Select site</option>
               <option value="10 Changi Creek Way">10 Changi Creek Way</option>
               <option value="Bedok BLK- 92 & 94">Bedok BLK- 92 & 94</option>
-             
+			        <option value="BLK-04 - 535 Clementi Rd">BLK-04 - 535 Clementi Rd</option>
+			       <!--<option value="BLK-01 - 535 Clementi Rd">BLK-01 - 535 Clementi Rd</option>-->
+			        <!--<option value="BLK-44 - 535 Clementi Rd">BLK-44 - 535 Clementi Rd</option>-->
             </select>
           </div>
         </div>
@@ -460,7 +462,31 @@
           </div>
 
           <div class="activity-input-group">
-            <input type="text" id="activityInput" placeholder="What activity was performed?" autofocus>
+            <select id="activityInput" autofocus>
+              <option value="">-- Select Activity --</option>
+              <option value="Hoisting">Hoisting</option>
+              <option value="Roof Layout & Marking">Roof Layout & Marking</option>
+              <option value="Ballast Placement">Ballast Placement</option>
+              <option value="Install Structure & Mounts">Install Structure & Mounts</option>
+              <option value="Base Clamp & Railing Installation">Base Clamp & Railing Installation</option>
+			  <option value="LPS work">LPS work</option>
+			  <option value="DC Cable Support">DC Cable Support</option>
+			  <option value="Solar Panel Install">Solar Panel Install</option>
+			  <option value="DC Cable Pulling">DC Cable Pulling</option>
+			  <option value="DC  Termination">DC  Termination</option>
+			  <option value="DC Cable Support Cover">DC Cable Support Cover</option>
+			  <option value="Equipment Installation">Equipment Installation</option>
+			  <option value="AC Trunking Installation">AC Trunking Installation</option>
+			  <option value="AC Cable Pulling">AC Cable Pulling</option>
+              <option value="Ac cable Termination">Ac cable Termination</option>
+			  <option value="Shelter Installation">Shelter Installation</option>
+			  <option value="Shut Down & T&C">Shut Down & T & C</option>
+			  <option value="Testing & Commissioning">Testing & Commissioning</option>
+			  <option value="Maintenance Work">Maintenance Work</option>
+              <option value="Cleaning & Tidying">Cleaning & Tidying</option>
+              <option value="Repairs">Repairs</option>
+              <option value="Quality Check">Quality Check</option>
+            </select>
             <input type="text" id="durationInput" placeholder="Duration (e.g., 8 hours, 2:30 PM - 6:00 PM)">
             <textarea id="descriptionInput" placeholder="Add details, notes, or achievements (optional)"></textarea>
             <button class="btn-primary" id="addActivityBtn">
@@ -577,7 +603,7 @@
       const duration = document.getElementById('durationInput').value.trim();
 
       if (!activity) {
-        alert('Please enter activity description');
+        alert('Please select an activity');
         return;
       }
 
@@ -595,8 +621,20 @@
       document.getElementById('activityInput').focus();
     });
 
-    document.getElementById('activityInput').addEventListener('keypress', (e) => {
+    document.getElementById('activityInput').addEventListener('change', (e) => {
+      if (e.target.value) {
+        document.getElementById('durationInput').focus();
+      }
+    });
+
+    document.getElementById('durationInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
+        document.getElementById('descriptionInput').focus();
+      }
+    });
+
+    document.getElementById('descriptionInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) {
         document.getElementById('addActivityBtn').click();
       }
     });
