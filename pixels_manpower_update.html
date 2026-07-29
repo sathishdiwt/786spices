@@ -538,11 +538,15 @@
     const projectSiteMap = {
       'ST Engineering': '10 Changi Creek Way',
       'SN-5': 'Bedok BLK- 92 & 94',
-      'Logos': '14 Tukang Innovation Dr'
+      'Ngee Ann Poly': 'BLK-04 - 535 Clementi Rd'
     };
 
     function setToday() {
-      document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      document.getElementById('dateInput').value = `${year}-${month}-${day}`;
     }
 
     // Auto-populate site location when project is selected
@@ -768,6 +772,7 @@
       activities = [];
       renderActivities();
       updateActivityCount();
+      setToday();
     });
 
     // Initialize
