@@ -537,16 +537,16 @@ function generateTextReport(){
   const dateVal = document.getElementById('reportDate').value;
   const siteVal = document.getElementById('siteName').value || 'Untitled Site';
   
-  let text = '═══════════════════════════════════════════════════\n';
+  let text = '════════════════════════════════\n';
   text += 'PIXELS CONNECT - SITE PROGRESS REPORT\n';
-  text += '═══════════════════════════════════════════════════\n\n';
+  text += '════════════════════════════════\n\n';
   text += `📅 REPORT DATE: ${fmtDate(dateVal)}\n`;
   text += `🏗️  SITE NAME: ${siteVal}\n\n`;
   
   state.locations.forEach((loc, idx) => {
-    text += '───────────────────────────────────────────────────\n';
+    text += '──────────────────────────────\n';
     text += `LOCATION ${idx+1}: ${loc.name}\n`;
-    text += '───────────────────────────────────────────────────\n';
+    text += '──────────────────────────────\n';
     if(loc.area) text += `🧰 Area: ${loc.area}\n\n`;
     
     const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
