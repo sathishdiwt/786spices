@@ -474,10 +474,10 @@
     
     const site = entries[0].site;
     const today = new Date().toLocaleDateString('en-GB');
-   <!-- let report = `PIXELS CONNECT PTE LTD\nSITE WORK ACTIVITY REPORT\n`;-->
-   <!-- report += `Date: ${today}\n`;-->
-   <!-- report += `Site: ${site}\n`;-->
-   <!-- report += `${'='.repeat(60)}\n\n`;-->
+   let report = `PIXELS CONNECT\nSITE WORK ACTIVITY\n`;
+   report += `Date: ${today}\n`;
+    report += `Site: ${site}\n`;
+   report += `${'➖'.repeat(25)}\n\n`;
     
     entries.forEach((e, idx) => {
       report += `WORK #${idx + 1}: ${e.work}\n`;
