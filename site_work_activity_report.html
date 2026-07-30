@@ -480,8 +480,8 @@
    report += `${'➖'.repeat(15)}\n\n`;
     
     entries.forEach((e, idx) => {
-      report += `WORK #${idx + 1}: ${e.work}\n`;
-      report += `Workers Assigned:\n`;
+      report += `Task #${idx + 1}: ${e.work}\n`;
+      report += `Assigned:\n`;
       e.workers.forEach(w => {
         report += `  • ${w}\n`;
       });
