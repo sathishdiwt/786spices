@@ -1,0 +1,524 @@
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif); }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+  
+  .header {
+    background: linear-gradient(135deg, #D85A30 0%, #BA7517 100%);
+    padding: 2rem;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .header h1 { font-size: 28px; margin-bottom: 0.5rem; font-weight: 600; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  
+  .site-selector {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .site-selector label {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .site-selector select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .site-selector select:focus {
+    outline: none;
+    border-color: #D85A30;
+    box-shadow: 0 0 0 3px rgba(216, 90, 48, 0.1);
+  }
+  
+  .site-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: #FAECE7;
+    border: 1px solid #D85A30;
+    border-radius: 20px;
+    color: #993C1D;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  
+  .form-group {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 1.5rem;
+  }
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #D85A30;
+    box-shadow: 0 0 0 3px rgba(216, 90, 48, 0.1);
+  }
+  
+  .workers-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  
+  .workers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #1D9E75;
+  }
+  
+  .checkbox-group label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+  
+  .add-work-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #1D9E75;
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .add-work-btn:hover { background: #0F6E56; }
+  
+  .work-table {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-collapse: collapse;
+  }
+  .work-table th {
+    background: #E1F5EE;
+    color: #0F6E56;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #5DCAA5;
+    font-size: 14px;
+  }
+  .work-table td {
+    padding: 1rem;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+  .work-table tr:hover { background: var(--surface-1); }
+  
+  .delete-btn {
+    background: #E24B4A;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+  }
+  .delete-btn:hover { background: #A32D2D; }
+  
+  .workers-list {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+  .workers-list li { margin-left: 1.5rem; }
+  
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 600px) { .actions { grid-template-columns: 1fr; } }
+  
+  .gen-report-btn {
+    padding: 1rem;
+    background: #BA7517;
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .gen-report-btn:hover { background: #854F0B; }
+  
+  .clear-btn {
+    padding: 1rem;
+    background: var(--surface-1);
+    color: var(--text-primary);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .clear-btn:hover { background: var(--border); }
+  
+  .report-box {
+    background: #FAEEDA;
+    border: 2px solid #BA7517;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+  .report-box.show { display: block; }
+  .report-box h3 {
+    color: #854F0B;
+    margin-bottom: 1rem;
+    font-size: 16px;
+  }
+  .report-text {
+    background: white;
+    border: 0.5px solid #BA7517;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #412402;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .copy-btn {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background: #BA7517;
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: #854F0B; }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 0.25rem;
+  }
+  .badge-coral { background: #FAECE7; color: #993C1D; }
+  .badge-teal { background: #E1F5EE; color: #0F6E56; }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h1>📋 Site Work Activity Report</h1>
+    <p>Pixels Connect Pte Ltd</p>
+  </div>
+  
+  <div class="site-selector">
+    <label for="site">🏗️ Select Site (Single Choice) *</label>
+    <select id="site" onchange="updateSiteBadge()">
+      <option value="">-- Choose your site --</option>
+      <option value="ST ENGINEERING">ST ENGINEERING</option>
+      <option value="GEE ANN POLY">GEE ANN POLY</option>
+      <option value="SN-5">SN-5</option>
+    </select>
+    <div id="siteBadge" style="display: none; margin-top: 1rem;">
+      <span style="font-size: 13px; color: var(--text-secondary); margin-right: 0.5rem;">Selected Site:</span>
+      <span class="site-badge" id="siteDisplay"></span>
+    </div>
+  </div>
+  
+  <div class="form-grid">
+    <div class="form-group">
+      <label>📝 Work Description *</label>
+      <textarea id="work" placeholder="e.g., Plumbing repair, Electrical wiring, Painting, Concrete work, etc." rows="3"></textarea>
+      
+      <div class="workers-section">
+        <h3>👷 Select Multiple Workers for this Work *</h3>
+        <div class="workers-grid">
+          <div class="checkbox-group">
+            <input type="checkbox" id="w1" value="MIAH NAYON">
+            <label for="w1">MIAH NAYON</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w2" value="SHAKIRUL">
+            <label for="w2">SHAKIRUL</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w3" value="MIA HASAN">
+            <label for="w3">MIA HASAN</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w4" value="MIAH RASHED">
+            <label for="w4">MIAH RASHED</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w5" value="ELIAS MD">
+            <label for="w5">ELIAS MD</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w6" value="RANA JEWEL">
+            <label for="w6">RANA JEWEL</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w7" value="HOSSAN YUSUF">
+            <label for="w7">HOSSAN YUSUF</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w8" value="NI SOE OO">
+            <label for="w8">NI SOE OO</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w9" value="MYO MIN LATT">
+            <label for="w9">MYO MIN LATT</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w10" value="TUN MIN LATT">
+            <label for="w10">TUN MIN LATT</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w11" value="BO BO ZAW">
+            <label for="w11">BO BO ZAW</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w12" value="AUNG WAI PHYO">
+            <label for="w12">AUNG WAI PHYO</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w13" value="TUN TUN WIN">
+            <label for="w13">TUN TUN WIN</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w14" value="SI THU HTUN">
+            <label for="w14">SI THU HTUN</label>
+          </div>
+        </div>
+      </div>
+      
+      <button class="add-work-btn" onclick="addWork()">✓ Add Work Entry</button>
+    </div>
+  </div>
+  
+  <div id="entries-section" style="display: none; margin-bottom: 2rem;">
+    <h2 style="font-size: 18px; color: var(--text-primary); margin-bottom: 1rem;">📊 Work Entries</h2>
+    <table class="work-table" id="entriesTable">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Work Description</th>
+          <th style="flex: 1;">Assigned Workers</th>
+          <th style="width: 10%; text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody id="entriesBody"></tbody>
+    </table>
+  </div>
+  
+  <div class="actions" id="actions-section" style="display: none;">
+    <button class="gen-report-btn" onclick="generateReport()">📊 Generate WhatsApp Report</button>
+    <button class="clear-btn" onclick="clearAll()">🗑️ Clear All</button>
+  </div>
+  
+  <div class="report-box" id="reportBox">
+    <h3>📤 WhatsApp Report (Ready to Send)</h3>
+    <div class="report-text" id="reportText"></div>
+    <button class="copy-btn" onclick="copyReport()">📋 Copy to Clipboard</button>
+  </div>
+</div>
+
+<script>
+  let entries = [];
+  
+  function updateSiteBadge() {
+    const site = document.getElementById('site').value;
+    const badge = document.getElementById('siteBadge');
+    if (site) {
+      document.getElementById('siteDisplay').textContent = site;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+  
+  function getSelectedWorkers() {
+    const workers = [];
+    for (let i = 1; i <= 14; i++) {
+      const checkbox = document.getElementById('w' + i);
+      if (checkbox.checked) {
+        workers.push(checkbox.value);
+      }
+    }
+    return workers;
+  }
+  
+  function clearWorkerCheckboxes() {
+    for (let i = 1; i <= 14; i++) {
+      document.getElementById('w' + i).checked = false;
+    }
+  }
+  
+  function addWork() {
+    const site = document.getElementById('site').value;
+    const work = document.getElementById('work').value.trim();
+    const workers = getSelectedWorkers();
+    
+    if (!site) {
+      alert('Please select a site first');
+      return;
+    }
+    if (!work) {
+      alert('Please enter work description');
+      return;
+    }
+    if (workers.length === 0) {
+      alert('Please select at least one worker');
+      return;
+    }
+    
+    entries.push({ site, work, workers });
+    document.getElementById('work').value = '';
+    clearWorkerCheckboxes();
+    updateTable();
+  }
+  
+  function updateTable() {
+    const tbody = document.getElementById('entriesBody');
+    const section = document.getElementById('entries-section');
+    const actions = document.getElementById('actions-section');
+    
+    if (entries.length === 0) {
+      section.style.display = 'none';
+      actions.style.display = 'none';
+      return;
+    }
+    
+    section.style.display = 'block';
+    actions.style.display = 'grid';
+    
+    tbody.innerHTML = entries.map((e, i) => `
+      <tr>
+        <td><strong>${e.work}</strong></td>
+        <td>
+          <div class="workers-list">
+            ${e.workers.map(w => `<div>• ${w}</div>`).join('')}
+          </div>
+        </td>
+        <td style="text-align: center;"><button class="delete-btn" onclick="deleteEntry(${i})">Delete</button></td>
+      </tr>
+    `).join('');
+  }
+  
+  function deleteEntry(index) {
+    entries.splice(index, 1);
+    updateTable();
+  }
+  
+  function generateReport() {
+    if (entries.length === 0) {
+      alert('No work entries to report');
+      return;
+    }
+    
+    const site = entries[0].site;
+    const today = new Date().toLocaleDateString('en-GB');
+    let report = `PIXELS CONNECT PTE LTD\nSITE WORK ACTIVITY REPORT\n`;
+    report += `Date: ${today}\n`;
+    report += `Site: ${site}\n`;
+    report += `${'='.repeat(60)}\n\n`;
+    
+    entries.forEach((e, idx) => {
+      report += `WORK #${idx + 1}: ${e.work}\n`;
+      report += `Workers Assigned:\n`;
+      e.workers.forEach(w => {
+        report += `  • ${w}\n`;
+      });
+      report += `\n`;
+    });
+    
+    report += `${'='.repeat(60)}\n`;
+    report += `Total Work Tasks: ${entries.length}\n`;
+    const totalWorkers = new Set();
+    entries.forEach(e => {
+      e.workers.forEach(w => totalWorkers.add(w));
+    });
+    report += `Total Workers Involved: ${totalWorkers.size}\n`;
+    report += `\nReported by: Pixels Connect\n`;
+    
+    document.getElementById('reportText').textContent = report;
+    document.getElementById('reportBox').classList.add('show');
+    document.getElementById('reportBox').scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  function copyReport() {
+    const text = document.getElementById('reportText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      const oldText = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = oldText; }, 2000);
+    });
+  }
+  
+  function clearAll() {
+    if (confirm('Are you sure? This will clear all entries.')) {
+      entries = [];
+      document.getElementById('entriesBody').innerHTML = '';
+      document.getElementById('entries-section').style.display = 'none';
+      document.getElementById('actions-section').style.display = 'none';
+      document.getElementById('reportBox').classList.remove('show');
+    }
+  }
+</script>
