@@ -477,7 +477,7 @@
    let report = `PIXELS CONNECT\nSITE WORK ACTIVITY\n`;
    report += `Date: ${today}\n`;
     report += `Site: ${site}\n`;
-   report += `${'➖'.repeat(25)}\n\n`;
+   report += `${'➖'.repeat(15)}\n\n`;
     
     entries.forEach((e, idx) => {
       report += `WORK #${idx + 1}: ${e.work}\n`;
@@ -495,8 +495,7 @@
       e.workers.forEach(w => totalWorkers.add(w));
     });
     report += `Total Workers Involved: ${totalWorkers.size}\n`;
-    report += `\nReported by: Pixels Connect\n`;
-    
+      
     document.getElementById('reportText').textContent = report;
     document.getElementById('reportBox').classList.add('show');
     document.getElementById('reportBox').scrollIntoView({ behavior: 'smooth' });
