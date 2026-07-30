@@ -67,7 +67,7 @@
     border:1px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;}
   .card .removeBtn:hover{border-color:var(--red);color:var(--red);}
 
-  .locHead{display:flex;gap:14px;align-items:center;margin-bottom:18px;padding-right:30px;}
+  .locHead{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;padding-right:30px;}
   .logoDrop{width:64px;height:64px;border-radius:10px;border:1.5px dashed var(--border);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;overflow:hidden;
     background:#FBFAF6;transition:border-color .15s;}
@@ -77,7 +77,8 @@
   .locName input{border:none;background:transparent;font-family:'Space Grotesk';font-size:18px;font-weight:600;
     color:var(--ink);width:100%;padding:2px 0;border-bottom:1px solid transparent;}
   .locName input:focus{outline:none;border-bottom:1px solid var(--steel);}
-  .locName .caption{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+  .locName .area-input{border:none;background:transparent;font-family:'Inter',sans-serif;font-size:13px;color:var(--muted);width:100%;padding:2px 0;margin-top:6px;border-bottom:1px solid transparent;transition:border-color .15s;}
+  .locName .area-input:focus{outline:none;border-bottom:1px solid var(--steel);color:var(--ink);}
 
   .gauge{margin-bottom:14px;}
   .gauge:last-child{margin-bottom:0;}
@@ -129,6 +130,8 @@
   .copy-btn{background:var(--steel);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-weight:600;width:100%;margin-top:12px;}
   .copy-btn:hover{background:#2d5a7a;}
   .copy-btn.copied{background:var(--green);}
+  
+  .info-box{background:#f0f4f8;border-left:4px solid var(--steel);padding:12px 14px;margin:12px 0;border-radius:4px;font-size:12px;color:#555;}
 
   /* ===== Print summary (report output) ===== */
   #printSummary{display:none;}
@@ -338,11 +341,16 @@ function renderCard(loc){
   nameInput.value = loc.name;
   nameInput.placeholder = 'Location name';
   nameInput.oninput = (e) => { loc.name = e.target.value; renderPrintSummary(); };
-  const caption = document.createElement('div');
-  caption.className = 'caption';
-  caption.textContent = loc.area || 'Tap logo to upload';
+  
+  const areaInput = document.createElement('input');
+  areaInput.type = 'text';
+  areaInput.className = 'area-input';
+  areaInput.value = loc.area;
+  areaInput.placeholder = '🧰 Area / Zone (e.g., RC Roof, Carpark Level 2)';
+  areaInput.oninput = (e) => { loc.area = e.target.value; renderPrintSummary(); };
+  
   nameWrap.appendChild(nameInput);
-  nameWrap.appendChild(caption);
+  nameWrap.appendChild(areaInput);
 
   head.appendChild(logoDrop);
   head.appendChild(nameWrap);
@@ -486,7 +494,7 @@ function renderPrintSummary(){
         ${logoHtml}
         <div style="flex:1;">
           <h3>${loc.name || 'Unnamed location'}</h3>
-          ${loc.area ? `<div style="font-size:11px;color:#666;margin-top:2px;">${loc.area}</div>` : ''}
+          ${loc.area ? `<div style="font-size:11px;color:#666;margin-top:2px;">🧰 ${loc.area}</div>` : ''}
         </div>
         <div class="avg" style="color:${colorForPct(avg)};font-weight:600;">${avg}% avg</div>
       </div>
@@ -537,17 +545,17 @@ function generateTextReport(){
   const dateVal = document.getElementById('reportDate').value;
   const siteVal = document.getElementById('siteName').value || 'Untitled Site';
   
-  let text = '════════════════════════════════\n';
+  let text = '══════════════════════════\n';
   text += 'PIXELS CONNECT - SITE PROGRESS REPORT\n';
-  text += '════════════════════════════════\n\n';
+  text += '══════════════════════════\n\n';
   text += `📅 REPORT DATE: ${fmtDate(dateVal)}\n`;
   text += `🏗️  SITE NAME: ${siteVal}\n\n`;
   
   state.locations.forEach((loc, idx) => {
-    text += '──────────────────────────────\n';
+    text += '───────────────────────────\n';
     text += `LOCATION ${idx+1}: ${loc.name}\n`;
-    text += '──────────────────────────────\n';
-    if(loc.area) text += `🧰 Area: ${loc.area}\n\n`;
+    text += '───────────────────────────\n';
+    if(loc.area) text += `🛠️ Area: ${loc.area}\n\n`;
     
     const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
     PROGRESS_FIELDS.forEach((f, i) => {
@@ -598,65 +606,94 @@ function generateImageReport(){
   }
   
   const preview = document.getElementById('exportPreview');
-  preview.innerHTML = '<div style="text-align:center;padding:20px;color:#666;"><p>⏳ Generating image (this may take a moment)...</p></div>';
+  preview.innerHTML = '<div style="text-align:center;padding:20px;color:#666;"><p>⏳ Generating image...</p></div>';
+  
+  // Check if html2canvas is already loaded
+  if(typeof html2canvas !== 'undefined') {
+    processImageExport(report, preview);
+    return;
+  }
   
   // Load html2canvas library
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
   script.onerror = () => {
-    preview.innerHTML = '<div style="padding:20px;color:#c0523d;"><strong>⚠️ Failed to load image library.</strong><p>Please try:</p><ol style="text-align:left;"><li>Refresh the page and try again</li><li>Use Print Report instead (works reliably)</li><li>Check your internet connection</li></ol></div>';
+    preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>⚠️ Image export unavailable</strong><p style="margin:8px 0 0;">The image library failed to load. Try:</p><ul style="margin:6px 0;padding-left:20px;"><li>Use <strong>Print Report</strong> instead (works reliably)</li><li>Use <strong>Copy Text</strong> to share via WhatsApp</li><li>Refresh the page and try again</li></ul></div>`;
   };
   script.onload = () => {
-    try {
-      const pageElement = report.querySelector('.rpt-page');
-      if (!pageElement) {
-        throw new Error('Report content not found');
-      }
-
-      html2canvas(pageElement, {
-        scale: 2,
-        backgroundColor: '#ffffff',
-        logging: false,
-        allowTaint: true,
-        useCORS: true,
-        imageTimeout: 3000,
-        windowHeight: pageElement.scrollHeight,
-        windowWidth: pageElement.scrollWidth,
-        onclone: (clonedDocument) => {
-          const clonedPage = clonedDocument.querySelector('.rpt-page');
-          if (clonedPage) {
-            clonedPage.style.margin = '0';
-            clonedPage.style.padding = '50px';
-          }
-        }
-      }).then(canvas => {
-        if (!canvas) throw new Error('Canvas generation failed');
-        
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png', 0.95);
-        link.download = `site-report-${new Date().toISOString().split('T')[0]}.png`;
-        
-        preview.innerHTML = `
-          <div style="text-align:center;">
-            <p style="color:#666;font-size:12px;">✅ Image ready:</p>
-            <img src="${link.href}" style="max-width:100%;border-radius:8px;border:1px solid #ddd;margin:12px 0;max-height:300px;"/>
-            <button class="copy-btn" id="downloadBtn" onclick="downloadReport(this)">📥 Download Image</button>
-            <p style="font-size:11px;color:#999;margin-top:12px;">Right-click the image above to share directly in WhatsApp</p>
-          </div>
-        `;
-        
-        window.reportDownloadLink = link;
-        
-      }).catch(err => {
-        console.error('html2canvas error:', err);
-        preview.innerHTML = '<div style="padding:20px;color:#c0523d;"><strong>⚠️ Image export not available</strong><p style="font-size:12px;margin-top:12px;color:#666;">Please use Print Report or Copy Text instead.</p></div>';
-      });
-    } catch(err) {
-      console.error('Error:', err);
-      preview.innerHTML = '<div style="padding:20px;color:#c0523d;"><strong>Setup error.</strong> Please try the Print option instead.</div>';
-    }
+    processImageExport(report, preview);
   };
   document.head.appendChild(script);
+}
+
+function processImageExport(report, preview) {
+  try {
+    const pageElement = report.querySelector('.rpt-page');
+    if (!pageElement) {
+      throw new Error('Report content not found');
+    }
+
+    // Create a clean clone without problematic gradient styles
+    const cleanClone = pageElement.cloneNode(true);
+    
+    // Remove badges that have gradients
+    cleanClone.querySelectorAll('.badge').forEach(badge => badge.remove());
+    
+    // Simplify header styling to avoid gradient issues
+    const headerDiv = cleanClone.querySelector('.rpt-header');
+    if (headerDiv) {
+      headerDiv.style.backgroundColor = '#ffffff';
+      headerDiv.style.borderBottom = '3px solid #1B2735';
+      headerDiv.style.padding = '18px 0';
+      headerDiv.style.marginBottom = '26px';
+    }
+    
+    // Create temporary container for rendering
+    const tempContainer = document.createElement('div');
+    tempContainer.style.cssText = 'position:absolute;left:-9999px;width:900px;background:#fff;';
+    tempContainer.appendChild(cleanClone);
+    document.body.appendChild(tempContainer);
+
+    html2canvas(cleanClone, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      logging: false,
+      allowTaint: true,
+      useCORS: true,
+      imageTimeout: 3000,
+      windowHeight: cleanClone.scrollHeight || 1200,
+      windowWidth: 900,
+      async: true
+    }).then(canvas => {
+      document.body.removeChild(tempContainer);
+      
+      if (!canvas) throw new Error('Canvas generation failed');
+      
+      const link = document.createElement('a');
+      const dataUrl = canvas.toDataURL('image/png', 0.95);
+      link.href = dataUrl;
+      link.download = `site-report-${new Date().toISOString().split('T')[0]}.png`;
+      
+      preview.innerHTML = `
+        <div style="text-align:center;">
+          <p style="color:#666;font-size:12px;">✅ Image ready:</p>
+          <img src="${dataUrl}" style="max-width:100%;border-radius:8px;border:1px solid #ddd;margin:12px 0;max-height:300px;"/>
+          <button class="copy-btn" id="downloadBtn" onclick="downloadReport(this)" style="background-color:#3B6E8F;">📥 Download Image</button>
+          <p style="font-size:11px;color:#999;margin-top:12px;">💡 Right-click the image to save and share directly in WhatsApp</p>
+        </div>
+      `;
+      
+      window.reportDownloadLink = link;
+      
+    }).catch(err => {
+      document.body.removeChild(tempContainer);
+      console.error('html2canvas error:', err);
+      preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>⚠️ Image export not available</strong><p style="margin:8px 0 0;">Rendering issue detected.</p><p style="margin:6px 0 0;"><strong>Recommended:</strong></p><ul style="margin:6px 0;padding-left:20px;text-align:left;"><li>✅ <strong>Print Report</strong> — best quality (Ctrl+P / Cmd+P)</li><li>✅ <strong>Copy Text</strong> — quick sharing to WhatsApp</li></ul></div>`;
+    });
+  } catch(err) {
+    console.error('Error:', err);
+    preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>Setup error</strong><p style="margin:8px 0 0;">Please use Print Report or Copy Text instead.</p></div>`;
+  }
 }
 
 function downloadReport(btn) {
