@@ -722,14 +722,46 @@
   
   function copyReport() {
     const text = document.getElementById('reportText').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = event.target;
-      const oldText = btn.textContent;
-      btn.textContent = '✓ Copied!';
-      setTimeout(() => { btn.textContent = oldText; }, 2000);
-    }).catch(() => {
-      alert('Failed to copy to clipboard');
-    });
+    const btn = document.querySelector('.copy-btn');
+    const oldText = btn.textContent;
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => { btn.textContent = oldText; }, 2000);
+        })
+        .catch(() => {
+          // Fallback to older method
+          fallbackCopyToClipboard(text, btn, oldText);
+        });
+    } else {
+      // Fallback for older browsers
+      fallbackCopyToClipboard(text, btn, oldText);
+    }
+  }
+  
+  function fallbackCopyToClipboard(text, btn, oldText) {
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      if (successful) {
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = oldText; }, 2000);
+      } else {
+        alert('Unable to copy. Please try again or copy manually.');
+      }
+    } catch (err) {
+      alert('Unable to copy. Please try again or copy manually.');
+    }
   }
   
   function clearAll() {
