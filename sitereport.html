@@ -91,6 +91,13 @@
   .gauge-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;transition:width .12s ease;}
   .gauge input[type="range"]{width:100%;margin-top:7px;accent-color:var(--steel);height:16px;cursor:pointer;}
 
+  /* Qty gauge inputs */
+  .gauge-qty{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  .qty-input-group{display:flex;flex-direction:column;gap:4px;}
+  .qty-input-group label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:600;}
+  .qty-input-group input{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  .qty-input-group input:focus{outline:2px solid var(--steel);outline-offset:1px;}
+
   .text-field{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
   .text-field-label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:6px;}
   .text-field textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;
@@ -164,6 +171,8 @@
   .rpt-track{height:8px;border-radius:5px;background:#EDEAE0;border:1px solid var(--border);overflow:hidden;}
   .rpt-fill{height:100%;border-radius:5px;}
   .rpt-pct{font-family:'IBM Plex Mono',monospace;text-align:right;font-weight:600;}
+  
+  .rpt-qty-note{font-size:11px;color:var(--muted);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
   
   .rpt-text-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
   .rpt-text-section-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--steel);font-weight:600;margin-bottom:6px;}
@@ -245,22 +254,35 @@ const PROGRESS_FIELDS = [
   { key: 'dcTrunking', label: 'DC Trunking Installation' },
   { key: 'dcPulling', label: 'DC Cable Pulling' },
   { key: 'dcCover', label: 'DC Trunking Cover Closing' },
-  { key: 'pvPanel', label: 'PV Panel Installation' },
+  { key: 'pvPanel', label: 'PV Panel installed Qty', isQty: true },
   { key: 'dcTermination', label: 'DC Cable Termination' },
 ];
 
 let idCounter = 0;
 function freshProgress(){
   const p = {};
-  PROGRESS_FIELDS.forEach(f => p[f.key] = 0);
+  PROGRESS_FIELDS.forEach(f => {
+    if(f.isQty){
+      p[f.key] = { total: 0, installed: 0 };
+    } else {
+      p[f.key] = 0;
+    }
+  });
   return p;
 }
 
 let state = {
   locations: [
-    { id: idCounter++, name: 'RC ROOF', area: 'RC/Metal', logo: null, progress: freshProgress(), tomorrowPlan: '', requiredManpower: '' },
+    { id: idCounter++, name: 'RC ROOF', area: 'Type Work Area Here', logo: null, progress: freshProgress(), tomorrowPlan: '', requiredManpower: '' },
   ]
 };
+
+function getPercentage(value) {
+  if (typeof value === 'object' && value.total && value.installed) {
+    return value.total > 0 ? Math.round((value.installed / value.total) * 100) : 0;
+  }
+  return value || 0;
+}
 
 function colorForPct(pct){
   // Safety: ensure pct is a valid number
@@ -356,7 +378,13 @@ function renderCard(loc){
   head.appendChild(nameWrap);
   card.appendChild(head);
 
-  PROGRESS_FIELDS.forEach(f => card.appendChild(renderGauge(loc, f)));
+  PROGRESS_FIELDS.forEach(f => {
+    if(f.isQty) {
+      card.appendChild(renderQtyGauge(loc, f));
+    } else {
+      card.appendChild(renderGauge(loc, f));
+    }
+  });
 
   // Tomorrow Work Plan
   const tomorrowField = document.createElement('div');
@@ -436,6 +464,84 @@ function renderGauge(loc, field){
   return wrap;
 }
 
+function renderQtyGauge(loc, field){
+  const wrap = document.createElement('div');
+  wrap.className = 'gauge';
+
+  const top = document.createElement('div');
+  top.className = 'gauge-top';
+  const label = document.createElement('div');
+  label.className = 'label';
+  label.textContent = field.label;
+  const pct = document.createElement('div');
+  pct.className = 'pct mono';
+  
+  const percentage = getPercentage(loc.progress[field.key]);
+  pct.textContent = percentage + '%';
+  top.appendChild(label);
+  top.appendChild(pct);
+
+  const track = document.createElement('div');
+  track.className = 'gauge-track';
+  const fill = document.createElement('div');
+  fill.className = 'gauge-fill';
+  fill.style.width = percentage + '%';
+  fill.style.background = colorForPct(percentage);
+  track.appendChild(fill);
+
+  // Quantity input fields
+  const qtyContainer = document.createElement('div');
+  qtyContainer.className = 'gauge-qty';
+
+  const totalGroup = document.createElement('div');
+  totalGroup.className = 'qty-input-group';
+  const totalLabel = document.createElement('label');
+  totalLabel.textContent = 'Total Qty';
+  const totalInput = document.createElement('input');
+  totalInput.type = 'number';
+  totalInput.min = 0;
+  totalInput.value = loc.progress[field.key].total;
+  totalInput.placeholder = 'e.g., 100';
+  totalInput.oninput = (e) => {
+    loc.progress[field.key].total = parseInt(e.target.value) || 0;
+    const percentage = getPercentage(loc.progress[field.key]);
+    pct.textContent = percentage + '%';
+    fill.style.width = percentage + '%';
+    fill.style.background = colorForPct(percentage);
+    renderPrintSummary();
+  };
+  totalGroup.appendChild(totalLabel);
+  totalGroup.appendChild(totalInput);
+
+  const installedGroup = document.createElement('div');
+  installedGroup.className = 'qty-input-group';
+  const installedLabel = document.createElement('label');
+  installedLabel.textContent = 'Installed';
+  const installedInput = document.createElement('input');
+  installedInput.type = 'number';
+  installedInput.min = 0;
+  installedInput.value = loc.progress[field.key].installed;
+  installedInput.placeholder = 'e.g., 45';
+  installedInput.oninput = (e) => {
+    loc.progress[field.key].installed = parseInt(e.target.value) || 0;
+    const percentage = getPercentage(loc.progress[field.key]);
+    pct.textContent = percentage + '%';
+    fill.style.width = percentage + '%';
+    fill.style.background = colorForPct(percentage);
+    renderPrintSummary();
+  };
+  installedGroup.appendChild(installedLabel);
+  installedGroup.appendChild(installedInput);
+
+  qtyContainer.appendChild(totalGroup);
+  qtyContainer.appendChild(installedGroup);
+
+  wrap.appendChild(top);
+  wrap.appendChild(track);
+  wrap.appendChild(qtyContainer);
+  return wrap;
+}
+
 function renderAddCard(){
   const card = document.createElement('div');
   card.className = 'addCard';
@@ -460,19 +566,26 @@ function renderPrintSummary(){
 
   let locsHtml = '';
   state.locations.forEach(loc => {
-    const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
+    const vals = PROGRESS_FIELDS.map(f => getPercentage(loc.progress[f.key]));
     const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
     const logoHtml = loc.logo
       ? `<img src="${loc.logo}" alt="${loc.name} logo">`
       : `<div class="noimg"></div>`;
     const rows = PROGRESS_FIELDS.map(f => {
-      const v = loc.progress[f.key];
+      const v = getPercentage(loc.progress[f.key]);
       const safeColor = colorForPct(v);
-      return `<div class="rpt-row">
+      let rowHtml = `<div class="rpt-row">
         <div>${f.label}</div>
         <div class="rpt-track"><div class="rpt-fill" style="width:${v}%;background-color:${safeColor};"></div></div>
         <div class="rpt-pct">${v}%</div>
       </div>`;
+      
+      // Add qty note if this is a qty field
+      if(f.isQty && loc.progress[f.key].total > 0) {
+        rowHtml += `<div class="rpt-qty-note" style="grid-column:1/-1;margin-top:4px;">📦 ${loc.progress[f.key].installed} of ${loc.progress[f.key].total} installed</div>`;
+      }
+      
+      return rowHtml;
     }).join('');
     
     let textSections = '';
@@ -557,11 +670,17 @@ function generateTextReport(){
     text += '───────────────────────────\n';
     if(loc.area) text += `🛠️ Area: ${loc.area}\n\n`;
     
-    const vals = PROGRESS_FIELDS.map(f => loc.progress[f.key]);
+    const vals = PROGRESS_FIELDS.map(f => getPercentage(loc.progress[f.key]));
     PROGRESS_FIELDS.forEach((f, i) => {
-      const v = loc.progress[f.key];
+      const v = getPercentage(loc.progress[f.key]);
       const bar = '█'.repeat(Math.floor(v/10)) + '░'.repeat(10-Math.floor(v/10));
-      text += `✓ ${f.label}: ${v}% ${bar}\n`;
+      text += `✓ ${f.label}: ${v}% ${bar}`;
+      
+      // Add qty info for PV Panel field
+      if(f.isQty && loc.progress[f.key].total > 0) {
+        text += ` (${loc.progress[f.key].installed}/${loc.progress[f.key].total})`;
+      }
+      text += '\n';
     });
     
     const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
