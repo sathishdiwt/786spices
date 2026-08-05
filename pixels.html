@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Tool - Pixels Connect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Pixels Operations Hub</title>
     <style>
         * {
             margin: 0;
@@ -17,53 +17,101 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             animation: slideDown 0.6s ease-out;
         }
 
         .header h1 {
-            font-size: 48px;
-            font-weight: 700;
+            font-size: clamp(24px, 7vw, 42px);
+            font-weight: 800;
             color: white;
-            margin-bottom: 12px;
-            letter-spacing: -1px;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
 
         .header p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(12px, 3vw, 14px);
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 300;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+        }
+
+        .menu-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: slideDown 0.6s ease-out 0.1s both;
+        }
+
+        .menu-btn {
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: -1;
+            transition: left 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-btn:hover::before {
+            left: 0;
         }
 
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 40vw, 260px), 1fr));
+            gap: clamp(14px, 3vw, 20px);
             animation: fadeIn 0.8s ease-out 0.2s both;
         }
 
         .tool-card {
             background: white;
             border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: clamp(18px, 5vw, 28px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
@@ -72,6 +120,8 @@
             display: flex;
             flex-direction: column;
             color: inherit;
+            min-height: 240px;
+            z-index: 1;
         }
 
         .tool-card::before {
@@ -80,34 +130,47 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 5px;
         }
 
         .tool-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-8px);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
         }
 
         .card-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: clamp(32px, 8vw, 44px);
+            margin-bottom: 12px;
             line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 10px;
         }
 
         .card-title {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: clamp(15px, 4vw, 18px);
+            font-weight: 700;
             color: #1a202c;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
+            line-height: 1.2;
         }
 
-        .card-description {
-            font-size: 15px;
-            color: #718096;
-            line-height: 1.6;
-            margin-bottom: 28px;
-            flex-grow: 1;
+        .card-badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
         }
 
         .card-footer {
@@ -115,9 +178,12 @@
             align-items: center;
             gap: 8px;
             color: #667eea;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 12px;
             transition: gap 0.3s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .tool-card:hover .card-footer {
@@ -126,6 +192,7 @@
 
         .arrow {
             transition: transform 0.3s ease;
+            font-size: 16px;
         }
 
         .tool-card:hover .arrow {
@@ -144,10 +211,14 @@
             background: linear-gradient(90deg, #4facfe, #00f2fe);
         }
 
+        .card-4::before {
+            background: linear-gradient(90deg, #fa709a, #fee140);
+        }
+
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -158,7 +229,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -168,32 +239,131 @@
 
         .footer-text {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 14px;
-            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(12px, 3vw, 14px);
+            margin-top: 40px;
             animation: fadeIn 0.8s ease-out 0.4s both;
         }
 
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 36px;
-            }
-
-            .header p {
-                font-size: 16px;
-            }
-
+        /* Tablet optimization */
+        @media (max-width: 1024px) {
             .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
 
             .tool-card {
-                padding: 30px;
+                min-height: 260px;
+            }
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .header {
+                margin-bottom: 24px;
+            }
+
+            .menu-tabs {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .menu-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+                border-radius: 8px;
+                letter-spacing: 0.5px;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .tool-card {
+                padding: 16px;
+                min-height: 220px;
+                border-radius: 14px;
+            }
+
+            .card-icon {
+                width: 45px;
+                height: 45px;
+                margin-bottom: 10px;
             }
 
             .card-title {
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+
+            .card-badge {
+                margin-bottom: 8px;
+                font-size: 9px;
+            }
+
+            .card-footer {
+                font-size: 10px;
+                margin-top: auto;
+            }
+
+            .footer-text {
+                margin-top: 20px;
+            }
+        }
+
+        /* Small phone optimization */
+        @media (max-width: 380px) {
+            .header h1 {
                 font-size: 20px;
+            }
+
+            .header p {
+                font-size: 11px;
+            }
+
+            .menu-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+                letter-spacing: 0.3px;
+            }
+
+            .tool-card {
+                padding: 14px;
+                min-height: 200px;
+            }
+
+            .card-icon {
+                font-size: 32px;
+                width: 42px;
+                height: 42px;
+            }
+
+            .card-title {
+                font-size: 13px;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 600px) and (max-width: 900px) {
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .tools-grid {
+                gap: 12px;
+            }
+
+            .tool-card {
+                min-height: 200px;
+                padding: 16px;
             }
         }
     </style>
@@ -201,66 +371,82 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Pixels Operations Hub</h1>
-            <p>Access your key management tools and dashboards</p>
+            <h1>Pixels Operations</h1>
+            <p>Management Hub</p>
+        </div>
+
+        <div class="menu-tabs">
+            <div class="menu-btn">📊 Dashboard</div>
+            <div class="menu-btn">👥 Teams</div>
+            <div class="menu-btn">⚙️ Tools</div>
+            <div class="menu-btn">📈 Analytics</div>
         </div>
 
         <div class="tools-grid">
-            <a href="https://786spices.vercel.app/pixels_manpower_update.html" class="tool-card card-1">
+            <a href="https://786spices.vercel.app/pixels_manpower_update.html" class="tool-card card-1" target="_blank" rel="noopener noreferrer">
                 <div class="card-icon">👥</div>
-                <h2 class="card-title">Pixels Manpower Update</h2>
-                <p class="card-description">Real-time workforce updates and staff management dashboard for Pixels Connect operations</p>
+                <div class="card-badge">Manpower</div>
+                <h2 class="card-title">Workforce Updates</h2>
                 <div class="card-footer">
-                    <span>Open tool</span>
+                    <span>Access</span>
                     <span class="arrow">→</span>
                 </div>
             </a>
 
- <a href="https://786spices.vercel.app/site_work_activity_report.html" class="tool-card card-2">
+            <a href="https://786spices.vercel.app/site_work_activity_report.html" class="tool-card card-2" target="_blank" rel="noopener noreferrer">
                 <div class="card-icon">🛠️</div>
-                <h2 class="card-title">Pixels Site Activity</h2>
-                <p class="card-description">Real-time work assignment operations</p>
+                <div class="card-badge">Operations</div>
+                <h2 class="card-title">Site Activity</h2>
                 <div class="card-footer">
-                    <span>Open tool</span>
+                    <span>Access</span>
                     <span class="arrow">→</span>
                 </div>
             </a>
 
-            
-            <a href="https://786spices.vercel.app/sitereport.html" class="tool-card card-3">
+            <a href="https://786spices.vercel.app/sitereport.html" class="tool-card card-3" target="_blank" rel="noopener noreferrer">
                 <div class="card-icon">📊</div>
-                <h2 class="card-title">Site Report</h2>
-                <p class="card-description">Comprehensive site performance analytics and detailed operational reports across all locations</p>
+                <div class="card-badge">Analytics</div>
+                <h2 class="card-title">Site Reports</h2>
                 <div class="card-footer">
-                    <span>Open tool</span>
+                    <span>Access</span>
                     <span class="arrow">→</span>
                 </div>
             </a>
 
-            <a href="https://786spices.vercel.app/pixels_work.html" class="tool-card card-4">
+            <a href="https://786spices.vercel.app/pixels_work.html" class="tool-card card-4" target="_blank" rel="noopener noreferrer">
                 <div class="card-icon">⚙️</div>
-                <h2 class="card-title">Pixels Work</h2>
-                <p class="card-description">Work assignments, task management, and project coordination for Pixels Connect teams</p>
+                <div class="card-badge">Tasks</div>
+                <h2 class="card-title">Work Assignments</h2>
                 <div class="card-footer">
-                    <span>Open tool</span>
+                    <span>Access</span>
                     <span class="arrow">→</span>
                 </div>
             </a>
         </div>
 
         <div class="footer-text">
-            <p>Pixels Connect • Integrated Operations Portal</p>
+            <p>Pixels Connect • Operations Portal</p>
         </div>
     </div>
 
     <script>
         document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('mouseenter', (e) => {
-                e.target.closest('.tool-card').style.transform = 'translateY(-12px)';
+            card.addEventListener('touchstart', function() {
+                this.style.transform = 'translateY(-6px)';
             });
 
-            card.addEventListener('mouseleave', (e) => {
-                e.target.closest('.tool-card').style.transform = 'translateY(0)';
+            card.addEventListener('touchend', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('mouseover', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+
+            btn.addEventListener('mouseout', function() {
+                this.style.transform = 'translateY(0)';
             });
         });
     </script>
