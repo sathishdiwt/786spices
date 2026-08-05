@@ -115,30 +115,23 @@
   /* ===== Footer / actions ===== */
   .actions{max-width:1180px;margin:0 auto;padding:0 40px 60px;display:flex;justify-content:flex-end;gap:12px;}
   .btn{font-family:'Inter';font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;
-    border:1px solid transparent;letter-spacing:.2px;}
+    border:1px solid transparent;letter-spacing:.2px;transition:all .2s;}
   .btn-primary{background:var(--navy);color:#fff;}
   .btn-primary:hover{background:#0F1822;}
   .btn-ghost{background:transparent;border-color:var(--border);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--steel);color:var(--steel);}
+  
+  /* Copied feedback state */
+  .btn.copied{background:var(--green);color:#fff;border-color:var(--green);}
 
   input[type="file"]{display:none;}
 
-  /* WhatsApp Export Modal */
-  .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;}
-  .modal.active{display:flex;}
-  .modal-content{background:#fff;border-radius:12px;padding:30px;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
-  .modal-content h2{margin:0 0 16px;color:var(--navy);}
-  .modal-content .close{float:right;cursor:pointer;font-size:24px;color:var(--muted);}
-  .modal-content .close:hover{color:var(--ink);}
-  .export-options{display:flex;gap:12px;margin:20px 0;}
-  .export-btn{flex:1;padding:12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;font-weight:600;transition:.2s;}
-  .export-btn:hover{border-color:var(--steel);background:#f9f9f9;}
-  .text-output{background:#f5f2ea;padding:16px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto;margin:16px 0;}
-  .copy-btn{background:var(--steel);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;font-weight:600;width:100%;margin-top:12px;}
-  .copy-btn:hover{background:#2d5a7a;}
-  .copy-btn.copied{background:var(--green);}
-  
-  .info-box{background:#f0f4f8;border-left:4px solid var(--steel);padding:12px 14px;margin:12px 0;border-radius:4px;font-size:12px;color:#555;}
+  /* Toast notification */
+  .toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;
+    padding:14px 18px;border-radius:8px;font-size:14px;font-weight:600;
+    opacity:0;transform:translateY(20px);transition:all .3s ease;z-index:1000;
+    box-shadow:0 4px 12px rgba(76,140,107,0.3);}
+  .toast.show{opacity:1;transform:translateY(0);}
 
   /* ===== Print summary (report output) ===== */
   #printSummary{display:none;}
@@ -225,24 +218,14 @@
   </main>
 
   <div class="actions">
-    <button class="btn btn-ghost" id="addLocBtn2" style="display:none;"></button>
-    <button class="btn btn-ghost" id="whatsappBtn">📱 Export for WhatsApp</button>
+    <button class="btn btn-ghost" id="copyTextBtn">📋 Copy for WhatsApp</button>
+    <button class="btn btn-ghost" id="downloadImageBtn">📸 Download Image</button>
     <button class="btn btn-primary" id="printBtn">🖨️ Print Report</button>
   </div>
 </div>
 
-<!-- WhatsApp Export Modal -->
-<div id="whatsappModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeWhatsAppModal()">&times;</span>
-    <h2>📱 Export for WhatsApp</h2>
-    <div class="export-options">
-      <div class="export-btn" onclick="generateTextReport()">📋 Copy Text</div>
-      <div class="export-btn" onclick="generateImageReport()">📸 Download Image</div>
-    </div>
-    <div id="exportPreview"></div>
-  </div>
-</div>
+<!-- Toast notification -->
+<div id="toast" class="toast"></div>
 
 <div id="printSummary"></div>
 
@@ -641,20 +624,18 @@ function renderPrintSummary(){
   `;
 }
 
-// init date to today
-const dateInput = document.getElementById('reportDate');
-const today = new Date();
-dateInput.value = today.toISOString().slice(0,10);
-dateInput.onchange = renderPrintSummary;
-document.getElementById('siteName').onchange = renderPrintSummary;
-document.getElementById('printBtn').onclick = () => window.print();
-document.getElementById('whatsappBtn').onclick = () => document.getElementById('whatsappModal').classList.add('active');
-
-function closeWhatsAppModal(){
-  document.getElementById('whatsappModal').classList.remove('active');
+// Toast notification helper
+function showToast(message, duration = 2000) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
 }
 
-function generateTextReport(){
+// Copy text handler - immediate copy to clipboard
+function handleCopyText() {
   const dateVal = document.getElementById('reportDate').value;
   const siteVal = document.getElementById('siteName').value || 'Untitled Site';
   
@@ -696,40 +677,36 @@ function generateTextReport(){
     text += '\n';
   });
   
-  const preview = document.getElementById('exportPreview');
-  preview.innerHTML = `
-    <div class="text-output">${text}</div>
-    <button class="copy-btn" id="copyTextBtn" onclick="copyTextToClipboard(this)">📋 Copy to Clipboard</button>
-  `;
-  
-  window.currentTextReport = text;
-}
-
-function copyTextToClipboard(btn){
-  navigator.clipboard.writeText(window.currentTextReport).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✅ Copied!';
+  // Copy to clipboard
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyTextBtn');
     btn.classList.add('copied');
+    btn.textContent = '✅ Copied to Clipboard';
+    showToast('✅ Report copied! Ready to paste in WhatsApp');
     setTimeout(() => {
-      btn.textContent = orig;
       btn.classList.remove('copied');
+      btn.textContent = '📋 Copy for WhatsApp';
     }, 2000);
+  }).catch(() => {
+    showToast('❌ Failed to copy. Please try again.');
   });
 }
 
-function generateImageReport(){
+// Download image handler
+function handleDownloadImage() {
   const report = document.getElementById('printSummary');
   if(!report.innerHTML){
-    alert('Please fill in the report details first!');
+    showToast('⚠️ Please fill in the report details first!');
     return;
   }
   
-  const preview = document.getElementById('exportPreview');
-  preview.innerHTML = '<div style="text-align:center;padding:20px;color:#666;"><p>⏳ Generating image...</p></div>';
+  const btn = document.getElementById('downloadImageBtn');
+  btn.textContent = '⏳ Generating...';
+  btn.disabled = true;
   
   // Check if html2canvas is already loaded
   if(typeof html2canvas !== 'undefined') {
-    processImageExport(report, preview);
+    processImageDownload(report, btn);
     return;
   }
   
@@ -737,28 +714,26 @@ function generateImageReport(){
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
   script.onerror = () => {
-    preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>⚠️ Image export unavailable</strong><p style="margin:8px 0 0;">The image library failed to load. Try:</p><ul style="margin:6px 0;padding-left:20px;"><li>Use <strong>Print Report</strong> instead (works reliably)</li><li>Use <strong>Copy Text</strong> to share via WhatsApp</li><li>Refresh the page and try again</li></ul></div>`;
+    showToast('⚠️ Image export unavailable. Use Print Report instead.');
+    btn.textContent = '📸 Download Image';
+    btn.disabled = false;
   };
   script.onload = () => {
-    processImageExport(report, preview);
+    processImageDownload(report, btn);
   };
   document.head.appendChild(script);
 }
 
-function processImageExport(report, preview) {
+function processImageDownload(report, btn) {
   try {
     const pageElement = report.querySelector('.rpt-page');
     if (!pageElement) {
       throw new Error('Report content not found');
     }
 
-    // Create a clean clone without problematic gradient styles
     const cleanClone = pageElement.cloneNode(true);
-    
-    // Remove badges that have gradients
     cleanClone.querySelectorAll('.badge').forEach(badge => badge.remove());
     
-    // Simplify header styling to avoid gradient issues
     const headerDiv = cleanClone.querySelector('.rpt-header');
     if (headerDiv) {
       headerDiv.style.backgroundColor = '#ffffff';
@@ -767,7 +742,6 @@ function processImageExport(report, preview) {
       headerDiv.style.marginBottom = '26px';
     }
     
-    // Create temporary container for rendering
     const tempContainer = document.createElement('div');
     tempContainer.style.cssText = 'position:absolute;left:-9999px;width:900px;background:#fff;';
     tempContainer.appendChild(cleanClone);
@@ -792,38 +766,36 @@ function processImageExport(report, preview) {
       const dataUrl = canvas.toDataURL('image/png', 0.95);
       link.href = dataUrl;
       link.download = `site-report-${new Date().toISOString().split('T')[0]}.png`;
+      link.click();
       
-      preview.innerHTML = `
-        <div style="text-align:center;">
-          <p style="color:#666;font-size:12px;">✅ Image ready:</p>
-          <img src="${dataUrl}" style="max-width:100%;border-radius:8px;border:1px solid #ddd;margin:12px 0;max-height:300px;"/>
-          <button class="copy-btn" id="downloadBtn" onclick="downloadReport(this)" style="background-color:#3B6E8F;">📥 Download Image</button>
-          <p style="font-size:11px;color:#999;margin-top:12px;">💡 Right-click the image to save and share directly in WhatsApp</p>
-        </div>
-      `;
-      
-      window.reportDownloadLink = link;
+      showToast('✅ Image downloaded! You can share it on WhatsApp');
+      btn.textContent = '📸 Download Image';
+      btn.disabled = false;
       
     }).catch(err => {
       document.body.removeChild(tempContainer);
       console.error('html2canvas error:', err);
-      preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>⚠️ Image export not available</strong><p style="margin:8px 0 0;">Rendering issue detected.</p><p style="margin:6px 0 0;"><strong>Recommended:</strong></p><ul style="margin:6px 0;padding-left:20px;text-align:left;"><li>✅ <strong>Print Report</strong> — best quality (Ctrl+P / Cmd+P)</li><li>✅ <strong>Copy Text</strong> — quick sharing to WhatsApp</li></ul></div>`;
+      showToast('⚠️ Image generation failed. Use Print Report instead.');
+      btn.textContent = '📸 Download Image';
+      btn.disabled = false;
     });
   } catch(err) {
     console.error('Error:', err);
-    preview.innerHTML = `<div class="info-box" style="border-left-color:#c0523d;"><strong>Setup error</strong><p style="margin:8px 0 0;">Please use Print Report or Copy Text instead.</p></div>`;
+    showToast('❌ An error occurred. Please try again.');
+    btn.textContent = '📸 Download Image';
+    btn.disabled = false;
   }
 }
 
-function downloadReport(btn) {
-  if (window.reportDownloadLink) {
-    window.reportDownloadLink.click();
-    btn.textContent = '✅ Downloaded!';
-    setTimeout(() => {
-      btn.textContent = '📥 Download Image';
-    }, 2000);
-  }
-}
+// Initialize
+const dateInput = document.getElementById('reportDate');
+const today = new Date();
+dateInput.value = today.toISOString().slice(0,10);
+dateInput.onchange = renderPrintSummary;
+document.getElementById('siteName').onchange = renderPrintSummary;
+document.getElementById('printBtn').onclick = () => window.print();
+document.getElementById('copyTextBtn').onclick = handleCopyText;
+document.getElementById('downloadImageBtn').onclick = handleDownloadImage;
 
 render();
 </script>
