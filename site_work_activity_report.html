@@ -465,7 +465,7 @@
 
 <div class="container">
   <div class="header">
-    <h1>📋 Site Work Activity Report</h1>
+    <h1>📋 Pixels Site Work Activity Report</h1>
     <p>Pixels Connect Pte Ltd</p>
   </div>
   
@@ -546,6 +546,18 @@
           <div class="checkbox-group">
             <input type="checkbox" id="w14" value="SI THU HTUN">
             <label for="w14">SI THU HTUN</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w15" value="MIA MOHAMMAD SHAKIB">
+            <label for="w15">MIA MOHAMMAD SHAKIB</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w16" value="ULLAH HUSSAIN SHARIAT">
+            <label for="w16">ULLAH HUSSAIN SHARIAT</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="w17" value="AHMED ROHAN MD RIZON">
+            <label for="w17">AHMED ROHAN MD RIZON</label>
           </div>     
         </div>
       </div>
@@ -601,7 +613,7 @@
   
   function getSelectedWorkers() {
     const workers = [];
-    for (let i = 1; i <= 14; i++) {
+    for (let i = 1; i <= 17; i++) {
       const checkbox = document.getElementById('w' + i);
       if (checkbox.checked) {
         workers.push(checkbox.value);
@@ -611,7 +623,7 @@
   }
   
   function clearWorkerCheckboxes() {
-    for (let i = 1; i <= 14; i++) {
+    for (let i = 1; i <= 17; i++) {
       document.getElementById('w' + i).checked = false;
     }
   }
