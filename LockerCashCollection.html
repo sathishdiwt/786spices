@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+    <title>786 Spices - Cash Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+
+        .form-section {
+            margin-bottom: 16px;
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: white;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .denomination-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .denomination-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .denomination-item label {
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .denomination-item input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-card.success .stat-value {
+            color: #22c55e;
+        }
+
+        .stat-card.danger .stat-value {
+            color: #ef4444;
+        }
+
+        .stat-card.neutral .stat-value {
+            color: #667eea;
+        }
+
+        .expense-input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .expense-button-row {
+            display: grid;
+            gap: 10px;
+        }
+
+        .expense-list {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .expense-item {
+            display: grid;
+            grid-template-columns: 70px 1fr 50px;
+            gap: 12px;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+
+        .expense-amount {
+            font-weight: 700;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .expense-notes {
+            font-size: 12px;
+            color: #666;
+            word-break: break-word;
+        }
+
+        .btn-remove {
+            background: #fee;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .btn-remove:active {
+            background: #fdd;
+            transform: scale(0.95);
+        }
+
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+        }
+
+        .btn-add {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-add:active {
+            background: #16a34a;
+            transform: scale(0.98);
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-section h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 600;
+        }
+
+        .summary-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background: white;
+            color: #22c55e;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-whatsapp:active {
+            transform: scale(0.98);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 13px;
+            z-index: 99;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 12px;
+                padding-bottom: 130px;
+            }
+
+            .header {
+                padding: 16px 12px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .denomination-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .form-section {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .summary-section {
+                padding: 16px 12px;
+            }
+
+            .summary-grid {
+                gap: 12px;
+            }
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input {
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 786 Spices Cash Report</h1>
+            <p>Singapore Currency - SGD</p>
+        </div>
+
+        <div class="content">
+            <!-- Locker Selection -->
+            <div class="form-section">
+                <h3>📍 Location</h3>
+                <label for="locker">Select Locker</label>
+                <select id="locker">
+                    <option value="Neythal Road - Canteen">Neythal Road - Canteen</option>
+                    <option value="Neythal Road - Catering">Neythal Road - Catering</option>
+                    <option value="Jalan Papan - Muri">Jalan Papan - Muri</option>
+                    <option value="Jalan Papan - Canteen">Jalan Papan - Canteen</option>
+                    <option value="Tuas Minimart">Tuas Minimart</option>
+                    <option value="Kaki Bukit Minimart">Kaki Bukit Minimart</option>
+                    <option value="Neythal Road Minimart">Neythal Road Minimart</option>
+                </select>
+            </div>
+
+            <!-- Denominations -->
+            <div class="form-section">
+                <h3>💵 Cash Denominations</h3>
+                <div class="denomination-grid">
+                    <div class="denomination-item">
+                        <label>$100</label>
+                        <input type="number" class="denomination" data-value="100" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>$50</label>
+                        <input type="number" class="denomination" data-value="50" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>$10</label>
+                        <input type="number" class="denomination" data-value="10" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>$5</label>
+                        <input type="number" class="denomination" data-value="5" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>$2</label>
+                        <input type="number" class="denomination" data-value="2" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>$1</label>
+                        <input type="number" class="denomination" data-value="1" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>50¢</label>
+                        <input type="number" class="denomination" data-value="0.50" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>20¢</label>
+                        <input type="number" class="denomination" data-value="0.20" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>10¢</label>
+                        <input type="number" class="denomination" data-value="0.10" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <label>5¢</label>
+                        <input type="number" class="denomination" data-value="0.05" min="0" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Info -->
+            <div class="form-section">
+                <h3>📊 Sales Info</h3>
+                <label for="totalSales">Total Sales (SGD)</label>
+                <input type="number" id="totalSales" min="0" value="0" placeholder="Enter total sales">
+            </div>
+
+            <!-- Stats Display -->
+            <div class="stats-grid">
+                <div class="stat-card neutral">
+                    <div class="stat-label">Total Cash</div>
+                    <div class="stat-value" id="totalCash">$0</div>
+                </div>
+                <div class="stat-card" id="varianceCard">
+                    <div class="stat-label">Variance</div>
+                    <div class="stat-value" id="variance">$0</div>
+                </div>
+            </div>
+
+            <!-- Expected Sales Display -->
+            <div class="stats-grid">
+                <div class="stat-card neutral">
+                    <div class="stat-label">Expected Sales</div>
+                    <div class="stat-value" id="expectedSales">$0</div>
+                </div>
+                <div class="stat-card neutral">
+                    <div class="stat-label">Total Expenses</div>
+                    <div class="stat-value" id="totalExpenses">$0</div>
+                </div>
+            </div>
+
+            <!-- Expenses Section -->
+            <div class="form-section">
+                <h3>📌 Expenses</h3>
+                <div class="expense-input-row">
+                    <input type="number" id="expenseAmount" placeholder="Amount (SGD)" min="0" step="0.01">
+                    <input type="text" id="expenseNotes" placeholder="Notes">
+                </div>
+                <div class="expense-button-row">
+                    <button class="btn btn-add" onclick="addExpense()">Add Expense</button>
+                </div>
+                <div id="expenseListContainer"></div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <h3>✅ Cash Handover</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">Total Deductions</div>
+                    <div class="summary-value" id="summaryExpenses">$0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Net to Boss</div>
+                    <div class="summary-value" id="netCash">$0</div>
+                </div>
+            </div>
+            <button class="btn-whatsapp" onclick="copyToWhatsApp()">
+                📤 Copy for WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const denominations = [100, 50, 10, 5, 2, 1, 0.50, 0.20, 0.10, 0.05];
+        let expenses = [];
+
+        // Add event listeners to all denomination inputs
+        document.querySelectorAll('.denomination').forEach(input => {
+            input.addEventListener('change', updateCalculations);
+            input.addEventListener('input', updateCalculations);
+        });
+
+        document.getElementById('totalSales').addEventListener('change', updateCalculations);
+        document.getElementById('totalSales').addEventListener('input', updateCalculations);
+
+        function updateCalculations() {
+            // Calculate total cash
+            let totalCash = 0;
+            document.querySelectorAll('.denomination').forEach(input => {
+                const denomination = parseFloat(input.dataset.value);
+                const quantity = parseInt(input.value) || 0;
+                totalCash += denomination * quantity;
+            });
+
+            // Get total sales
+            const totalSales = parseFloat(document.getElementById('totalSales').value) || 0;
+
+            // Calculate variance
+            const variance = totalCash - totalSales;
+
+            // Calculate total expenses
+            const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+
+            // Calculate net cash
+            const netCash = totalCash - totalExpenses;
+
+            // Update display with proper formatting
+            document.getElementById('totalCash').textContent = '$' + totalCash.toFixed(2);
+            document.getElementById('expectedSales').textContent = '$' + totalSales.toFixed(2);
+            document.getElementById('variance').textContent = (variance >= 0 ? '+' : '') + '$' + variance.toFixed(2);
+            document.getElementById('totalExpenses').textContent = '$' + totalExpenses.toFixed(2);
+            document.getElementById('summaryExpenses').textContent = '$' + totalExpenses.toFixed(2);
+            document.getElementById('netCash').textContent = '$' + netCash.toFixed(2);
+
+            // Update variance card color
+            const varianceCard = document.getElementById('varianceCard');
+            varianceCard.classList.remove('success', 'danger', 'neutral');
+            if (variance > 0) {
+                varianceCard.classList.add('success');
+            } else if (variance < 0) {
+                varianceCard.classList.add('danger');
+            } else {
+                varianceCard.classList.add('neutral');
+            }
+        }
+
+        function addExpense() {
+            const amountInput = document.getElementById('expenseAmount');
+            const notesInput = document.getElementById('expenseNotes');
+            const amount = parseFloat(amountInput.value);
+            const notes = notesInput.value.trim();
+
+            if (!amount || amount <= 0) {
+                showToast('Please enter a valid amount');
+                amountInput.focus();
+                return;
+            }
+
+            expenses.push({
+                id: Date.now(),
+                amount: amount,
+                notes: notes || 'N/A'
+            });
+
+            amountInput.value = '';
+            notesInput.value = '';
+
+            updateExpenseList();
+            updateCalculations();
+            showToast('✓ Expense added');
+        }
+
+        function removeExpense(id) {
+            expenses = expenses.filter(exp => exp.id !== id);
+            updateExpenseList();
+            updateCalculations();
+            showToast('✓ Expense removed');
+        }
+
+        function updateExpenseList() {
+            const container = document.getElementById('expenseListContainer');
+
+            if (expenses.length === 0) {
+                container.innerHTML = '<div class="empty-message">No expenses added</div>';
+                return;
+            }
+
+            let html = '<div class="expense-list">';
+            expenses.forEach(exp => {
+                html += `
+                    <div class="expense-item">
+                        <div class="expense-amount">$${exp.amount.toFixed(2)}</div>
+                        <div class="expense-notes">${exp.notes}</div>
+                        <button class="btn-remove" onclick="removeExpense(${exp.id})">✕</button>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function generateReport() {
+            const locker = document.getElementById('locker').value;
+            const totalCash = parseFloat(document.getElementById('totalCash').textContent.replace(/[^\d.]/g, '')) || 0;
+            const totalSales = parseFloat(document.getElementById('expectedSales').textContent.replace(/[^\d.]/g, '')) || 0;
+            const variance = totalCash - totalSales;
+            const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const netCash = totalCash - totalExpenses;
+            const date = new Date().toLocaleDateString('en-SG', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            const time = new Date().toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' });
+
+            let report = `💰 CASH COLLECTION REPORT\n`;
+            report += `${'='.repeat(40)}\n\n`;
+            report += `📍 Location: ${locker}\n`;
+            report += `📅 Date: ${date}\n`;
+            report += `⏰ Time: ${time}\n\n`;
+            report += `DENOMINATION BREAKDOWN:\n`;
+            report += `${'-'.repeat(40)}\n`;
+
+            let hasDenom = false;
+            document.querySelectorAll('.denomination').forEach(input => {
+                const qty = parseInt(input.value) || 0;
+                if (qty > 0) {
+                    const denom = parseFloat(input.dataset.value);
+                    const amount = qty * denom;
+                    const denomLabel = denom >= 1 ? `$${denom.toFixed(0)}` : `${(denom * 100).toFixed(0)}¢`;
+                    report += `${denomLabel.padStart(5)} × ${qty.toString().padStart(3)} = $${amount.toFixed(2)}\n`;
+                    hasDenom = true;
+                }
+            });
+
+            if (!hasDenom) {
+                report += `No cash collected\n`;
+            }
+
+            report += `\n${'-'.repeat(40)}\n`;
+            report += `SUMMARY:\n`;
+            report += `${'-'.repeat(40)}\n`;
+            report += `Total Cash Collected: $${totalCash.toFixed(2)}\n`;
+            report += `Total Sales: $${totalSales.toFixed(2)}\n`;
+            report += `Variance: ${variance >= 0 ? '+' : ''}$${variance.toFixed(2)} ${variance > 0 ? '(Extra)' : variance < 0 ? '(Shortage)' : '(Balanced)'}\n\n`;
+
+            if (expenses.length > 0) {
+                report += `EXPENSES:\n`;
+                report += `${'-'.repeat(40)}\n`;
+                expenses.forEach(exp => {
+                    report += `$${exp.amount.toFixed(2)} - ${exp.notes}\n`;
+                });
+                report += `Total Expenses: $${totalExpenses.toFixed(2)}\n\n`;
+            }
+
+            report += `${'-'.repeat(40)}\n`;
+            report += `💳 NET CASH TO BOSS: $${netCash.toFixed(2)}\n`;
+            report += `${'-'.repeat(40)}\n`;
+
+            return report;
+        }
+
+        function copyToWhatsApp() {
+            const report = generateReport();
+            const textarea = document.createElement('textarea');
+            textarea.value = report;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('✅ Copied! Paste in WhatsApp');
+            } catch (err) {
+                showToast('Failed to copy');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 2000);
+        }
+
+        // Initial calculation
+        updateCalculations();
+    </script>
+</body>
+</html>
