@@ -1,464 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Pixels Operations Hub</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>Pixels Operations Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1D22;
+    --paper:#F4F1E8;
+    --paper-dim:#E9E4D6;
+    --orange:#FF6A33;
+    --orange-dark:#B3431A;
+    --blue:#2E4B78;
+    --blue-dark:#1D3153;
+    --yellow:#FFC845;
+    --gray:#8B8D91;
+    --line: rgba(27,29,34,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100%;min-height:100%;}
+  body{
+    background:var(--ink);
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 14px);
+    font-family:'Inter',sans-serif;
+    color:var(--paper);
+    padding-bottom:84px;
+  }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-        }
+  /* caution strip */
+  .caution{
+    height:8px;
+    background: repeating-linear-gradient(135deg, var(--yellow) 0 16px, var(--ink) 16px 32px);
+  }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
+  header{
+    padding:22px 18px 16px;
+    position:sticky; top:0; z-index:20;
+    background:var(--ink);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .brandrow{display:flex; align-items:flex-end; justify-content:space-between; gap:12px;}
+  .brand h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(24px,7vw,32px);
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    line-height:1;
+  }
+  .brand span{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    color:var(--orange);
+    text-transform:uppercase;
+    margin-top:6px;
+  }
+  .shift{
+    text-align:right;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .shift .clock{font-size:18px; font-weight:600; color:var(--paper);}
+  .shift .label{font-size:10px; color:var(--gray); text-transform:uppercase; letter-spacing:1px; margin-top:2px;}
+  .shift .dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:#5BD97A; margin-right:5px; box-shadow:0 0 0 3px rgba(91,217,122,0.18);}
 
-        .container {
-            width: 100%;
-            max-width: 1400px;
-        }
+  main{padding:20px 16px 8px; max-width:640px; margin:0 auto;}
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: slideDown 0.6s ease-out;
-        }
+  .section-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--gray);
+    margin:22px 4px 10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .section-label::after{content:''; flex:1; height:1px; background:rgba(255,255,255,0.1);}
 
-        .header h1 {
-            font-size: clamp(24px, 7vw, 42px);
-            font-weight: 800;
-            color: white;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
+  .tickets{display:flex; flex-direction:column; gap:14px;}
 
-        .header p {
-            font-size: clamp(12px, 3vw, 14px);
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 300;
-            letter-spacing: 0.3px;
-        }
+  .ticket{
+    display:flex;
+    background:var(--paper);
+    border-radius:10px;
+    color:var(--ink);
+    text-decoration:none;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,0.28);
+    position:relative;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
+  }
+  .ticket:active{transform:scale(0.98);}
 
-        .menu-tabs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            justify-content: center;
-            animation: slideDown 0.6s ease-out 0.1s both;
-        }
+  .stub{
+    width:56px;
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    color:var(--paper);
+  }
+  .stub .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:12px;
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    letter-spacing:2px;
+  }
+  .perf{
+    width:1px;
+    background-image: radial-gradient(circle, var(--paper) 2px, transparent 2.2px);
+    background-size:1px 12px;
+    background-repeat:repeat-y;
+    background-position:center;
+    align-self:stretch;
+  }
 
-        .menu-btn {
-            padding: 10px 24px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(10px);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
+  .ticket-body{
+    flex:1;
+    padding:14px 16px 12px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-width:0;
+  }
+  .row-top{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    font-weight:600;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:20px;
+    background:rgba(27,29,34,0.08);
+  }
+  .status{
+    display:flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;
+    color:var(--gray);
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .status .led{width:6px; height:6px; border-radius:50%; background:#3AA85C;}
 
-        .menu-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: -1;
-            transition: left 0.3s ease;
-        }
+  .ticket-title{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:19px;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    line-height:1.1;
+  }
+  .ticket-desc{font-size:12.5px; color:#5B5D63; line-height:1.4;}
 
-        .menu-btn:hover {
-            color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
+  .row-bottom{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:6px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .open-link{
+    display:flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; font-weight:600;
+    letter-spacing:1px; text-transform:uppercase;
+  }
+  .arrow{transition:transform .18s ease;}
+  .ticket:hover .arrow{transform:translateX(4px);}
+  .icon-mark{font-size:20px; line-height:1;}
 
-        .menu-btn:hover::before {
-            left: 0;
-        }
+  .t1 .stub{background:var(--orange); }
+  .t1 .open-link{color:var(--orange-dark);}
+  .t2 .stub{background:var(--blue);}
+  .t2 .open-link{color:var(--blue-dark);}
+  .t3 .stub{background:#3A7D5C;}
+  .t3 .open-link{color:#245239;}
+  .t4 .stub{background:var(--orange-dark);}
+  .t4 .open-link{color:#7A2C0E;}
+  .t5 .stub{background:var(--blue-dark);}
+  .t5 .open-link{color:#132540;}
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(clamp(140px, 40vw, 260px), 1fr));
-            gap: clamp(14px, 3vw, 20px);
-            animation: fadeIn 0.8s ease-out 0.2s both;
-        }
+  footer{
+    text-align:center;
+    padding:26px 16px 10px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:1px;
+    color:rgba(255,255,255,0.35);
+    text-transform:uppercase;
+  }
 
-        .tool-card {
-            background: white;
-            border-radius: 16px;
-            padding: clamp(18px, 5vw, 28px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            color: inherit;
-            min-height: 240px;
-            z-index: 1;
-        }
+  /* bottom dispatch nav */
+  .dispatch-nav{
+    position:fixed; bottom:0; left:0; right:0;
+    display:flex;
+    background:var(--ink);
+    border-top:1px solid rgba(255,255,255,0.1);
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+    z-index:30;
+  }
+  .nav-btn{
+    flex:1;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    background:none; border:none; color:var(--gray);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px; letter-spacing:0.5px; text-transform:uppercase;
+    padding:6px 2px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .nav-btn .ic{font-size:19px;}
+  .nav-btn.active{color:var(--orange);}
+  .nav-btn.active .ic{filter:drop-shadow(0 0 6px rgba(255,106,51,0.5));}
 
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-icon {
-            font-size: clamp(32px, 8vw, 44px);
-            margin-bottom: 12px;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 10px;
-        }
-
-        .card-title {
-            font-size: clamp(15px, 4vw, 18px);
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 6px;
-            line-height: 1.2;
-        }
-
-        .card-badge {
-            display: inline-block;
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            width: fit-content;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #667eea;
-            font-weight: 700;
-            font-size: 12px;
-            transition: gap 0.3s ease;
-            margin-top: auto;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .tool-card:hover .card-footer {
-            gap: 12px;
-        }
-
-        .arrow {
-            transition: transform 0.3s ease;
-            font-size: 16px;
-        }
-
-        .tool-card:hover .arrow {
-            transform: translateX(4px);
-        }
-
-        .card-1::before {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .card-2::before {
-            background: linear-gradient(90deg, #f093fb, #f5576c);
-        }
-
-        .card-3::before {
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-        }
-
-        .card-4::before {
-            background: linear-gradient(90deg, #fa709a, #fee140);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .footer-text {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: clamp(12px, 3vw, 14px);
-            margin-top: 40px;
-            animation: fadeIn 0.8s ease-out 0.4s both;
-        }
-
-        /* Tablet optimization */
-        @media (max-width: 1024px) {
-            .tools-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-
-            .tool-card {
-                min-height: 260px;
-            }
-        }
-
-        /* Mobile optimization */
-        @media (max-width: 640px) {
-            body {
-                padding: 12px;
-            }
-
-            .container {
-                max-width: 100%;
-            }
-
-            .header {
-                margin-bottom: 24px;
-            }
-
-            .menu-tabs {
-                gap: 8px;
-                margin-bottom: 20px;
-            }
-
-            .menu-btn {
-                padding: 8px 16px;
-                font-size: 12px;
-                border-radius: 8px;
-                letter-spacing: 0.5px;
-            }
-
-            .tools-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .tool-card {
-                padding: 16px;
-                min-height: 220px;
-                border-radius: 14px;
-            }
-
-            .card-icon {
-                width: 45px;
-                height: 45px;
-                margin-bottom: 10px;
-            }
-
-            .card-title {
-                font-size: 14px;
-                margin-bottom: 4px;
-            }
-
-            .card-badge {
-                margin-bottom: 8px;
-                font-size: 9px;
-            }
-
-            .card-footer {
-                font-size: 10px;
-                margin-top: auto;
-            }
-
-            .footer-text {
-                margin-top: 20px;
-            }
-        }
-
-        /* Small phone optimization */
-        @media (max-width: 380px) {
-            .header h1 {
-                font-size: 20px;
-            }
-
-            .header p {
-                font-size: 11px;
-            }
-
-            .menu-btn {
-                padding: 6px 12px;
-                font-size: 11px;
-                letter-spacing: 0.3px;
-            }
-
-            .tool-card {
-                padding: 14px;
-                min-height: 200px;
-            }
-
-            .card-icon {
-                font-size: 32px;
-                width: 42px;
-                height: 42px;
-            }
-
-            .card-title {
-                font-size: 13px;
-            }
-        }
-
-        /* Landscape mobile */
-        @media (max-height: 600px) and (max-width: 900px) {
-            .header {
-                margin-bottom: 20px;
-            }
-
-            .tools-grid {
-                gap: 12px;
-            }
-
-            .tool-card {
-                min-height: 200px;
-                padding: 16px;
-            }
-        }
-    </style>
+  @media (max-width:380px){
+    .ticket-title{font-size:17px;}
+    .stub{width:48px;}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Pixels Operations</h1>
-            <p>Management Hub</p>
-        </div>
 
-        <div class="menu-tabs">
-            <div class="menu-btn">📊 Dashboard</div>
-            <div class="menu-btn">👥 Teams</div>
-            <div class="menu-btn">⚙️ Tools</div>
-            <div class="menu-btn">📈 Analytics</div>
-        </div>
+<div class="caution"></div>
 
-        <div class="tools-grid">
-            <a href="https://786spices.vercel.app/pixels_manpower_update.html" class="tool-card card-1" target="_blank" rel="noopener noreferrer">
-                <div class="card-icon">👥</div>
-                <div class="card-badge">Manpower</div>
-                <h2 class="card-title">Workforce Updates</h2>
-                <div class="card-footer">
-                    <span>Access</span>
-                    <span class="arrow">→</span>
-                </div>
-            </a>
-
-            <a href="https://786spices.vercel.app/site_work_activity_report.html" class="tool-card card-2" target="_blank" rel="noopener noreferrer">
-                <div class="card-icon">🛠️</div>
-                <div class="card-badge">Operations</div>
-                <h2 class="card-title">Site Activity</h2>
-                <div class="card-footer">
-                    <span>Access</span>
-                    <span class="arrow">→</span>
-                </div>
-            </a>
-
-            <a href="https://786spices.vercel.app/sitereport.html" class="tool-card card-3" target="_blank" rel="noopener noreferrer">
-                <div class="card-icon">📊</div>
-                <div class="card-badge">Analytics</div>
-                <h2 class="card-title">Site Reports</h2>
-                <div class="card-footer">
-                    <span>Access</span>
-                    <span class="arrow">→</span>
-                </div>
-            </a>
-
-            <a href="https://786spices.vercel.app/pixels_work.html" class="tool-card card-4" target="_blank" rel="noopener noreferrer">
-                <div class="card-icon">👷🏻‍♂️</div>
-                <div class="card-badge">Tasks</div>
-                <h2 class="card-title">Work Assignments</h2>
-                <div class="card-footer">
-                    <span>Access</span>
-                    <span class="arrow">→</span>
-                </div>
-            </a>
-
-                <a href="https://786spices.vercel.app/pixels-employee-management.html" class="tool-card card-4" target="_blank" rel="noopener noreferrer">
-                <div class="card-icon">⚙️</div>
-                <div class="card-badge">Workers</div>
-                <h2 class="card-title">Workers Management</h2>
-                <div class="card-footer">
-                    <span>Access</span>
-                    <span class="arrow">→</span>
-                </div>
-            </a>           
-        </div>
-
-        <div class="footer-text">
-            <p>Pixels Connect • Operations Portal</p>
-        </div>
+<header>
+  <div class="brandrow">
+    <div class="brand">
+      <h1>Pixels Ops</h1>
+      <span>Site Dispatch Board</span>
     </div>
+    <div class="shift">
+      <div class="clock"><span class="dot"></span><span id="clockTime">--:--</span></div>
+      <div class="label" id="clockDate">Loading</div>
+    </div>
+  </div>
+</header>
 
-    <script>
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('touchstart', function() {
-                this.style.transform = 'translateY(-6px)';
-            });
+<main>
+  <div class="section-label">Active work orders</div>
+  <div class="tickets">
 
-            card.addEventListener('touchend', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
+    <a href="https://786spices.vercel.app/pixels_manpower_update.html" class="ticket t1" target="_blank" rel="noopener noreferrer">
+      <div class="stub"><span class="num">WO&nbsp;01</span></div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <div class="row-top">
+          <span class="tag">Manpower</span>
+          <span class="status"><span class="led"></span>Live</span>
+        </div>
+        <div class="icon-mark">👥</div>
+        <div class="ticket-title">Workforce updates</div>
+        <div class="ticket-desc">Log attendance and roster changes</div>
+        <div class="row-bottom">
+          <span class="open-link">Open ticket <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
 
-        document.querySelectorAll('.menu-btn').forEach(btn => {
-            btn.addEventListener('mouseover', function() {
-                this.style.transform = 'translateY(-3px)';
-            });
+    <a href="https://786spices.vercel.app/site_work_activity_report.html" class="ticket t2" target="_blank" rel="noopener noreferrer">
+      <div class="stub"><span class="num">WO&nbsp;02</span></div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <div class="row-top">
+          <span class="tag">Operations</span>
+          <span class="status"><span class="led"></span>Live</span>
+        </div>
+        <div class="icon-mark">🛠️</div>
+        <div class="ticket-title">Site activity</div>
+        <div class="ticket-desc">Daily progress and activity log</div>
+        <div class="row-bottom">
+          <span class="open-link">Open ticket <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
 
-            btn.addEventListener('mouseout', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-    </script>
+    <a href="https://786spices.vercel.app/sitereport.html" class="ticket t3" target="_blank" rel="noopener noreferrer">
+      <div class="stub"><span class="num">WO&nbsp;03</span></div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <div class="row-top">
+          <span class="tag">Analytics</span>
+          <span class="status"><span class="led"></span>Live</span>
+        </div>
+        <div class="icon-mark">📊</div>
+        <div class="ticket-title">Site reports</div>
+        <div class="ticket-desc">Review compiled site reports</div>
+        <div class="row-bottom">
+          <span class="open-link">Open ticket <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://786spices.vercel.app/pixels_work.html" class="ticket t4" target="_blank" rel="noopener noreferrer">
+      <div class="stub"><span class="num">WO&nbsp;04</span></div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <div class="row-top">
+          <span class="tag">Tasks</span>
+          <span class="status"><span class="led"></span>Live</span>
+        </div>
+        <div class="icon-mark">👷🏻‍♂️</div>
+        <div class="ticket-title">Work assignments</div>
+        <div class="ticket-desc">Assign and track jobsite tasks</div>
+        <div class="row-bottom">
+          <span class="open-link">Open ticket <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://786spices.vercel.app/pixels-employee-management.html" class="ticket t5" target="_blank" rel="noopener noreferrer">
+      <div class="stub"><span class="num">WO&nbsp;05</span></div>
+      <div class="perf"></div>
+      <div class="ticket-body">
+        <div class="row-top">
+          <span class="tag">Workers</span>
+          <span class="status"><span class="led"></span>Live</span>
+        </div>
+        <div class="icon-mark">⚙️</div>
+        <div class="ticket-title">Workers management</div>
+        <div class="ticket-desc">Manage worker profiles and records</div>
+        <div class="row-bottom">
+          <span class="open-link">Open ticket <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <footer>Pixels Connect &bull; Operations Portal</footer>
+</main>
+
+<nav class="dispatch-nav">
+  <button class="nav-btn active"><span class="ic">📊</span>Dashboard</button>
+  <button class="nav-btn"><span class="ic">👥</span>Teams</button>
+  <button class="nav-btn"><span class="ic">⚙️</span>Tools</button>
+  <button class="nav-btn"><span class="ic">📈</span>Analytics</button>
+</nav>
+
+<script>
+  function updateClock(){
+    const now = new Date();
+    const time = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    const date = now.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'});
+    document.getElementById('clockTime').textContent = time;
+    document.getElementById('clockDate').textContent = date;
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
+
+  document.querySelectorAll('.dispatch-nav .nav-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.dispatch-nav .nav-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+
 </body>
 </html>
