@@ -158,6 +158,15 @@
     .form-wrap iframe{ height:1050px; }
   }
 
+  /* Sheet responsive height */
+  @media (max-width: 480px){
+    .form-wrap iframe:last-of-type { height:700px; }
+  }
+
+  @media (max-width: 360px){
+    .form-wrap iframe:last-of-type { height:800px; }
+  }
+
   .loader{
     position:absolute;
     inset:0;
@@ -227,26 +236,51 @@
     </header>
 
     <main>
-      <div class="card">
-        <div class="card-top">
-          <span class="dot"></span>
-          <span>PPE Issue Form</span>
-        </div>
-        <div class="form-wrap">
-          <div class="loader" id="loader">
-            <div class="spinner"></div>
-            <p>Loading form…</p>
+      <div style="width:100%; max-width:680px;">
+        <!-- PPE Issue Form -->
+        <div class="card">
+          <div class="card-top">
+            <span class="dot"></span>
+            <span>PPE Issue Form</span>
           </div>
-          <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true" 
-            width="640" 
-            height="800" 
-            frameborder="0" 
-            marginheight="0" 
-            marginwidth="0"
-            onload="document.getElementById('loader').classList.add('hide')">
-            Loading…
-          </iframe>
+          <div class="form-wrap">
+            <div class="loader" id="loader">
+              <div class="spinner"></div>
+              <p>Loading form…</p>
+            </div>
+            <iframe 
+              src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true" 
+              width="640" 
+              height="900" 
+              frameborder="0" 
+              marginheight="0" 
+              marginwidth="0"
+              onload="document.getElementById('loader').classList.add('hide')">
+              Loading…
+            </iframe>
+          </div>
+        </div>
+
+        <!-- PPE Responses Sheet -->
+        <div class="card" style="margin-top:28px;">
+          <div class="card-top">
+            <span class="dot"></span>
+            <span>PPE Issue Responses</span>
+          </div>
+          <div class="form-wrap">
+            <div class="loader" id="loader-sheet">
+              <div class="spinner"></div>
+              <p>Loading sheet…</p>
+            </div>
+            <iframe 
+              src="https://docs.google.com/spreadsheets/d/1W73B_2hfw4xhUDHwupttBZdIFSPUeuh2a-Qy1SIVVSY/edit?usp=sharing&embedded=true" 
+              width="640" 
+              height="600" 
+              frameborder="0"
+              onload="document.getElementById('loader-sheet').classList.add('hide')">
+              Loading…
+            </iframe>
+          </div>
         </div>
       </div>
     </main>
