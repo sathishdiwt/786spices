@@ -30,7 +30,7 @@
 
   /* Hazard stripe signature bar */
   .hazard-bar{
-    height:30px;
+    height:14px;
     width:100%;
     background: repeating-linear-gradient(
       -45deg,
@@ -146,25 +146,17 @@
     display:block;
     width:100%;
     border:none;
-    height:850px;
+    height:auto;
+    min-height:600px;
   }
 
-  /* On narrower screens, Google Forms stacks fields more, so it needs more vertical room */
+  /* Auto-height responsive adjustments */
   @media (max-width: 480px){
-    .form-wrap iframe{ height:950px; }
+    .form-wrap iframe{ min-height:700px; }
   }
 
   @media (max-width: 360px){
-    .form-wrap iframe{ height:1050px; }
-  }
-
-  /* Sheet responsive height */
-  @media (max-width: 480px){
-    .form-wrap iframe:last-of-type { height:700px; }
-  }
-
-  @media (max-width: 360px){
-    .form-wrap iframe:last-of-type { height:800px; }
+    .form-wrap iframe{ min-height:800px; }
   }
 
   .loader{
@@ -250,8 +242,6 @@
             </div>
             <iframe 
               src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true" 
-              width="640" 
-              height="1200" 
               frameborder="0" 
               marginheight="0" 
               marginwidth="0"
@@ -273,9 +263,7 @@
               <p>Loading sheet…</p>
             </div>
             <iframe 
-              src="https://docs.google.com/spreadsheets/d/1W73B_2hfw4xhUDHwupttBZdIFSPUeuh2a-Qy1SIVVSY/edit?usp=sharing" 
-              width="600" 
-              height="600" 
+              src="https://docs.google.com/spreadsheets/d/1W73B_2hfw4xhUDHwupttBZdIFSPUeuh2a-Qy1SIVVSY/edit?usp=sharing&embedded=true" 
               frameborder="0"
               onload="document.getElementById('loader-sheet').classList.add('hide')">
               Loading…
@@ -291,3 +279,47 @@
   </div>
 </body>
 </html>
+
+<script>
+// Auto-adjust iframe heights based on content
+function adjustIframeHeights() {
+  const iframes = document.querySelectorAll('.form-wrap iframe');
+  
+  iframes.forEach(iframe => {
+    // Initial height adjustment on load
+    if (iframe.complete || iframe.readyState === 'complete') {
+      tryAdjustHeight(iframe);
+    }
+    
+    // Adjust on load event
+    iframe.addEventListener('load', function() {
+      tryAdjustHeight(this);
+    });
+  });
+}
+
+function tryAdjustHeight(iframe) {
+  try {
+    // For cross-origin iframes, we estimate based on viewport and content
+    const isFirstIframe = iframe === document.querySelector('.form-wrap iframe');
+    
+    if (isFirstIframe) {
+      // Form gets more space
+      iframe.style.height = Math.max(800, window.innerHeight * 0.9) + 'px';
+    } else {
+      // Sheet gets standard space
+      iframe.style.height = Math.max(600, window.innerHeight * 0.7) + 'px';
+    }
+  } catch (e) {
+    console.log('Cannot directly measure iframe due to cross-origin restrictions');
+  }
+}
+
+// Adjust on page load
+window.addEventListener('load', adjustIframeHeights);
+
+// Adjust on window resize
+window.addEventListener('resize', adjustIframeHeights);
+
+// Initial adjustment
+adjustIframeHeights();
