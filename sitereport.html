@@ -92,16 +92,16 @@
   .gauge input[type="range"]{width:100%;margin-top:7px;accent-color:var(--steel);height:16px;cursor:pointer;}
 
   /* Qty gauge inputs */
-  .gauge-qty{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  .gauge-qty{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
   .qty-input-group{display:flex;flex-direction:column;gap:4px;}
   .qty-input-group label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:600;}
-  .qty-input-group input{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  .qty-input-group input{border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:14px;width:100%;}
   .qty-input-group input:focus{outline:2px solid var(--steel);outline-offset:1px;}
 
   .text-field{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
   .text-field-label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;margin-bottom:6px;}
-  .text-field textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;
-    font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);resize:vertical;min-height:60px;}
+  .text-field textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:10px 12px;
+    font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);resize:vertical;min-height:70px;}
   .text-field textarea:focus{outline:2px solid var(--steel);outline-offset:1px;}
 
   .addCard{border:1.5px dashed var(--border);background:transparent;border-radius:12px;
@@ -258,7 +258,7 @@ function freshProgress(){
 
 let state = {
   locations: [
-    { id: idCounter++, name: 'RC ROOF', area: 'Location', logo: null, progress: freshProgress(), tomorrowPlan: '', requiredManpower: '' },
+    { id: idCounter++, name: 'RC ROOF', area: 'Location', logo: null, progress: freshProgress(), todayActivities: '', tomorrowPlan: '', requiredManpower: '' },
   ]
 };
 
@@ -370,6 +370,20 @@ function renderCard(loc){
       card.appendChild(renderGauge(loc, f));
     }
   });
+
+  // Today Activities
+  const todayField = document.createElement('div');
+  todayField.className = 'text-field';
+  const todayLabel = document.createElement('div');
+  todayLabel.className = 'text-field-label';
+  todayLabel.textContent = '✅ Today Activities';
+  const todayTA = document.createElement('textarea');
+  todayTA.value = loc.todayActivities || '';
+  todayTA.placeholder = 'Describe work completed today...';
+  todayTA.oninput = (e) => { loc.todayActivities = e.target.value; renderPrintSummary(); };
+  todayField.appendChild(todayLabel);
+  todayField.appendChild(todayTA);
+  card.appendChild(todayField);
 
   // Tomorrow Work Plan
   const tomorrowField = document.createElement('div');
@@ -532,7 +546,7 @@ function renderAddCard(){
   card.className = 'addCard';
   card.innerHTML = '<div class="icon">+</div><span class="label">Add location</span>';
   card.onclick = () => {
-    state.locations.push({ id: idCounter++, name: 'New Location', area: '', logo: null, progress: freshProgress(), tomorrowPlan: '', requiredManpower: '' });
+    state.locations.push({ id: idCounter++, name: 'New Location', area: '', logo: null, progress: freshProgress(), todayActivities: '', tomorrowPlan: '', requiredManpower: '' });
     render();
   };
   return card;
@@ -574,6 +588,12 @@ function renderPrintSummary(){
     }).join('');
     
     let textSections = '';
+    if(loc.todayActivities){
+      textSections += `<div class="rpt-text-section">
+        <div class="rpt-text-section-title">✅ Today Activities</div>
+        <div class="rpt-text-section-content">${loc.todayActivities}</div>
+      </div>`;
+    }
     if(loc.tomorrowPlan){
       textSections += `<div class="rpt-text-section">
         <div class="rpt-text-section-title">📋 Tomorrow Work Plan</div>
@@ -669,6 +689,9 @@ function handleCopyText() {
     const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
     text += `\n📊 Average Progress: ${avg}%\n`;
     
+    if(loc.todayActivities){
+      text += `\n✅ Today Activities:\n${loc.todayActivities}\n`;
+    }
     if(loc.tomorrowPlan){
       text += `\n📋 Tomorrow Work Plan:\n${loc.tomorrowPlan}\n`;
     }
