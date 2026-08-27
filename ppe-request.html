@@ -237,15 +237,24 @@
             <div class="spinner"></div>
             <p>Loading form…</p>
           </div>
-          <!--<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true" width="640" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>-->
-          <iframe
+          <iframe 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true" 
+            width="640" 
+            height="1000" 
+            frameborder="0" 
+            marginheight="0" 
+            marginwidth="0"
+            onload="document.getElementById('loader').classList.add('hide')">
+            Loading…
+          </iframe>
+          <!--<iframe
             src="https://docs.google.com/forms/d/e/1FAIpQLSfdnWcgk5BBdsw6aPmX8IPc6JyIexnnblGlkg-JDIK-IsFsxA/viewform?embedded=true"
             title="Workers PPE Issue Form"
             marginheight="0"
             marginwidth="0"
             onload="document.getElementById('loader').classList.add('hide')">
             Loading…
-          </iframe>
+          </iframe>-->
         </div>
       </div>
     </main>
