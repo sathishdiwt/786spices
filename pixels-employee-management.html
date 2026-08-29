@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* Animated background grid */
   body::before {
     content: '';
     position: fixed;
@@ -44,7 +43,7 @@
     z-index: 0;
   }
 
-  .app { position: relative; z-index: 1; display: flex; height: 100vh; }
+  .app { position: relative; z-index: 1; display: flex; height: 100vh; flex-direction: column; }
 
   /* SIDEBAR */
   .sidebar {
@@ -456,7 +455,6 @@
     to { transform: translateX(0); opacity: 1; }
   }
 
-  /* EMPTY STATE */
   .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -465,7 +463,6 @@
   .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
   .empty-state p { font-size: 13px; }
 
-  /* responsive scrollbar */
   .main::-webkit-scrollbar { width: 6px; }
   .main::-webkit-scrollbar-track { background: transparent; }
   .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -517,7 +514,6 @@
   }
   .filter-btn:hover, .filter-btn.active { background: rgba(0,229,255,0.1); color: var(--accent); border-color: rgba(0,229,255,0.3); }
 
-  /* Safety cert rows in modal */
   .safety-cert-row {
     background: rgba(123,97,255,0.05);
     border: 1px solid rgba(123,97,255,0.15);
@@ -538,7 +534,6 @@
     padding: 40px;
   }
 
-  /* Sticky serial number column */
   table th:first-child,
   table td:first-child {
     position: sticky;
@@ -555,7 +550,6 @@
     background: var(--surface2);
   }
 
-  /* Sticky name column */
   table th:nth-child(2),
   table td:nth-child(2) {
     position: sticky;
@@ -572,7 +566,6 @@
     background: var(--surface2);
   }
 
-  /* Row striping */
   tbody tr:nth-child(even) td {
     background: rgba(255,255,255,0.015);
   }
@@ -583,6 +576,216 @@
   tbody tr:hover td {
     background: rgba(0,229,255,0.04) !important;
   }
+
+  /* ═══ MOBILE RESPONSIVE ═══ */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 8px;
+  }
+  .hamburger span { display: block; width: 20px; height: 2px; background: var(--text-muted); border-radius: 1px; }
+  .hamburger:hover span { background: var(--text); }
+
+  @media (max-width: 768px) {
+    .app { flex-direction: column; }
+
+    .sidebar {
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      padding: 0 12px 0 0;
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-text { font-size: 14px; }
+    .logo-sub { font-size: 9px; margin-left: 0; margin-top: 0; }
+
+    .hamburger { display: flex; margin: 0 12px; }
+
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      padding: 8px;
+      z-index: 50;
+    }
+
+    .nav.open { display: flex; }
+
+    .nav-item {
+      font-size: 12px;
+      padding: 8px 12px;
+      margin-bottom: 2px;
+    }
+
+    .main { flex: 1; }
+
+    .topbar {
+      padding: 12px 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .page-title { font-size: 16px; }
+    .topbar-actions { gap: 6px; }
+
+    .content { padding: 16px; }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card { padding: 14px; }
+    .stat-value { font-size: 24px; }
+    .stat-label { font-size: 9px; }
+    .stat-sub { font-size: 10px; margin-top: 4px; }
+
+    .expiry-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .expiry-list { max-height: 150px; }
+    .expiry-header { padding: 12px 16px; }
+    .expiry-title { font-size: 13px; }
+
+    .section-title { font-size: 14px; margin-bottom: 12px; }
+
+    .search-box {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+    }
+
+    .search-box input {
+      width: 100%;
+      font-size: 12px;
+    }
+
+    .filter-row { gap: 6px; margin-bottom: 12px; }
+    .filter-btn { padding: 5px 10px; font-size: 10px; }
+
+    .table-toolbar {
+      padding: 12px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .table-wrap { border-radius: 8px; }
+
+    table { font-size: 11px; }
+    th { padding: 8px; font-size: 9px; }
+    td { padding: 8px; }
+
+    /* Hide non-essential columns */
+    table th:nth-child(n+9),
+    table td:nth-child(n+9) { display: none; }
+
+    .emp-name { font-size: 11px; }
+    .emp-id { font-size: 9px; }
+    .avatar { width: 28px; height: 28px; font-size: 10px; }
+    .emp-cell { gap: 6px; }
+
+    .btn { padding: 6px 12px; font-size: 11px; }
+    .btn-small { padding: 4px 8px; font-size: 10px; }
+    .btn-danger { padding: 4px 8px; font-size: 10px; }
+
+    .modal {
+      width: 90vw;
+      max-width: 400px;
+      padding: 18px;
+      max-height: 85vh;
+    }
+
+    .modal-title { font-size: 15px; margin-bottom: 16px; }
+    .modal-close { width: 24px; height: 24px; font-size: 12px; }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    label { font-size: 10px; }
+    input, select { padding: 7px 10px; font-size: 12px; }
+
+    .form-section { margin-top: 14px; padding-top: 14px; }
+    .form-section-title { font-size: 11px; margin-bottom: 10px; }
+
+    #safetyCertRows { max-height: 200px; }
+
+    .safety-cert-row { padding: 8px; margin-bottom: 6px; }
+    .safety-cert-row > div > div {
+      grid-template-columns: 1fr !important;
+      gap: 4px !important;
+    }
+
+    .modal-actions {
+      margin-top: 16px;
+      padding-top: 16px;
+      gap: 6px;
+    }
+
+    .toast-container {
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .toast {
+      min-width: 240px;
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    table th:nth-child(n+11),
+    table td:nth-child(n+11) { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+
+    .topbar { padding: 10px 12px; }
+    .page-title { font-size: 14px; }
+
+    .content { padding: 12px; }
+
+    .stat-value { font-size: 20px; }
+
+    table th:nth-child(n+6),
+    table td:nth-child(n+6) { display: none; }
+
+    .modal {
+      width: 95vw;
+      padding: 14px;
+    }
+
+    .btn { padding: 5px 10px; font-size: 10px; }
+    .search-box input { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
@@ -591,18 +794,23 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-text">⬡ <a href="index.html" style="text-decoration:none; color:inherit;">PIXELS</a></div>
-      <div class="logo-sub">Management System</div>
+      <div>
+        <div class="logo-text">⬡ <a href="index.html" style="text-decoration:none; color:inherit;">PIXELS</a></div>
+        <div class="logo-sub">Mgmt</div>
+      </div>
     </div>
-    <nav class="nav">
-      <div class="nav-item active" onclick="showPage('dashboard')">
-        <span class="icon">◉</span> Dashboard
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="navMenu">
+      <div class="nav-item active" onclick="showPage('dashboard'); closeMenu()">
+        <span class="icon">◉</span> <span>Dashboard</span>
       </div>
-      <div class="nav-item" onclick="showPage('employees')">
-        <span class="icon">◈</span> Employees
+      <div class="nav-item" onclick="showPage('employees'); closeMenu()">
+        <span class="icon">◈</span> <span>Employees</span>
       </div>
-      <div class="nav-item" onclick="showPage('documents')">
-        <span class="icon">◷</span> Document Expiry
+      <div class="nav-item" onclick="showPage('documents'); closeMenu()">
+        <span class="icon">◷</span> <span>Expiry</span>
       </div>
     </nav>
   </aside>
@@ -612,7 +820,7 @@
     <div class="topbar">
       <div class="page-title" id="pageTitle">Dashboard</div>
       <div class="topbar-actions">
-        <button class="btn btn-primary" onclick="openModal()">+ Add Employee</button>
+        <button class="btn btn-primary" onclick="openModal()">+ Add</button>
       </div>
     </div>
 
@@ -622,60 +830,57 @@
       <div class="page active" id="page-dashboard">
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-label">Total Employees</div>
+            <div class="stat-label">Total</div>
             <div class="stat-value cyan" id="statTotal">0</div>
-            <div class="stat-sub">Active workforce</div>
+            <div class="stat-sub">Employees</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Expired Docs</div>
+            <div class="stat-label">Expired</div>
             <div class="stat-value red" id="statExpired">0</div>
-            <div class="stat-sub">Needs immediate action</div>
+            <div class="stat-sub">Documents</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Expiring Soon</div>
+            <div class="stat-label">Expiring</div>
             <div class="stat-value yellow" id="statSoon">0</div>
-            <div class="stat-sub">Within 30 days</div>
+            <div class="stat-sub">≤30 days</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">All Valid</div>
+            <div class="stat-label">Valid</div>
             <div class="stat-value green" id="statValid">0</div>
-            <div class="stat-sub">Documents up to date</div>
+            <div class="stat-sub">Up to date</div>
           </div>
         </div>
 
         <div class="section-title">
-          <span class="dot dot-danger"></span> Document Expiry Overview
+          <span class="dot dot-danger"></span> Document Status
         </div>
 
         <div class="expiry-grid">
-          <!-- PERMIT -->
           <div class="expiry-card">
             <div class="expiry-header">
               <div class="expiry-title">🪪 Work Permit</div>
-              <span class="badge badge-danger" id="permitExpiredCount">0 expired</span>
+              <span class="badge badge-danger" id="permitExpiredCount">0</span>
             </div>
             <div class="expiry-list" id="permitList">
-              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data yet</div>
+              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data</div>
             </div>
           </div>
-          <!-- PASSPORT -->
           <div class="expiry-card">
             <div class="expiry-header">
               <div class="expiry-title">📘 Passport</div>
-              <span class="badge badge-warning" id="passportExpiredCount">0 expired</span>
+              <span class="badge badge-warning" id="passportExpiredCount">0</span>
             </div>
             <div class="expiry-list" id="passportList">
-              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data yet</div>
+              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data</div>
             </div>
           </div>
-          <!-- SAFETY CERT -->
           <div class="expiry-card">
             <div class="expiry-header">
-              <div class="expiry-title">🦺 Safety Certificate</div>
-              <span class="badge badge-danger" id="safetyExpiredCount">0 expired</span>
+              <div class="expiry-title">🦺 Safety</div>
+              <span class="badge badge-danger" id="safetyExpiredCount">0</span>
             </div>
             <div class="expiry-list" id="safetyList">
-              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data yet</div>
+              <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No data</div>
             </div>
           </div>
         </div>
@@ -685,8 +890,8 @@
       <div class="page" id="page-employees">
         <div class="filter-row">
           <button class="filter-btn active" onclick="filterDept(this, 'all')">All</button>
-          <button class="filter-btn" onclick="filterDept(this, 'Engineering')">Engineering</button>
-          <button class="filter-btn" onclick="filterDept(this, 'Operations')">Operations</button>
+          <button class="filter-btn" onclick="filterDept(this, 'Engineering')">Eng</button>
+          <button class="filter-btn" onclick="filterDept(this, 'Operations')">Ops</button>
           <button class="filter-btn" onclick="filterDept(this, 'Safety')">Safety</button>
           <button class="filter-btn" onclick="filterDept(this, 'Admin')">Admin</button>
           <button class="filter-btn" onclick="filterDept(this, 'HR')">HR</button>
@@ -695,34 +900,28 @@
           <div class="table-toolbar">
             <div class="search-box">
               <span>🔍</span>
-              <input type="text" placeholder="Search employees..." id="searchInput" oninput="searchEmployees()">
+              <input type="text" placeholder="Search..." id="searchInput" oninput="searchEmployees()">
             </div>
-            <div style="font-size:11px; color:var(--text-muted);" id="empCount">0 employees</div>
+            <div style="font-size:11px; color:var(--text-muted);" id="empCount">0</div>
           </div>
           <div style="overflow-x:auto;">
-          <table style="min-width:1700px;">
+          <table>
             <thead>
               <tr>
-                <th style="width:44px;text-align:center;">Sl.No</th>
+                <th style="width:30px;text-align:center;">Sl</th>
                 <th>Name</th>
                 <th>Designation</th>
-                <th>Contact No</th>
+                <th>Contact</th>
                 <th>FIN No</th>
-                <th>Pass Type</th>
-                <th>Permit No</th>
-                <th>Permit Expiry</th>
-                <th>Nationality</th>
-                <th>DOB</th>
-                <th>DOJ</th>
-                <th>Passport No</th>
-                <th>Passport Expiry</th>
-                <th>CSOC Expiry</th>
+                <th>Permit</th>
+                <th>Permit Exp</th>
                 <th>Passport</th>
+                <th>Passport Exp</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="employeeTableBody">
-              <tr class="no-data-row"><td colspan="16">No employees added yet</td></tr>
+              <tr class="no-data-row"><td colspan="10">No employees yet</td></tr>
             </tbody>
           </table>
           </div>
@@ -734,26 +933,27 @@
         <div class="filter-row">
           <button class="filter-btn active" onclick="filterDocStatus(this, 'all')">All</button>
           <button class="filter-btn" onclick="filterDocStatus(this, 'expired')">🔴 Expired</button>
-          <button class="filter-btn" onclick="filterDocStatus(this, 'soon')">🟡 Expiring ≤30d</button>
+          <button class="filter-btn" onclick="filterDocStatus(this, 'soon')">🟡 ≤30d</button>
           <button class="filter-btn" onclick="filterDocStatus(this, 'valid')">🟢 Valid</button>
         </div>
         <div class="table-wrap">
+          <div style="overflow-x:auto;">
           <table>
             <thead>
               <tr>
                 <th>Employee</th>
                 <th>Doc Type</th>
-                <th>Doc Number</th>
-                <th>Issue Date</th>
-                <th>Expiry Date</th>
-                <th>Days Left</th>
+                <th>Number</th>
+                <th>Expiry</th>
+                <th>Days</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody id="documentTableBody">
-              <tr class="no-data-row"><td colspan="7">No documents to show</td></tr>
+              <tr class="no-data-row"><td colspan="6">No documents</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -761,7 +961,7 @@
   </main>
 </div>
 
-<!-- ADD/EDIT EMPLOYEE MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title">
@@ -780,7 +980,7 @@
       </div>
       <div class="form-group">
         <label>Employee ID</label>
-        <input type="text" id="fEmpId" placeholder="Auto-generated" readonly style="opacity:0.6">
+        <input type="text" id="fEmpId" placeholder="Auto" readonly style="opacity:0.6">
       </div>
       <div class="form-group">
         <label>FIN No</label>
@@ -795,27 +995,27 @@
         <select id="fPassType">
           <option value="WORK PERMIT">Work Permit</option>
           <option value="S-PASS">S-Pass</option>
-          <option value="EP">Employment Pass (EP)</option>
+          <option value="EP">EP</option>
           <option value="TE Pass">TE Pass</option>
           <option value="PEP">PEP</option>
         </select>
       </div>
       <div class="form-group">
         <label>Nationality</label>
-        <input type="text" id="fNationality2" placeholder="e.g. BANGLADESHI">
+        <input type="text" id="fNationality2" placeholder="BANGLADESHI">
       </div>
       <div class="form-group">
-        <label>Date of Birth</label>
+        <label>DOB</label>
         <input type="date" id="fDob">
       </div>
       <div class="form-group">
-        <label>Date of Joining</label>
+        <label>DOJ</label>
         <input type="date" id="fDoj">
       </div>
       <div class="form-group">
         <label>Accommodation</label>
         <select id="fAccommodation">
-          <option value="Office">Office (Company)</option>
+          <option value="Office">Office</option>
           <option value="Own">Own</option>
         </select>
       </div>
@@ -831,17 +1031,16 @@
       </div>
       <div class="form-group full">
         <label>Designation</label>
-        <input type="text" id="fDesignation" placeholder="e.g. Site Engineer">
+        <input type="text" id="fDesignation" placeholder="Site Engineer">
       </div>
     </div>
 
-    <!-- PERMIT -->
     <div class="form-section">
       <div class="form-section-title">🪪 Work Permit</div>
       <div class="form-grid">
         <div class="form-group">
           <label>Permit Number</label>
-          <input type="text" id="fPermitNo" placeholder="WP-2024-XXXXX">
+          <input type="text" id="fPermitNo">
         </div>
         <div class="form-group">
           <label>Permit Type</label>
@@ -863,13 +1062,12 @@
       </div>
     </div>
 
-    <!-- PASSPORT -->
     <div class="form-section">
       <div class="form-section-title">📘 Passport</div>
       <div class="form-grid">
         <div class="form-group">
           <label>Passport Number</label>
-          <input type="text" id="fPassportNo" placeholder="A1234567">
+          <input type="text" id="fPassportNo">
         </div>
         <div class="form-group">
           <label>Issue Date</label>
@@ -882,18 +1080,17 @@
       </div>
     </div>
 
-    <!-- SAFETY CERT (multiple) -->
     <div class="form-section">
       <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between;">
-        <span>🦺 Safety Certificates</span>
-        <button type="button" class="btn btn-small" onclick="addSafetyRow()" style="font-size:11px;">+ Add Certificate</button>
+        <span>🦺 Safety Certs</span>
+        <button type="button" class="btn btn-small" onclick="addSafetyRow()">+ Add</button>
       </div>
       <div id="safetyCertRows"></div>
     </div>
 
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveEmployee()">Save Employee</button>
+      <button class="btn btn-primary" onclick="saveEmployee()">Save</button>
     </div>
   </div>
 </div>
@@ -903,47 +1100,16 @@
 <script>
 // ─── SEED DATA ─────────────────────────────────────────
 const SEED_EMPLOYEES = [
-  { id:'emp_001', empId:'EMP001', firstName:'Kannaiyan', lastName:'Sathish', designation:'Systems Programmer', dept:'Engineering', contact:'84415883', finNo:'G6496541M', passType:'S-PASS', nationality:'INDIAN', dob:'1989-06-25', doj:'2019-04-29', accommodation:'Own', permitNo:'038082655', permitType:'S Pass', permitIssue:'', permitExpiry:'2026-06-28', passportNo:'T1665442', passportIssue:'', passportExpiry:'2029-07-17', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_002', empId:'EMP002', firstName:'Own Miah', lastName:'Nayon', designation:'Construction Worker', dept:'Operations', contact:'91434388', finNo:'G7020917P', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1985-12-05', doj:'2019-10-04', accommodation:'Office', permitNo:'061814698', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-20', passportNo:'A16977759', passportIssue:'', passportExpiry:'2034-11-20', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_003', empId:'EMP003', firstName:'Shakirul', lastName:'', designation:'Construction Worker', dept:'Operations', contact:'85552066', finNo:'G8484428X', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-07-02', doj:'2020-09-01', accommodation:'Office', permitNo:'063045152', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-05-15', passportNo:'A18625854', passportIssue:'', passportExpiry:'2035-05-05', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_004', empId:'EMP004', firstName:'Mia', lastName:'Hasan', designation:'Construction Worker', dept:'Operations', contact:'85445472', finNo:'G2064012Q', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-09-11', doj:'2019-09-28', accommodation:'Office', permitNo:'063682489', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-09-06', passportNo:'A20060395', passportIssue:'', passportExpiry:'2035-09-06', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_005', empId:'EMP005', firstName:'Khan MD', lastName:'Nurnabi', designation:'Construction Worker', dept:'Operations', contact:'89352987', finNo:'G8159013W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1985-10-28', doj:'2021-02-06', accommodation:'Office', permitNo:'062600454', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-14', passportNo:'EL0171431', passportIssue:'', passportExpiry:'2027-12-14', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_006', empId:'EMP006', firstName:'Aziz', lastName:'Abdul', designation:'Construction Worker', dept:'Operations', contact:'90567780', finNo:'G2591898W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1995-02-25', doj:'2022-04-06', accommodation:'Office', permitNo:'064435701', permitType:'Work Permit', permitIssue:'', permitExpiry:'2026-06-15', passportNo:'EK0455429', passportIssue:'', passportExpiry:'2027-04-18', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_007', empId:'EMP007', firstName:'Miah', lastName:'Rashed', designation:'Construction Worker', dept:'Operations', contact:'84393104', finNo:'G8922793W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1999-03-07', doj:'2022-05-06', accommodation:'Office', permitNo:'065078562', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-05-07', passportNo:'A14320737', passportIssue:'', passportExpiry:'2034-03-03', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_008', empId:'EMP008', firstName:'Hasan MD', lastName:'Mahedi', designation:'Construction Worker', dept:'Operations', contact:'83012922', finNo:'M3150281T', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1997-04-20', doj:'2022-12-10', accommodation:'Office', permitNo:'065327503', permitType:'Work Permit', permitIssue:'', permitExpiry:'2026-08-03', passportNo:'A12708209', passportIssue:'', passportExpiry:'2033-09-26', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2026-12-01' },
-  { id:'emp_009', empId:'EMP009', firstName:'Rana Mohammed', lastName:'Shohel', designation:'Accounting Executive', dept:'Admin', contact:'89440871', finNo:'M4316379L', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1977-01-06', doj:'2023-07-06', accommodation:'Office', permitNo:'065515814', permitType:'S Pass', permitIssue:'', permitExpiry:'2028-07-13', passportNo:'A18630210', passportIssue:'', passportExpiry:'2035-04-23', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_010', empId:'EMP010', firstName:'Ni Soe', lastName:'Oo', designation:'Construction Worker', dept:'Operations', contact:'94845667', finNo:'M3301105Q', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'1977-10-15', doj:'2023-07-15', accommodation:'Office', permitNo:'095572030', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-06-18', passportNo:'MG235810', passportIssue:'', passportExpiry:'2027-08-03', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2027-07-10' },
-  { id:'emp_011', empId:'EMP011', firstName:'Myo Min', lastName:'Latt', designation:'Construction Worker', dept:'Operations', contact:'94845658', finNo:'M3301484P', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'1988-03-10', doj:'2023-07-15', accommodation:'Office', permitNo:'095571972', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-06-19', passportNo:'MG235793', passportIssue:'', passportExpiry:'2027-08-03', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2027-07-10' },
-  { id:'emp_012', empId:'EMP012', firstName:'Tun Min', lastName:'Latt', designation:'Construction Worker', dept:'Operations', contact:'94845669', finNo:'M3301259K', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'1993-01-23', doj:'2023-07-15', accommodation:'Office', permitNo:'095571948', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-06-18', passportNo:'MG235770', passportIssue:'', passportExpiry:'2027-08-03', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2027-07-10' },
-  { id:'emp_013', empId:'EMP013', firstName:'Elias', lastName:'MD', designation:'Construction Worker', dept:'Operations', contact:'97169254', finNo:'G2378060M', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1991-05-05', doj:'2023-08-25', accommodation:'Own', permitNo:'064251104', permitType:'Work Permit', permitIssue:'', permitExpiry:'2026-09-17', passportNo:'A08270075', passportIssue:'', passportExpiry:'2033-06-10', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_014', empId:'EMP014', firstName:'Ali MD', lastName:'Hasan', designation:'Construction Worker', dept:'Operations', contact:'84634637', finNo:'M4436120L', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'2004-10-05', doj:'2024-05-04', accommodation:'Office', permitNo:'065750465', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-03-04', passportNo:'A12635347', passportIssue:'', passportExpiry:'2033-10-24', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2027-03-04' },
-  { id:'emp_015', empId:'EMP015', firstName:'Mia MD', lastName:'Sohag', designation:'Construction Worker-cum-Driver', dept:'Operations', contact:'91696701', finNo:'G2790026M', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1992-10-01', doj:'2024-05-10', accommodation:'Own', permitNo:'064605453', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-04-21', passportNo:'EM0510130', passportIssue:'', passportExpiry:'2029-03-18', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2026-10-24' },
-  { id:'emp_016', empId:'EMP016', firstName:'Alom MD', lastName:'Shahin', designation:'Executive', dept:'Admin', contact:'86247127', finNo:'G8542632Q', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1981-11-10', doj:'2024-12-06', accommodation:'Office', permitNo:'064870653', permitType:'S Pass', permitIssue:'', permitExpiry:'2026-05-15', passportNo:'A21317211', passportIssue:'', passportExpiry:'2036-01-01', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_017', empId:'EMP017', firstName:'Kadir', lastName:'Abdul', designation:'Supervisor', dept:'Operations', contact:'88998016', finNo:'M4356219X', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1994-04-21', doj:'2025-03-11', accommodation:'Office', permitNo:'065646919', permitType:'S Pass', permitIssue:'', permitExpiry:'2027-03-26', passportNo:'B00243538', passportIssue:'', passportExpiry:'2032-06-11', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_018', empId:'EMP018', firstName:'Hossain MD', lastName:'Emon', designation:'Construction Worker', dept:'Operations', contact:'80757349', finNo:'M4441765T', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'2004-12-12', doj:'2025-02-26', accommodation:'Office', permitNo:'065726629', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-03-25', passportNo:'A14405651', passportIssue:'', passportExpiry:'2034-05-05', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_019', empId:'EMP019', firstName:'Ahmmad Mohammad', lastName:'Aksar', designation:'Construction Worker', dept:'Operations', contact:'83104509', finNo:'G2408473L', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1987-03-07', doj:'2025-05-21', accommodation:'Office', permitNo:'064278169', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-30', passportNo:'A19097356', passportIssue:'', passportExpiry:'2035-06-23', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_020', empId:'EMP020', firstName:'Hossain', lastName:'Jahangir', designation:'Construction Worker', dept:'Operations', contact:'81929743', finNo:'F8212484P', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1974-05-18', doj:'2025-07-24', accommodation:'Office', permitNo:'061450459', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-07-07', passportNo:'A15428750', passportIssue:'', passportExpiry:'2034-04-01', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_021', empId:'EMP021', firstName:'Hossain', lastName:'Kabir', designation:'Supervisor', dept:'Operations', contact:'91202468', finNo:'M4572448K', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1984-03-11', doj:'2025-08-12', accommodation:'Office', permitNo:'065917130', permitType:'S Pass', permitIssue:'', permitExpiry:'2027-08-26', passportNo:'A16863517', passportIssue:'', passportExpiry:'2034-11-04', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_022', empId:'EMP022', firstName:'Rana', lastName:'Jewel', designation:'Construction Worker-cum-Driver', dept:'Operations', contact:'89282791', finNo:'M3101174K', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'2003-09-10', doj:'2025-11-18', accommodation:'Office', permitNo:'065271273', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-10-22', passportNo:'A01854244', passportIssue:'', passportExpiry:'2031-09-18', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2026-06-29' },
-  { id:'emp_023', empId:'EMP023', firstName:'Bo Bo', lastName:'Zaw', designation:'Construction Worker', dept:'Operations', contact:'', finNo:'M3420314P', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'1995-06-20', doj:'2025-12-01', accommodation:'Own', permitNo:'095855091', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-08-23', passportNo:'MG541454', passportIssue:'', passportExpiry:'', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2028-04-08' },
-  { id:'emp_024', empId:'EMP024', firstName:'Hossan', lastName:'Yusuf', designation:'Construction Worker-cum-Driver', dept:'Operations', contact:'98930098', finNo:'G8927329W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1996-02-15', doj:'2026-02-06', accommodation:'Office', permitNo:'065069431', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-25', passportNo:'EL0196493', passportIssue:'', passportExpiry:'2027-12-25', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'9999-12-31' },
-  { id:'emp_025', empId:'EMP025', firstName:'Aung Wai', lastName:'Phyo', designation:'Construction Worker', dept:'Operations', contact:'', finNo:'M3098191R', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'2001-03-20', doj:'', accommodation:'Office', permitNo:'095231055', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-01-10', passportNo:'MF660105', passportIssue:'', passportExpiry:'2027-02-10', safetyNo:'', safetyType:'CSOC', safetyIssue:'', safetyExpiry:'2028-04-08' },
-  { id:'emp_026', empId:'EMP026', firstName:'Tun Tun', lastName:'Win', designation:'Construction Worker', dept:'Operations', contact:'', finNo:'M3060125K', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'2003-06-14', doj:'2026-04-21', accommodation:'Own', permitNo:'095163734', permitType:'Work Permit', permitIssue:'', permitExpiry:'', passportNo:'MF660103', passportIssue:'', passportExpiry:'', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_027', empId:'EMP027', firstName:'Si Thu', lastName:'Htun', designation:'Construction Worker', dept:'Operations', contact:'', finNo:'M3708618L', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'2003-03-11', doj:'2026-04-21', accommodation:'Own', permitNo:'09677771', permitType:'Work Permit', permitIssue:'', permitExpiry:'', passportNo:'MK322684', passportIssue:'', passportExpiry:'', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_028', empId:'EMP028', firstName:'Hossain MD', lastName:'Ripon', designation:'Construction Worker-cum-Driver', dept:'Operations', contact:'', finNo:'M3287475K', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1990-03-07', doj:'', accommodation:'Own', permitNo:'065507226', permitType:'Work Permit', permitIssue:'', permitExpiry:'', passportNo:'A03293865', passportIssue:'', passportExpiry:'', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_029', empId:'EMP029', firstName:'Hossain', lastName:'Amzad', designation:'Stores Supervisor', dept:'Operations', contact:'', finNo:'G7959191U', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1980-10-01', doj:'2023-11-27', accommodation:'Own', permitNo:'062375663', permitType:'S Pass', permitIssue:'', permitExpiry:'2028-11-27', passportNo:'A11546432', passportIssue:'', passportExpiry:'2033-07-25', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_030', empId:'EMP030', firstName:'Naim Anamul', lastName:'Hoq', designation:'Management Executive', dept:'Admin', contact:'', finNo:'M4367462L', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1998-08-01', doj:'2024-01-04', accommodation:'Own', permitNo:'', permitType:'S Pass', permitIssue:'', permitExpiry:'2029-01-04', passportNo:'A01788356', passportIssue:'', passportExpiry:'2031-08-17', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_031', empId:'EMP031', firstName:'Baskaran', lastName:'Manjari', designation:'Manager', dept:'Admin', contact:'', finNo:'M0195543P', passType:'EP', nationality:'INDIAN', dob:'1997-02-01', doj:'2024-11-19', accommodation:'Office', permitNo:'', permitType:'Employment Pass', permitIssue:'', permitExpiry:'2026-11-18', passportNo:'C2492617', passportIssue:'', passportExpiry:'2034-09-05', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_032', empId:'EMP032', firstName:'Ali Mohammad', lastName:'Taher', designation:'Cook', dept:'Operations', contact:'84358576', finNo:'G2601015U', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1992-11-11', doj:'2021-12-14', accommodation:'Own', permitNo:'064348868', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-03-02', passportNo:'A18323662', passportIssue:'', passportExpiry:'2035-03-16', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_033', empId:'EMP033', firstName:'Islam MD', lastName:'Nazrul', designation:'Canteen Cook', dept:'Operations', contact:'', finNo:'M4369758N', passType:'S-PASS', nationality:'BANGLADESHI', dob:'1999-06-15', doj:'', accommodation:'Office', permitNo:'065715406', permitType:'S Pass', permitIssue:'', permitExpiry:'2026-12-10', passportNo:'A07215995', passportIssue:'', passportExpiry:'2033-03-13', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_034', empId:'EMP034', firstName:'Kyaw Zin', lastName:'Thant', designation:'Food Processing Worker', dept:'Operations', contact:'', finNo:'M3580654N', passType:'WORK PERMIT', nationality:'MYANMAR', dob:'2003-03-10', doj:'', accommodation:'Office', permitNo:'096475020', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-02-18', passportNo:'MF775411', passportIssue:'', passportExpiry:'2027-04-04', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_035', empId:'EMP036', firstName:'Hassan MD', lastName:'Jahid', designation:'Food Processing Worker', dept:'Operations', contact:'', finNo:'M4356225P', passType:'S-PASS', nationality:'BANGLADESHI', dob:'2003-04-22', doj:'', accommodation:'Office', permitNo:'065622629', permitType:'S Pass', permitIssue:'', permitExpiry:'2027-11-27', passportNo:'A06035093', passportIssue:'', passportExpiry:'2032-12-12', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
-  { id:'emp_036', empId:'EMP037', firstName:'Hossen MD', lastName:'Arman', designation:'Supervisor', dept:'Operations', contact:'', finNo:'M4612970Q', passType:'TE Pass', nationality:'BANGLADESHI', dob:'2006-05-07', doj:'', accommodation:'Own', permitNo:'', permitType:'TE Pass', permitIssue:'', permitExpiry:'2026-05-24', passportNo:'A16769617', passportIssue:'', passportExpiry:'', safetyNo:'', safetyType:'', safetyIssue:'', safetyExpiry:'' },
+  { id:'emp_001', empId:'EMP001', firstName:'Kannaiyan', lastName:'Sathish', designation:'Systems Programmer', dept:'Engineering', contact:'84415883', finNo:'G6496541M', passType:'S-PASS', nationality:'INDIAN', dob:'1989-06-25', doj:'2019-04-29', accommodation:'Own', permitNo:'038082655', permitType:'S Pass', permitIssue:'', permitExpiry:'2026-06-28', passportNo:'T1665442', passportIssue:'', passportExpiry:'2029-07-17', safetyCerts:[] },
+  { id:'emp_002', empId:'EMP002', firstName:'Own Miah', lastName:'Nayon', designation:'Construction Worker', dept:'Operations', contact:'91434388', finNo:'G7020917P', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1985-12-05', doj:'2019-10-04', accommodation:'Office', permitNo:'061814698', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-20', passportNo:'A16977759', passportIssue:'', passportExpiry:'2034-11-20', safetyCerts:[{id:'sc_1',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
+  { id:'emp_003', empId:'EMP003', firstName:'Shakirul', lastName:'', designation:'Construction Worker', dept:'Operations', contact:'85552066', finNo:'G8484428X', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-07-02', doj:'2020-09-01', accommodation:'Office', permitNo:'063045152', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-05-15', passportNo:'A18625854', passportIssue:'', passportExpiry:'2035-05-05', safetyCerts:[{id:'sc_2',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
+  { id:'emp_004', empId:'EMP004', firstName:'Mia', lastName:'Hasan', designation:'Construction Worker', dept:'Operations', contact:'85445472', finNo:'G2064012Q', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-09-11', doj:'2019-09-28', accommodation:'Office', permitNo:'063682489', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-09-06', passportNo:'A20060395', passportIssue:'', passportExpiry:'2035-09-06', safetyCerts:[{id:'sc_3',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
+  { id:'emp_005', empId:'EMP005', firstName:'Khan MD', lastName:'Nurnabi', designation:'Construction Worker', dept:'Operations', contact:'89352987', finNo:'G8159013W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1985-10-28', doj:'2021-02-06', accommodation:'Office', permitNo:'062600454', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-14', passportNo:'EL0171431', passportIssue:'', passportExpiry:'2027-12-14', safetyCerts:[{id:'sc_4',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
+  { id:'emp_006', empId:'EMP006', firstName:'Aziz', lastName:'Abdul', designation:'Construction Worker', dept:'Operations', contact:'90567780', finNo:'G2591898W', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1995-02-25', doj:'2022-04-06', accommodation:'Office', permitNo:'064435701', permitType:'Work Permit', permitIssue:'', permitExpiry:'2026-06-15', passportNo:'EK0455429', passportIssue:'', passportExpiry:'2027-04-18', safetyCerts:[{id:'sc_5',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
 ];
 
 // ─── STATE ─────────────────────────────────────────────
 let employees = JSON.parse(localStorage.getItem('empcore_v3') || 'null');
-// Seed data on first load
 if (!employees) {
   employees = SEED_EMPLOYEES;
   localStorage.setItem('empcore_v3', JSON.stringify(employees));
@@ -953,34 +1119,20 @@ let currentDeptFilter = 'all';
 let currentDocFilter = 'all';
 
 // ─── INIT ──────────────────────────────────────────────
-function migrateSafetyCerts() {
-  // Migrate old flat safetyNo/safetyType/safetyExpiry → safetyCerts array
-  employees.forEach(e => {
-    if (!e.safetyCerts) {
-      e.safetyCerts = [];
-      if (e.safetyExpiry || e.safetyNo) {
-        e.safetyCerts.push({
-          id: 'sc_' + Date.now() + Math.random(),
-          type: e.safetyType || 'CSOC',
-          no: e.safetyNo || '',
-          issue: e.safetyIssue || '',
-          expiry: e.safetyExpiry || ''
-        });
-      }
-      delete e.safetyNo; delete e.safetyType;
-      delete e.safetyIssue; delete e.safetyExpiry;
-    }
-  });
-  save();
-}
-
 function init() {
-  migrateSafetyCerts();
   renderAll();
 }
 
 function save() {
   localStorage.setItem('empcore_v3', JSON.stringify(employees));
+}
+
+function toggleMenu() {
+  document.getElementById('navMenu').classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('navMenu').classList.remove('open');
 }
 
 // ─── NAVIGATION ────────────────────────────────────────
@@ -1012,10 +1164,10 @@ function getStatus(days) {
 }
 
 function statusBadge(days) {
-  if (days === null) return '<span class="badge" style="background:rgba(107,122,153,0.15);color:var(--text-muted);border:1px solid var(--border);">No Date</span>';
-  if (days < 0) return `<span class="badge badge-danger">⚠ Expired</span>`;
-  if (days <= 30) return `<span class="badge badge-warning">⏱ ${days}d left</span>`;
-  return `<span class="badge badge-success">✓ ${days}d left</span>`;
+  if (days === null) return '<span class="badge" style="background:rgba(107,122,153,0.15);color:var(--text-muted);border:1px solid var(--border);">—</span>';
+  if (days < 0) return `<span class="badge badge-danger">⚠ Exp</span>`;
+  if (days <= 30) return `<span class="badge badge-warning">⏱ ${days}d</span>`;
+  return `<span class="badge badge-success">✓ ${days}d</span>`;
 }
 
 function fmtDate(d) {
@@ -1026,9 +1178,7 @@ function fmtDate(d) {
 
 // ─── DASHBOARD ─────────────────────────────────────────
 function renderDashboard() {
-  const today = new Date(); today.setHours(0,0,0,0);
   let expired = 0, soon = 0, valid = 0;
-
   employees.forEach(e => {
     ['permit','passport'].forEach(type => {
       const d = daysLeft(e[type + 'Expiry']);
@@ -1059,38 +1209,23 @@ function renderDashboard() {
 function renderExpiryList(type, listId, countId, field) {
   const list = document.getElementById(listId);
   const countEl = document.getElementById(countId);
-
   const sorted = [...employees]
     .filter(e => e[field])
     .sort((a, b) => new Date(a[field]) - new Date(b[field]))
     .slice(0, 20);
-
   const expiredCount = sorted.filter(e => daysLeft(e[field]) < 0).length;
   countEl.textContent = expiredCount + ' expired';
   countEl.className = 'badge ' + (expiredCount > 0 ? 'badge-danger' : 'badge-success');
-
   if (sorted.length === 0) {
     list.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:12px;">No records</div>';
     return;
   }
-
   list.innerHTML = sorted.map(e => {
     const days = daysLeft(e[field]);
-    return `
-      <div class="expiry-row">
-        <div>
-          <div class="expiry-name">${e.firstName} ${e.lastName}</div>
-          <div style="font-size:10px;color:var(--text-muted);">${e.empId}</div>
-        </div>
-        <div style="text-align:right;">
-          ${statusBadge(days)}
-          <div class="expiry-date" style="color:var(--text-muted);margin-top:4px;">${fmtDate(e[field])}</div>
-        </div>
-      </div>`;
+    return `<div class="expiry-row"><div><div class="expiry-name">${e.firstName} ${e.lastName}</div><div style="font-size:10px;color:var(--text-muted);">${e.empId}</div></div><div style="text-align:right;">${statusBadge(days)}<div class="expiry-date" style="color:var(--text-muted);margin-top:4px;">${fmtDate(e[field])}</div></div></div>`;
   }).join('');
 }
 
-// ─── EMPLOYEE TABLE ─────────────────────────────────────
 function renderSafetyExpiryList(listId, countId) {
   const list = document.getElementById(listId);
   const countEl = document.getElementById(countId);
@@ -1111,100 +1246,42 @@ function renderSafetyExpiryList(listId, countId) {
   }
   list.innerHTML = rows.slice(0, 25).map(r => {
     const days = daysLeft(r.cert.expiry);
-    return `<div class="expiry-row">
-      <div>
-        <div class="expiry-name">${r.emp.firstName} ${r.emp.lastName}</div>
-        <div style="font-size:10px;color:var(--accent2);">${r.cert.type} · ${r.cert.no || 'No#'}</div>
-      </div>
-      <div style="text-align:right;">
-        ${statusBadge(days)}
-        <div class="expiry-date" style="color:var(--text-muted);margin-top:4px;">${fmtDate(r.cert.expiry)}</div>
-      </div>
-    </div>`;
+    return `<div class="expiry-row"><div><div class="expiry-name">${r.emp.firstName} ${r.emp.lastName}</div><div style="font-size:10px;color:var(--accent2);">${r.cert.type}</div></div><div style="text-align:right;">${statusBadge(days)}<div class="expiry-date" style="color:var(--text-muted);margin-top:4px;">${fmtDate(r.cert.expiry)}</div></div></div>`;
   }).join('');
 }
 
+// ─── EMPLOYEE TABLE ─────────────────────────────────────
 function renderEmployeeTable() {
   const search = document.getElementById('searchInput').value.toLowerCase();
   let list = employees.filter(e => {
     const matchDept = currentDeptFilter === 'all' || e.dept === currentDeptFilter;
-    const matchSearch = !search ||
-      `${e.firstName} ${e.lastName} ${e.empId} ${e.finNo} ${e.designation} ${e.nationality} ${e.passType}`.toLowerCase().includes(search);
+    const matchSearch = !search || `${e.firstName} ${e.lastName} ${e.empId} ${e.finNo}`.toLowerCase().includes(search);
     return matchDept && matchSearch;
   });
 
-  document.getElementById('empCount').textContent = list.length + ' employee' + (list.length !== 1 ? 's' : '');
+  document.getElementById('empCount').textContent = list.length + ' emp';
 
   const tbody = document.getElementById('employeeTableBody');
   if (list.length === 0) {
-    tbody.innerHTML = '<tr class="no-data-row"><td colspan="16">No employees found</td></tr>';
+    tbody.innerHTML = '<tr class="no-data-row"><td colspan="10">No employees</td></tr>';
     return;
   }
 
   tbody.innerHTML = list.map((e, rowIdx) => {
     const pDays = daysLeft(e.permitExpiry);
     const psDays = daysLeft(e.passportExpiry);
-    const sDays = daysLeft(e.safetyExpiry);
     const initials = ((e.firstName ? e.firstName[0] : '') + (e.lastName ? e.lastName[0] : '')).toUpperCase();
-
-    function expiryCell(days, dateStr) {
-      const dateLabel = dateStr ? fmtDate(dateStr) : '—';
-      if (days === null) return `<span style="color:var(--text-muted);font-size:12px;">—</span>`;
-      if (days < 0) return `<span class="badge badge-danger">⚠ Expired</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${dateLabel}</div>`;
-      if (days <= 30) return `<span class="badge badge-warning">⏱ ${days}d</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${dateLabel}</div>`;
-      return `<span class="badge badge-success">✓ ${days}d</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${dateLabel}</div>`;
-    }
-
-    const passTypeBadge = e.passType
-      ? `<span class="badge" style="background:rgba(123,97,255,0.12);color:#a78bfa;border:1px solid rgba(123,97,255,0.3);white-space:nowrap;font-size:10px;">${e.passType}</span>`
-      : '—';
-
-    const accomBadge = e.accommodation === 'Own'
-      ? `<span class="badge" style="background:rgba(123,97,255,0.12);color:#a78bfa;border:1px solid rgba(123,97,255,0.3);">Own</span>`
-      : `<span class="badge" style="background:rgba(0,229,255,0.08);color:var(--accent);border:1px solid rgba(0,229,255,0.2);">Office</span>`;
-
-    return `
-    <tr>
-      <td style="text-align:center;color:var(--text-muted);font-size:12px;">${rowIdx + 1}</td>
-      <td>
-        <div class="emp-cell">
-          <div class="avatar" style="width:30px;height:30px;font-size:11px;flex-shrink:0;">${initials}</div>
-          <div>
-            <div class="emp-name" style="white-space:nowrap;font-size:12px;">${e.firstName} ${e.lastName}</div>
-            <div class="emp-id">${e.empId}</div>
-          </div>
-        </div>
-      </td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.designation || '—'}</td>
+    return `<tr>
+      <td style="text-align:center;color:var(--text-muted);font-size:11px;">${rowIdx + 1}</td>
+      <td><div class="emp-cell"><div class="avatar">${initials}</div><div><div class="emp-name">${e.firstName} ${e.lastName}</div><div class="emp-id">${e.empId}</div></div></div></td>
+      <td style="font-size:11px;color:var(--text-muted);">${e.designation || '—'}</td>
       <td style="font-size:12px;">${e.contact || '—'}</td>
-      <td style="font-size:12px;color:var(--accent);font-weight:500;white-space:nowrap;">${e.finNo || '—'}</td>
-      <td>${passTypeBadge}</td>
-      <td style="font-size:11px;color:var(--text-muted);">${e.permitNo || '—'}</td>
-      <td style="white-space:nowrap;">${expiryCell(pDays, e.permitExpiry)}</td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.nationality || '—'}</td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.dob ? fmtDate(e.dob) : '—'}</td>
-      <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.doj ? fmtDate(e.doj) : '—'}</td>
-      <td style="font-size:12px;color:#a78bfa;font-weight:500;">${e.passportNo || '—'}</td>
-      <td style="white-space:nowrap;">${expiryCell(psDays, e.passportExpiry)}</td>
-      <td style="white-space:nowrap;">
-        ${(e.safetyCerts && e.safetyCerts.length > 0)
-          ? e.safetyCerts.map(cert => {
-              const d = daysLeft(cert.expiry);
-              return `<div style="margin-bottom:3px;">
-                <span style="font-size:10px;color:var(--accent2);">${cert.type}</span>
-                ${expiryCell(d, cert.expiry)}
-              </div>`;
-            }).join('')
-          : '<span style="color:var(--text-muted);">—</span>'
-        }
-      </td>
-      <td style="text-align:center;">${accomBadge}</td>
-      <td>
-        <div style="display:flex;gap:6px;flex-shrink:0;">
-          <button class="btn btn-small" onclick="editEmployee('${e.id}')">Edit</button>
-          <button class="btn btn-danger" onclick="deleteEmployee('${e.id}')">Del</button>
-        </div>
-      </td>
+      <td style="font-size:11px;color:var(--accent);font-weight:500;">${e.finNo || '—'}</td>
+      <td style="font-size:11px;">${e.permitNo || '—'}</td>
+      <td>${statusBadge(pDays)}</td>
+      <td style="font-size:11px;color:#a78bfa;">${e.passportNo || '—'}</td>
+      <td>${statusBadge(psDays)}</td>
+      <td><div style="display:flex;gap:4px;"><button class="btn btn-small" onclick="editEmployee('${e.id}')">Edit</button><button class="btn btn-danger" onclick="deleteEmployee('${e.id}')">Del</button></div></td>
     </tr>`;
   }).join('');
 }
@@ -1242,30 +1319,18 @@ function renderDocumentTable() {
 
   const tbody = document.getElementById('documentTableBody');
   if (rows.length === 0) {
-    tbody.innerHTML = '<tr class="no-data-row"><td colspan="7">No documents match the filter</td></tr>';
+    tbody.innerHTML = '<tr class="no-data-row"><td colspan="6">No documents</td></tr>';
     return;
   }
 
-  tbody.innerHTML = rows.map(r => `
-    <tr>
-      <td>
-        <div class="emp-cell">
-          <div class="avatar" style="width:28px;height:28px;font-size:11px;">${(r.emp.firstName[0]||'') + (r.emp.lastName[0]||'')}</div>
-          <div>
-            <div style="font-size:12px;font-weight:500;">${r.emp.firstName} ${r.emp.lastName}</div>
-            <div style="font-size:10px;color:var(--text-muted);">${r.emp.empId}</div>
-          </div>
-        </div>
-      </td>
-      <td style="font-size:12px;">${r.doc.type}</td>
-      <td style="font-size:12px;color:var(--accent);">${r.doc.no || '—'}</td>
-      <td style="color:var(--text-muted);font-size:12px;">${fmtDate(r.doc.issue)}</td>
-      <td style="font-size:12px;">${fmtDate(r.doc.expiry)}</td>
-      <td style="font-size:12px;">
-        ${r.days === null ? '—' : r.days < 0 ? `<span style="color:var(--danger);">${Math.abs(r.days)}d ago</span>` : `${r.days}d`}
-      </td>
-      <td>${statusBadge(r.days)}</td>
-    </tr>`).join('');
+  tbody.innerHTML = rows.map(r => `<tr>
+    <td><div class="emp-cell"><div class="avatar" style="width:26px;height:26px;font-size:10px;">${(r.emp.firstName[0]||'') + (r.emp.lastName[0]||'')}</div><div><div style="font-size:11px;font-weight:500;">${r.emp.firstName} ${r.emp.lastName}</div><div style="font-size:9px;color:var(--text-muted);">${r.emp.empId}</div></div></div></td>
+    <td style="font-size:11px;">${r.doc.type}</td>
+    <td style="font-size:11px;color:var(--accent);">${r.doc.no || '—'}</td>
+    <td style="font-size:11px;color:var(--text-muted);">${fmtDate(r.doc.expiry)}</td>
+    <td style="font-size:11px;">${r.days === null ? '—' : r.days < 0 ? `<span style="color:var(--danger);">${Math.abs(r.days)}d</span>` : `${r.days}d`}</td>
+    <td>${statusBadge(r.days)}</td>
+  </tr>`).join('');
 }
 
 function filterDocStatus(el, status) {
@@ -1276,6 +1341,8 @@ function filterDocStatus(el, status) {
 }
 
 // ─── MODAL ─────────────────────────────────────────────
+const SAFETY_TYPES = ['CSOC','BCSS','WSHO','First Aid','Fire Safety','Working at Height','Confined Space','Scaffolding','Rigger & Signalman','Other'];
+
 function openModal(empId = null) {
   editingId = empId;
   clearForm();
@@ -1316,9 +1383,6 @@ function closeModal() {
   editingId = null;
 }
 
-// ─── SAFETY CERT HELPERS ───────────────────────────────
-const SAFETY_TYPES = ['CSOC','BCSS','WSHO','First Aid','Fire Safety','Working at Height','Confined Space','Scaffolding','Rigger & Signalman','Other','Boom Lift','Scissor lift'];
-
 function renderSafetyRows(certs) {
   const container = document.getElementById('safetyCertRows');
   if (!container) return;
@@ -1329,29 +1393,16 @@ function renderSafetyRows(certs) {
     const row = document.createElement('div');
     row.className = 'safety-cert-row';
     row.dataset.certId = cert.id || ('sc_new_' + i);
-    row.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:11px;color:var(--accent);font-weight:600;min-width:20px;">#${i+1}</span>
-        <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;">
-          <div class="form-group" style="margin:0;">
-            <label>Type</label>
-            <select class="sc-type">${opts}</select>
-          </div>
-          <div class="form-group" style="margin:0;">
-            <label>Cert Number</label>
-            <input class="sc-no" type="text" placeholder="SC-XXXX" value="${cert.no||''}">
-          </div>
-          <div class="form-group" style="margin:0;">
-            <label>Issue Date</label>
-            <input class="sc-issue" type="date" value="${cert.issue||''}">
-          </div>
-          <div class="form-group" style="margin:0;">
-            <label>Expiry Date</label>
-            <input class="sc-expiry" type="date" value="${cert.expiry||''}">
-          </div>
-          <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;margin-bottom:0;" title="Remove">✕</button>
-        </div>
-      </div>`;
+    row.innerHTML = `<div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:10px;color:var(--accent);font-weight:600;min-width:16px;">#${i+1}</span>
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:4px;align-items:end;">
+        <div class="form-group" style="margin:0;"><label>Type</label><select class="sc-type">${opts}</select></div>
+        <div class="form-group" style="margin:0;"><label>No</label><input class="sc-no" type="text" placeholder="SC-X" value="${cert.no||''}"></div>
+        <div class="form-group" style="margin:0;"><label>Issue</label><input class="sc-issue" type="date" value="${cert.issue||''}"></div>
+        <div class="form-group" style="margin:0;"><label>Expiry</label><input class="sc-expiry" type="date" value="${cert.expiry||''}"></div>
+        <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:12px;align-self:end;margin-bottom:0;">✕</button>
+      </div>
+    </div>`;
     container.appendChild(row);
   });
 }
@@ -1364,35 +1415,25 @@ function addSafetyRow() {
   const row = document.createElement('div');
   row.className = 'safety-cert-row';
   row.dataset.certId = 'sc_new_' + Date.now();
-  row.innerHTML = `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-      <span style="font-size:11px;color:var(--accent);font-weight:600;min-width:20px;">#${i+1}</span>
-      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;">
-        <div class="form-group" style="margin:0;"><label>Type</label><select class="sc-type">${opts}</select></div>
-        <div class="form-group" style="margin:0;"><label>Cert Number</label><input class="sc-no" type="text" placeholder="SC-XXXX"></div>
-        <div class="form-group" style="margin:0;"><label>Issue Date</label><input class="sc-issue" type="date"></div>
-        <div class="form-group" style="margin:0;"><label>Expiry Date</label><input class="sc-expiry" type="date"></div>
-        <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;" title="Remove">✕</button>
-      </div>
-    </div>`;
+  row.innerHTML = `<div style="display:flex;align-items:center;gap:8px;">
+    <span style="font-size:10px;color:var(--accent);font-weight:600;min-width:16px;">#${i+1}</span>
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:4px;align-items:end;">
+      <div class="form-group" style="margin:0;"><label>Type</label><select class="sc-type">${opts}</select></div>
+      <div class="form-group" style="margin:0;"><label>No</label><input class="sc-no" type="text" placeholder="SC-X"></div>
+      <div class="form-group" style="margin:0;"><label>Issue</label><input class="sc-issue" type="date"></div>
+      <div class="form-group" style="margin:0;"><label>Expiry</label><input class="sc-expiry" type="date"></div>
+      <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 8px;cursor:pointer;font-size:12px;align-self:end;">✕</button>
+    </div>
+  </div>`;
   container.appendChild(row);
-  renumberSafetyRows();
 }
 
 function removeSafetyRow(btn) {
   const container = document.getElementById('safetyCertRows');
   if (container.querySelectorAll('.safety-cert-row').length <= 1) {
-    toast('At least one certificate row is required.', 'warning'); return;
+    toast('Keep at least one certificate row', 'warning'); return;
   }
   btn.closest('.safety-cert-row').remove();
-  renumberSafetyRows();
-}
-
-function renumberSafetyRows() {
-  document.querySelectorAll('#safetyCertRows .safety-cert-row').forEach((row, i) => {
-    const num = row.querySelector('span');
-    if (num) num.textContent = '#' + (i + 1);
-  });
 }
 
 function getSafetyCerts() {
@@ -1415,8 +1456,7 @@ function getSafetyCerts() {
 
 function clearForm() {
   ['fFirstName','fLastName','fFinNo','fContact','fNationality2','fDob','fDoj','fDesignation',
-   'fPermitNo','fPermitIssue','fPermitExpiry',
-   'fPassportNo','fPassportIssue','fPassportExpiry'].forEach(id => {
+   'fPermitNo','fPermitIssue','fPermitExpiry','fPassportNo','fPassportIssue','fPassportExpiry'].forEach(id => {
     document.getElementById(id).value = '';
   });
   renderSafetyRows([]);
@@ -1425,7 +1465,7 @@ function clearForm() {
 function saveEmployee() {
   const fn = document.getElementById('fFirstName').value.trim();
   const ln = document.getElementById('fLastName').value.trim();
-  if (!fn || !ln) { toast('First and Last name are required.', 'error'); return; }
+  if (!fn || !ln) { toast('First and Last names required', 'error'); return; }
 
   const data = {
     id: editingId || ('emp_' + Date.now()),
@@ -1453,10 +1493,10 @@ function saveEmployee() {
   if (editingId) {
     const idx = employees.findIndex(e => e.id === editingId);
     if (idx !== -1) employees[idx] = data;
-    toast('Employee updated successfully!');
+    toast('Employee updated!');
   } else {
     employees.push(data);
-    toast('Employee added successfully!');
+    toast('Employee added!');
   }
 
   save();
@@ -1465,37 +1505,33 @@ function saveEmployee() {
 }
 
 function deleteEmployee(id) {
-  if (!confirm('Delete this employee? This cannot be undone.')) return;
+  if (!confirm('Delete this employee?')) return;
   employees = employees.filter(e => e.id !== id);
   save();
   renderAll();
-  toast('Employee deleted.', 'warning');
+  toast('Employee deleted', 'warning');
 }
 
 function editEmployee(id) { openModal(id); }
 
-// ─── RENDER ALL ─────────────────────────────────────────
 function renderAll() {
   renderDashboard();
   renderEmployeeTable();
   renderDocumentTable();
 }
 
-// ─── TOAST ─────────────────────────────────────────────
 function toast(msg, type = 'success') {
   const el = document.createElement('div');
   el.className = 'toast ' + type;
   el.textContent = msg;
   document.getElementById('toastContainer').appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+  setTimeout(() => el.remove(), 2500);
 }
 
-// ─── CLOSE MODAL ON OVERLAY CLICK ──────────────────────
 document.getElementById('modalOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// ─── BOOTSTRAP ─────────────────────────────────────────
 init();
 </script>
 </body>
