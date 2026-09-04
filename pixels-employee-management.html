@@ -46,6 +46,65 @@
 
   .app { position: relative; z-index: 1; display: flex; height: 100vh; }
 
+  /* PASSWORD GATE */
+  .password-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+  .password-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .password-box {
+    position: relative;
+    width: 320px;
+    max-width: calc(100vw - 40px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .password-box .logo-text { font-size: 20px; margin-bottom: 4px; }
+  .password-box .lock-icon {
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .password-box .password-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  .password-box input {
+    margin-top: 14px;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+  .password-box .btn {
+    margin-top: 14px;
+    width: 100%;
+  }
+  .password-error {
+    color: var(--danger);
+    font-size: 11px;
+    margin-top: 12px;
+    min-height: 14px;
+  }
+
   /* SIDEBAR */
   .sidebar {
     width: 240px;
@@ -800,7 +859,20 @@
 </head>
 <body>
 
-<div class="app">
+<!-- PASSWORD GATE -->
+<div class="password-screen" id="passwordScreen">
+  <div class="password-box">
+    <div class="lock-icon">🔒</div>
+    <div class="logo-text">⬡ PIXELS</div>
+    <div class="logo-sub">Management System</div>
+    <div class="password-hint">Enter password to continue</div>
+    <input type="password" id="passwordInput" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button class="btn btn-primary" onclick="checkPassword()">Unlock</button>
+    <div class="password-error" id="passwordError"></div>
+  </div>
+</div>
+
+<div class="app" id="appRoot" style="display:none;">
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo">
@@ -1194,6 +1266,28 @@ if (!employees) {
 let editingId = null;
 let currentDeptFilter = 'all';
 let currentDocFilter = 'all';
+
+// ─── PASSWORD GATE ─────────────────────────────────────
+const APP_PASSWORD = 'sats';
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput');
+  const errorEl = document.getElementById('passwordError');
+  if (input.value === APP_PASSWORD) {
+    unlockApp();
+    try { sessionStorage.setItem('empcore_authed', '1'); } catch (e) {}
+  } else {
+    errorEl.textContent = 'Incorrect password. Try again.';
+    input.value = '';
+    input.focus();
+  }
+}
+
+function unlockApp() {
+  document.getElementById('passwordScreen').style.display = 'none';
+  document.getElementById('appRoot').style.display = 'flex';
+  init();
+}
 
 // ─── INIT ──────────────────────────────────────────────
 function migrateSafetyCerts() {
@@ -1817,7 +1911,12 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) {
 });
 
 // ─── BOOTSTRAP ─────────────────────────────────────────
-init();
+// Show password gate first; app data only loads after correct password.
+if (sessionStorage.getItem('empcore_authed') === '1') {
+  unlockApp();
+} else {
+  document.getElementById('passwordInput').focus();
+}
 </script>
 </body>
 </html>
