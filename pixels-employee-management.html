@@ -4,42 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Employee Management System</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0d14;
-    --surface: #111622;
-    --surface2: #1a2133;
-    --border: #1f2d45;
-    --accent: #00e5ff;
-    --accent2: #7b61ff;
-    --text: #e8edf5;
-    --text-muted: #6b7a99;
-    --danger: #ff4d6a;
-    --warning: #ffaa00;
-    --success: #00d68f;
-    --radius: 12px;
+    --bg: #121011;
+    --surface: #1a1714;
+    --surface2: #24201a;
+    --border: #383026;
+    --accent: #e8983d;
+    --accent2: #5b8bb5;
+    --text: #f2ede4;
+    --text-muted: #93897a;
+    --danger: #e8593d;
+    --warning: #e8b13d;
+    --success: #6fae7f;
+    --radius: 10px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* Animated background grid */
+  /* Subtle background texture */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+      repeating-linear-gradient(135deg, rgba(232,152,61,0.025) 0px, rgba(232,152,61,0.025) 1px, transparent 1px, transparent 26px);
     pointer-events: none;
     z-index: 0;
   }
@@ -61,9 +59,7 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+      repeating-linear-gradient(135deg, rgba(232,152,61,0.025) 0px, rgba(232,152,61,0.025) 1px, transparent 1px, transparent 26px);
     pointer-events: none;
   }
   .password-box {
@@ -122,9 +118,9 @@
   }
 
   .logo-text {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 18px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--accent);
     letter-spacing: -0.5px;
   }
@@ -148,7 +144,7 @@
   }
 
   .nav-item:hover { background: var(--surface2); color: var(--text); }
-  .nav-item.active { background: rgba(0,229,255,0.08); color: var(--accent); border-color: rgba(0,229,255,0.2); }
+  .nav-item.active { background: rgba(232,152,61,0.08); color: var(--accent); border-color: rgba(232,152,61,0.2); }
   .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
 
   /* MAIN */
@@ -167,7 +163,7 @@
   }
 
   .page-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 20px;
     font-weight: 700;
   }
@@ -179,7 +175,7 @@
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.2s;
@@ -191,7 +187,7 @@
     background: var(--accent);
     color: #000;
   }
-  .btn-primary:hover { background: #33eeff; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,229,255,0.3); }
+  .btn-primary:hover { background: #f2ab5c; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(232,152,61,0.3); }
 
   .btn-ghost {
     background: transparent;
@@ -201,9 +197,9 @@
   .btn-ghost:hover { background: var(--surface2); color: var(--text); }
 
   .btn-danger {
-    background: rgba(255,77,106,0.1);
+    background: rgba(232,89,61,0.1);
     color: var(--danger);
-    border: 1px solid rgba(255,77,106,0.3);
+    border: 1px solid rgba(232,89,61,0.3);
     padding: 6px 14px;
     font-size: 11px;
   }
@@ -211,9 +207,9 @@
   .btn-small {
     padding: 5px 12px;
     font-size: 11px;
-    background: rgba(0,229,255,0.1);
+    background: rgba(232,152,61,0.1);
     color: var(--accent);
-    border: 1px solid rgba(0,229,255,0.2);
+    border: 1px solid rgba(232,152,61,0.2);
   }
 
   .content { padding: 28px 32px; flex: 1; }
@@ -237,10 +233,10 @@
     padding: 20px;
     transition: all 0.2s;
   }
-  .stat-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-2px); }
+  .stat-card:hover { border-color: rgba(232,152,61,0.3); transform: translateY(-2px); }
 
   .stat-label { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
-  .stat-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; }
+  .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700; }
   .stat-value.cyan { color: var(--accent); }
   .stat-value.red { color: var(--danger); }
   .stat-value.yellow { color: var(--warning); }
@@ -271,7 +267,7 @@
   }
 
   .expiry-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 14px;
     font-weight: 700;
     display: flex;
@@ -309,9 +305,9 @@
     letter-spacing: 0.5px;
   }
 
-  .badge-danger { background: rgba(255,77,106,0.15); color: var(--danger); border: 1px solid rgba(255,77,106,0.3); }
-  .badge-warning { background: rgba(255,170,0,0.12); color: var(--warning); border: 1px solid rgba(255,170,0,0.3); }
-  .badge-success { background: rgba(0,214,143,0.12); color: var(--success); border: 1px solid rgba(0,214,143,0.25); }
+  .badge-danger { background: rgba(232,89,61,0.15); color: var(--danger); border: 1px solid rgba(232,89,61,0.3); }
+  .badge-warning { background: rgba(232,177,61,0.12); color: var(--warning); border: 1px solid rgba(232,177,61,0.3); }
+  .badge-success { background: rgba(111,174,127,0.12); color: var(--success); border: 1px solid rgba(111,174,127,0.25); }
 
   /* EMPLOYEE TABLE */
   .table-wrap {
@@ -344,7 +340,7 @@
     border: none;
     outline: none;
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     width: 220px;
   }
@@ -439,7 +435,7 @@
   }
 
   .modal-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 24px;
@@ -471,7 +467,7 @@
     border-radius: 8px;
     padding: 9px 12px;
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
     outline: none;
     transition: border-color 0.2s;
@@ -488,7 +484,7 @@
   }
 
   .form-section-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: var(--accent);
@@ -552,7 +548,7 @@
   .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
   .section-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 16px;
@@ -591,23 +587,23 @@
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .filter-btn:hover, .filter-btn.active { background: rgba(0,229,255,0.1); color: var(--accent); border-color: rgba(0,229,255,0.3); }
+  .filter-btn:hover, .filter-btn.active { background: rgba(232,152,61,0.1); color: var(--accent); border-color: rgba(232,152,61,0.3); }
 
   /* Safety cert rows in modal */
   .safety-cert-row {
-    background: rgba(123,97,255,0.05);
-    border: 1px solid rgba(123,97,255,0.15);
+    background: rgba(91,139,181,0.05);
+    border: 1px solid rgba(91,139,181,0.15);
     border-radius: 8px;
     padding: 10px 12px;
     margin-bottom: 8px;
     transition: border-color 0.2s;
   }
-  .safety-cert-row:hover { border-color: rgba(123,97,255,0.35); }
+  .safety-cert-row:hover { border-color: rgba(91,139,181,0.35); }
   #safetyCertRows { max-height: 320px; overflow-y: auto; padding-right: 4px; }
   #safetyCertRows::-webkit-scrollbar { width: 4px; }
   #safetyCertRows::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -726,7 +722,7 @@
     transition: all 0.2s;
     border: none;
     background: transparent;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   .bottom-nav-item.active { color: var(--accent); }
@@ -740,7 +736,7 @@
     padding: 14px;
     transition: border-color 0.2s;
   }
-  .emp-card:active { border-color: rgba(0,229,255,0.3); }
+  .emp-card:active { border-color: rgba(232,152,61,0.3); }
 
   .emp-card-header {
     display: flex;
@@ -750,7 +746,7 @@
   }
 
   .emp-card-name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 14px;
     font-weight: 700;
   }
@@ -853,7 +849,7 @@
     background: rgba(255,255,255,0.015);
   }
   tbody tr:hover td {
-    background: rgba(0,229,255,0.04) !important;
+    background: rgba(232,152,61,0.04) !important;
   }
 </style>
 </head>
@@ -863,7 +859,7 @@
 <div class="password-screen" id="passwordScreen">
   <div class="password-box">
     <div class="lock-icon">🔒</div>
-    <div class="logo-text">⬡ PIXELS</div>
+    <div class="logo-text">⬡ PixelsEmpCore</div>
     <div class="logo-sub">Management System</div>
     <div class="password-hint">Enter password to continue</div>
     <input type="password" id="passwordInput" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')checkPassword()">
@@ -1132,7 +1128,7 @@
       <div class="form-group">
         <label>Department</label>
         <select id="fDept">
-          <option value="Engineering">Engineering</option>
+          <option value="Admin">Admin</option>
           <option value="Operations">Operations</option>
           <option value="Safety">Safety</option>
           <option value="Admin">Admin</option>
@@ -1214,7 +1210,7 @@
 // ─── SEED DATA ─────────────────────────────────────────
 const SEED_EMPLOYEES = [
   // ── Group 1: Main workforce ──
-  { id:'emp_001', empId:'EMP001', firstName:'Kannaiyan', lastName:'Sathish', designation:'Systems Programmer', dept:'Engineering', contact:'84415883', finNo:'G6496541M', passType:'S-PASS', nationality:'INDIAN', dob:'1989-06-25', doj:'2019-04-29', accommodation:'Own', permitNo:'038082655', permitType:'S Pass', permitIssue:'', permitExpiry:'2029-06-17', passportNo:'T1665442', passportIssue:'', passportExpiry:'2029-07-17', safetyCerts:[] },
+  { id:'emp_001', empId:'EMP001', firstName:'Kannaiyan', lastName:'Sathish', designation:'Systems Programmer', dept:'Admin', contact:'84415883', finNo:'G6496541M', passType:'S-PASS', nationality:'INDIAN', dob:'1989-06-25', doj:'2019-04-29', accommodation:'Own', permitNo:'038082655', permitType:'S Pass', permitIssue:'', permitExpiry:'2029-06-17', passportNo:'T1665442', passportIssue:'', passportExpiry:'2029-07-17', safetyCerts:[] },
   { id:'emp_002', empId:'EMP002', firstName:'Miah', lastName:'Nayon', designation:'Construction Worker', dept:'Operations', contact:'91434388', finNo:'G7020917P', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1985-12-05', doj:'2019-10-04', accommodation:'Office', permitNo:'061814698', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-11-20', passportNo:'A16977759', passportIssue:'', passportExpiry:'2034-11-20', safetyCerts:[{id:'sc_002',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
   { id:'emp_003', empId:'EMP003', firstName:'Shakirul', lastName:'', designation:'Construction Worker', dept:'Operations', contact:'85552066', finNo:'G8484428X', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-07-02', doj:'2020-09-01', accommodation:'Office', permitNo:'063045152', permitType:'Work Permit', permitIssue:'', permitExpiry:'2028-05-15', passportNo:'A18625854', passportIssue:'', passportExpiry:'2035-05-05', safetyCerts:[{id:'sc_003',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
   { id:'emp_004', empId:'EMP004', firstName:'Mia', lastName:'Hasan', designation:'Construction Worker', dept:'Operations', contact:'85445472', finNo:'G2064012Q', passType:'WORK PERMIT', nationality:'BANGLADESHI', dob:'1984-09-11', doj:'2019-09-28', accommodation:'Office', permitNo:'063682489', permitType:'Work Permit', permitIssue:'', permitExpiry:'2027-09-06', passportNo:'A20060395', passportIssue:'', passportExpiry:'2035-09-06', safetyCerts:[{id:'sc_004',type:'CSOC',no:'',issue:'',expiry:'9999-12-31'}] },
@@ -1501,12 +1497,12 @@ function renderEmployeeTable() {
     }
 
     const passTypeBadge = e.passType
-      ? `<span class="badge" style="background:rgba(123,97,255,0.12);color:#a78bfa;border:1px solid rgba(123,97,255,0.3);white-space:nowrap;font-size:10px;">${e.passType}</span>`
+      ? `<span class="badge" style="background:rgba(91,139,181,0.12);color:#7fa7c9;border:1px solid rgba(91,139,181,0.3);white-space:nowrap;font-size:10px;">${e.passType}</span>`
       : '—';
 
     const accomBadge = e.accommodation === 'Own'
-      ? `<span class="badge" style="background:rgba(123,97,255,0.12);color:#a78bfa;border:1px solid rgba(123,97,255,0.3);">Own</span>`
-      : `<span class="badge" style="background:rgba(0,229,255,0.08);color:var(--accent);border:1px solid rgba(0,229,255,0.2);">Office</span>`;
+      ? `<span class="badge" style="background:rgba(91,139,181,0.12);color:#7fa7c9;border:1px solid rgba(91,139,181,0.3);">Own</span>`
+      : `<span class="badge" style="background:rgba(232,152,61,0.08);color:var(--accent);border:1px solid rgba(232,152,61,0.2);">Office</span>`;
 
     return `
     <tr>
@@ -1529,7 +1525,7 @@ function renderEmployeeTable() {
       <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.nationality || '—'}</td>
       <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.dob ? fmtDate(e.dob) : '—'}</td>
       <td style="font-size:11px;color:var(--text-muted);white-space:nowrap;">${e.doj ? fmtDate(e.doj) : '—'}</td>
-      <td style="font-size:12px;color:#a78bfa;font-weight:500;">${e.passportNo || '—'}</td>
+      <td style="font-size:12px;color:#7fa7c9;font-weight:500;">${e.passportNo || '—'}</td>
       <td style="white-space:nowrap;">${expiryCell(psDays, e.passportExpiry)}</td>
       <td style="white-space:nowrap;">
         ${(e.safetyCerts && e.safetyCerts.length > 0)
@@ -1589,8 +1585,8 @@ function renderEmpCards(list) {
           </div>`;
         }).join('');
 
-    const passTypeBg = e.passType==='S-PASS'?'rgba(0,229,255,0.1)':e.passType==='EP'?'rgba(0,214,143,0.1)':'rgba(123,97,255,0.1)';
-    const passTypeColor = e.passType==='S-PASS'?'var(--accent)':e.passType==='EP'?'var(--success)':'#a78bfa';
+    const passTypeBg = e.passType==='S-PASS'?'rgba(232,152,61,0.1)':e.passType==='EP'?'rgba(111,174,127,0.1)':'rgba(91,139,181,0.1)';
+    const passTypeColor = e.passType==='S-PASS'?'var(--accent)':e.passType==='EP'?'var(--success)':'#7fa7c9';
 
     return `<div class="emp-card">
       <div class="emp-card-header">
@@ -1607,7 +1603,7 @@ function renderEmpCards(list) {
         </div>
       </div>
       <div class="emp-card-badges">
-        ${e.finNo ? `<span class="badge" style="background:rgba(0,229,255,0.08);color:var(--accent);border:1px solid rgba(0,229,255,0.2);font-size:10px;">FIN: ${e.finNo}</span>` : ''}
+        ${e.finNo ? `<span class="badge" style="background:rgba(232,152,61,0.08);color:var(--accent);border:1px solid rgba(232,152,61,0.2);font-size:10px;">FIN: ${e.finNo}</span>` : ''}
         ${e.nationality ? `<span class="badge" style="background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border);font-size:10px;">${e.nationality}</span>` : ''}
         ${e.contact ? `<span class="badge" style="background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border);font-size:10px;">📞 ${e.contact}</span>` : ''}
       </div>
@@ -1764,7 +1760,7 @@ function renderSafetyRows(certs) {
             <label>Expiry Date</label>
             <input class="sc-expiry" type="date" value="${cert.expiry||''}">
           </div>
-          <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;margin-bottom:0;" title="Remove">✕</button>
+          <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(232,89,61,0.1);border:1px solid rgba(232,89,61,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;margin-bottom:0;" title="Remove">✕</button>
         </div>
       </div>`;
     container.appendChild(row);
@@ -1787,7 +1783,7 @@ function addSafetyRow() {
         <div class="form-group" style="margin:0;"><label>Cert Number</label><input class="sc-no" type="text" placeholder="SC-XXXX"></div>
         <div class="form-group" style="margin:0;"><label>Issue Date</label><input class="sc-issue" type="date"></div>
         <div class="form-group" style="margin:0;"><label>Expiry Date</label><input class="sc-expiry" type="date"></div>
-        <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;" title="Remove">✕</button>
+        <button type="button" onclick="removeSafetyRow(this)" style="background:rgba(232,89,61,0.1);border:1px solid rgba(232,89,61,0.3);color:var(--danger);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px;align-self:end;" title="Remove">✕</button>
       </div>
     </div>`;
   container.appendChild(row);
