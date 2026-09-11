@@ -28,7 +28,7 @@
       repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 14px);
     font-family:'Inter',sans-serif;
     color:var(--paper);
-    padding-bottom:84px;
+    padding-bottom:96px;
   }
 
   /* caution strip */
@@ -204,29 +204,60 @@
   .dispatch-nav{
     position:fixed; bottom:0; left:0; right:0;
     display:flex;
-    background:var(--ink);
+    gap:4px;
+    background:rgba(27,29,34,0.92);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     border-top:1px solid rgba(255,255,255,0.1);
-    padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+    box-shadow:0 -6px 20px rgba(0,0,0,0.35);
+    padding:6px 6px calc(6px + env(safe-area-inset-bottom));
     z-index:30;
   }
   .nav-btn{
     flex:1;
-    display:flex; flex-direction:column; align-items:center; gap:4px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
     background:none; border:none; color:var(--gray);
     font-family:'IBM Plex Mono',monospace;
     font-size:9.5px; letter-spacing:0.5px; text-transform:uppercase;
-    padding:6px 2px;
-    border-radius:8px;
+    text-align:center;
+    min-height:56px;
+    min-width:44px;
+    padding:6px 4px;
+    border-radius:12px;
     cursor:pointer;
     text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+    transition:background .15s ease, color .15s ease, transform .12s ease;
   }
-  .nav-btn .ic{font-size:19px;}
-  .nav-btn.active{color:var(--orange);}
+  .nav-btn:active{
+    transform:scale(0.94);
+    background:rgba(255,255,255,0.06);
+  }
+  .nav-btn .ic{font-size:20px; line-height:1;}
+  .nav-btn .lbl{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
+  }
+  .nav-btn.active{
+    color:var(--orange);
+    background:rgba(255,106,51,0.14);
+  }
   .nav-btn.active .ic{filter:drop-shadow(0 0 6px rgba(255,106,51,0.5));}
 
   @media (max-width:380px){
     .ticket-title{font-size:17px;}
     .stub{width:48px;}
+    .dispatch-nav{padding-left:4px; padding-right:4px;}
+    .nav-btn{font-size:8.5px; min-height:52px;}
+    .nav-btn .ic{font-size:18px;}
+  }
+
+  @media (min-width:600px){
+    .dispatch-nav{justify-content:center;}
+    .nav-btn{flex:0 1 140px;}
   }
 </style>
 </head>
@@ -337,7 +368,6 @@
     </a>
 
 
-   
 
         <a href="https://786spices.vercel.app/pixels_work.html" class="ticket t6" target="_blank" rel="noopener noreferrer">
       <div class="stub"><span class="num">WO&nbsp;06</span></div>
@@ -362,10 +392,10 @@
 </main>
 
 <nav class="dispatch-nav">
-  <a href="https://786spices.vercel.app/pixels.html" class="nav-btn active"><span class="ic">📊</span>Dashboard</a>
-  <a href="https://786spices.vercel.app/pixels-employee-management.html" class="nav-btn"><span class="ic">👥</span>STAFFS</a>
-  <a href="https://786spices.vercel.app/" class="nav-btn"><span class="ic">⚙️</span>Tools</a>
-  <a href="https://786spices.vercel.app/sitemanpowerqty.html" class="nav-btn"><span class="ic">👷🏻‍♂️</span>Manpower</a>
+  <a href="https://786spices.vercel.app/pixels.html" class="nav-btn active"><span class="ic">📊</span><span class="lbl">Dashboard</span></a>
+  <a href="https://786spices.vercel.app/pixels-employee-management.html" class="nav-btn"><span class="ic">👥</span><span class="lbl">Staffs</span></a>
+  <a href="https://786spices.vercel.app/" class="nav-btn"><span class="ic">⚙️</span><span class="lbl">Tools</span></a>
+  <a href="https://786spices.vercel.app/sitemanpowerqty.html" class="nav-btn"><span class="ic">👷🏻‍♂️</span><span class="lbl">Manpower</span></a>
 </nav>
 
 <script>
