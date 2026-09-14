@@ -360,9 +360,9 @@
 
   <header>
     <div>
-      <h1>Muri Shop<span>Cash Locker report</span></h1>
+      <h1>Jalan Papan Muri Shop<span>Cash Locker report</span></h1>
     </div>
-    <div class="mark">MS</div>
+    <div class="mark">786</div>
   </header>
 
   <div class="date-row">
@@ -541,12 +541,12 @@
     if (mode === 'in'){
       const c = parseFloat(cashIn.value) || 0;
       const co = parseFloat(coinsIn.value) || 0;
-      lines.push('*Type: Cash-In*');
+      lines.push('*Cash-In*');
       lines.push(`Cash: ${fmt(c)}`);
       lines.push(`Coins: ${fmt(co)}`);
       lines.push(`*Total Cash In: ${fmt(c + co)}*`);
     } else {
-      lines.push('*Type: Cash-Out*');
+      lines.push('*Cash-Out*');
       let total = 0;
       let i = 0;
       outEntries.querySelectorAll('.out-entry').forEach(row => {
