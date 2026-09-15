@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAAKS Trading - Wholesale Order Tool</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/tabler-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a3a52 0%, #2c5aa0 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2c5aa0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1565c0;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #0d47a1;
+        }
+
+        .info-box code {
+            background: #bbdefb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"],
+        select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            color: #333;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select {
+            min-width: 140px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #999;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 0 2px rgba(44, 90, 160, 0.1);
+        }
+
+        .products-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: #2c5aa0;
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-row {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            color: #2c5aa0;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .product-size {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .product-price {
+            color: #999;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .qty-controls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-input {
+            width: 50px;
+            padding: 6px 8px;
+            text-align: center;
+            font-size: 13px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            min-width: 28px;
+            min-height: 28px;
+        }
+
+        .qty-btn:hover {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .line-total {
+            text-align: right;
+            font-weight: 500;
+            color: #2c5aa0;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c5aa0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #229954;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #f9f9f9;
+        }
+
+        .order-preview {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #666;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .order-preview.show {
+            display: block;
+        }
+
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: none;
+            font-size: 13px;
+        }
+
+        .success-msg.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .products-section {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 8px;
+            }
+
+            .product-card {
+                border-radius: 6px;
+            }
+
+            .product-image {
+                height: 100px;
+            }
+
+            .product-row {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .product-name {
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+            .product-size, .product-price {
+                font-size: 11px;
+                margin: 2px 0 !important;
+            }
+
+            .qty-controls {
+                flex-wrap: wrap;
+                gap: 6px !important;
+                justify-content: center;
+                width: 100%;
+                margin-bottom: 8px !important;
+            }
+
+            .qty-input {
+                width: 45px;
+                padding: 4px 6px;
+                font-size: 12px;
+            }
+
+            .qty-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+
+            .line-total {
+                text-align: center;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+            }
+
+            input[type="text"],
+            select {
+                width: 100%;
+            }
+
+            .products-section {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 6px;
+            }
+
+            .product-image {
+                height: 80px;
+            }
+
+            .product-row {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .product-name {
+                font-size: 11px;
+            }
+
+            .product-size, .product-price {
+                font-size: 10px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            button {
+                min-width: 100px;
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            .action-buttons {
+                gap: 6px;
+            }
+
+            .qty-controls {
+                justify-content: center;
+            }
+
+            .qty-input {
+                width: 40px;
+                padding: 3px 4px;
+                font-size: 11px;
+            }
+
+            .qty-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+            }
+        }
+
+        .icon {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 JAAKS Trading Wholesale</h1>
+            <p>Order management tool - 111 products available</p>
+        </header>
+
+        <div class="info-box">
+            <strong>📸 How to add product images:</strong>
+            <div>Right-click on the HTML file → Open With → Notepad (or any text editor). Find <code>image: ""</code> and add image URLs. Example: <code>image: "https://example.com/image.jpg"</code>. You can use product images from your website or upload them to an image hosting service (like Imgur or Google Drive).</div>
+        </div>
+
+        <div class="controls">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search products by name..." 
+            />
+            <select id="categoryFilter">
+                <option value="">All categories</option>
+                <option value="OIL">Oils</option>
+                <option value="PULSES">Pulses</option>
+                <option value="SPICES">Spices</option>
+                <option value="FOOD ITEMS">Food items</option>
+                <option value="FLOUR">Flour</option>
+                <option value="SALT">Salt</option>
+                <option value="BEVERAG ES">Beverages</option>
+            </select>
+        </div>
+
+        <div class="products-section" id="productsContainer"></div>
+
+        <div class="summary-card">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">Items selected</div>
+                    <div class="summary-value" id="itemCount">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total (excl. GST)</div>
+                    <div class="summary-value" id="totalPrice">SGD 0.00</div>
+                </div>
+            </div>
+
+            <div class="success-msg" id="successMsg">✓ Order copied to clipboard!</div>
+
+            <div class="action-buttons">
+                <button id="generateWhatsApp" class="btn-primary">
+                    <i class="ti ti-brand-whatsapp icon"></i> WhatsApp
+                </button>
+                <button id="copyOrder" class="btn-secondary">
+                    <i class="ti ti-copy icon"></i> Copy
+                </button>
+                <button id="clearAll" class="btn-secondary">
+                    <i class="ti ti-trash icon"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <div class="order-preview" id="orderPreview"></div>
+    </div>
+
+    <script>
+        const products = [
+            {id: 1, name: "JAAKS GOLD VEG COOKING OIL (18LTR GROSS)", category: "OIL", size: "18LTR", price: 28.60, image: ""},
+            {id: 2, name: "JAAKS GOLD VEG COOKING OIL (14LTR GROSS)", category: "OIL", size: "14LTR", price: 22.80, image: ""},
+            {id: 3, name: "JAAKS GOLD VEG COOKING OIL (5LTR x 4BOT)", category: "OIL", size: "5LTR x 4BOT", price: 33.40, image: ""},
+            {id: 4, name: "JAAKS GOLD VEG COOKING OIL (2LTR x 6BOT)", category: "OIL", size: "2LTR x 6BOT", price: 24.00, image: ""},
+            {id: 5, name: "MALAWI DHALL 25KG", category: "PULSES", size: "25KG", price: 40.50, image: ""},
+            {id: 6, name: "URID GOTA SSQ 25KG", category: "PULSES", size: "25KG", price: 44.00, image: ""},
+            {id: 7, name: "MOONG DHALL 15KG", category: "PULSES", size: "15KG", price: 23.60, image: ""},
+            {id: 8, name: "CHANNA DHALL 15KG", category: "PULSES", size: "15KG", price: 20.00, image: ""},
+            {id: 9, name: "MASOOR DHALL WHOLE 15KG", category: "PULSES", size: "15KG", price: 18.00, image: ""},
+            {id: 10, name: "LAB LAB BEANS (MOCHAI) 15KG", category: "PULSES", size: "15KG", price: 22.40, image: ""},
+            {id: 11, name: "BLACK EYE BEAN (THATTAI) 15KG", category: "PULSES", size: "15KG", price: 22.80, image: ""},
+            {id: 12, name: "CHICKPEAS 12MM 15KG", category: "PULSES", size: "15KG", price: 26.00, image: ""},
+            {id: 13, name: "BLACK CHANNA 25KG", category: "PULSES", size: "25KG", price: 27.00, image: ""},
+            {id: 14, name: "GREEN PEAS 25KG", category: "PULSES", size: "25KG", price: 27.00, image: ""},
+            {id: 15, name: "MUNG BEAN 25KG", category: "PULSES", size: "25KG", price: 42.00, image: ""},
+            {id: 16, name: "Buah Keras (10KG)", category: "PULSES", size: "10KG", price: 50.00, image: ""},
+            {id: 17, name: "GROUND NUT (25KG)", category: "PULSES", size: "25KG", price: 52.00, image: ""},
+            {id: 18, name: "FRIED GRAM (25KG)", category: "PULSES", size: "25KG", price: 45.00, image: ""},
+            {id: 19, name: "CUMIN SEEDS 25KG", category: "SPICES", size: "25KG", price: 86.00, image: ""},
+            {id: 20, name: "FENNEL SEEDS 25KG", category: "SPICES", size: "25KG", price: 44.00, image: ""},
+            {id: 21, name: "FENUGREK SEEDS 25KG", category: "SPICES", size: "25KG", price: 28.00, image: ""},
+            {id: 22, name: "MUSTARD SEEDS 25KG", category: "SPICES", size: "25KG", price: 34.00, image: ""},
+            {id: 23, name: "BLACK PEPPER 25KG", category: "SPICES", size: "25KG", price: 250.00, image: ""},
+            {id: 24, name: "CINNAMON STICKS 20KG", category: "SPICES", size: "20KG", price: 114.00, image: ""},
+            {id: 25, name: "STARNIS 10KG", category: "SPICES", size: "1KG x 10PKT", price: 50.00, image: ""},
+            {id: 26, name: "GREEN CARDAMOM 5KG x 4BOX", category: "SPICES", size: "5KG x 4BOX", price: 860.00, image: ""},
+            {id: 27, name: "CLOVES 25KG", category: "SPICES", size: "25KG", price: 297.50, image: ""},
+            {id: 28, name: "DRY CHILLI 10KG", category: "SPICES", size: "10KG", price: 43.00, image: ""},
+            {id: 29, name: "BAY LEAF 10KG", category: "SPICES", size: "10KG", price: 28.00, image: ""},
+            {id: 30, name: "KAL PASI 10KG", category: "SPICES", size: "10KG", price: 98.00, image: ""},
+            {id: 31, name: "BUNGA PALA (JATHI PATHRI) 10KG", category: "SPICES", size: "10KG", price: 300.00, image: ""},
+            {id: 32, name: "WHITE SESAME SEED 10KG", category: "SPICES", size: "10KG", price: 30.00, image: ""},
+            {id: 33, name: "FRIED ONION 1KG x 10PKT", category: "FOOD ITEMS", size: "1KG x 10PKT", price: 34.00, image: ""},
+            {id: 34, name: "CASHEW SPLIT 1KG", category: "FOOD ITEMS", size: "1KG", price: 8.50, image: ""},
+            {id: 35, name: "ALMOND 1KG", category: "FOOD ITEMS", size: "1KG", price: 11.60, image: ""},
+            {id: 36, name: "GOLDEN RAISIN 10KG", category: "FOOD ITEMS", size: "10KG", price: 70.00, image: ""},
+            {id: 37, name: "WHOLE MILK POWDER 25KG", category: "FOOD ITEMS", size: "25KG", price: 138.00, image: ""},
+            {id: 38, name: "RICE FLOUR (500GM x 20PKT)", category: "FLOUR", size: "500GM x 20PKT", price: 14.40, image: ""},
+            {id: 39, name: "CORN FLOUR (400GM x 20PKT)", category: "FLOUR", size: "400GM x 20PKT", price: 11.20, image: ""},
+            {id: 40, name: "GRAM DHALL FLOUR 25KG", category: "FLOUR", size: "25KG", price: 39.00, image: ""},
+            {id: 41, name: "RICE FLOUR 25KG", category: "FLOUR", size: "25KG", price: 36.00, image: ""},
+            {id: 42, name: "CORN FLOUR 25KG", category: "FLOUR", size: "25KG", price: 25.50, image: ""},
+            {id: 43, name: "MAIDA (ANCHOR BRAND) 25KG", category: "FLOUR", size: "25KG", price: 21.80, image: ""},
+            {id: 44, name: "JAAKS GOLD CHAKKI ATTA 5KG x 4PCS", category: "FLOUR", size: "5KG x 4PKT", price: 17.60, image: ""},
+            {id: 45, name: "RAVAI SEMOLINA 25KG", category: "FLOUR", size: "25KG", price: 27.20, image: ""},
+            {id: 46, name: "SAGO PEARL 15KG", category: "FLOUR", size: "25KG", price: 31.00, image: ""},
+            {id: 47, name: "SOYA MATE MEDIUM 10KG", category: "FOOD ITEMS", size: "20KG", price: 48.00, image: ""},
+            {id: 48, name: "IKAN BILIS 10KG", category: "FOOD ITEMS", size: "10KG", price: 104.00, image: ""},
+            {id: 49, name: "VANASPATI TIN 16KG", category: "FOOD ITEMS", size: "16KG", price: 40.00, image: ""},
+            {id: 50, name: "AJINOMOTO 1KG x 10PCS", category: "FOOD ITEMS", size: "1KG x 10PKT", price: 27.50, image: ""},
+            {id: 51, name: "SALT 3KG x 5PKT", category: "SALT", size: "3KG x 5PKT", price: 5.40, image: ""},
+            {id: 52, name: "SUGAR 50KG", category: "FOOD ITEMS", size: "50KG", price: 59.00, image: ""},
+            {id: 53, name: "GULA MELAKA", category: "FOOD ITEMS", size: "500GM x 24PCS", price: 16.20, image: ""},
+            {id: 54, name: "Suntisuk Nammanaw Lime Juice (500 ML / 1LTR)", category: "FOOD ITEMS", size: "1LTR x 12BOT", price: 14.20, image: ""},
+            {id: 55, name: "PUTERI CILI SOS (2.6 kg x 6 pcs)", category: "FOOD ITEMS", size: "2.6KG x 6BOT", price: 13.20, image: ""},
+            {id: 56, name: "PUTERI CILI SOS (4.3 kg x 4 pcs)", category: "FOOD ITEMS", size: "4.3 KG x 4BOT", price: 14.50, image: ""},
+            {id: 57, name: "PUTERI TOMATO SOS (2.6 kg x 6 pcs)", category: "FOOD ITEMS", size: "2.6KG x 6BOT", price: 13.20, image: ""},
+            {id: 58, name: "PUTERI TOMATO SOS (4.25 kg x 4 pcs)", category: "FOOD ITEMS", size: "4.3 KG x 4BOT", price: 14.50, image: ""},
+            {id: 59, name: "JAAKS GOLD SOYA MATE (250GM x 24)", category: "FOOD ITEMS", size: "250GM x 24PKT", price: 23.50, image: ""},
+            {id: 60, name: "JAAKS GOLD NATTU CHAKKARAI (1KG x 20PK", category: "FOOD ITEMS", size: "1KG x 20PKT", price: 32.00, image: ""},
+            {id: 61, name: "JAAKS GOLD TEPUNG DHALL FLOUR", category: "FLOUR", size: "500GM x 20PKT", price: 21.00, image: ""},
+            {id: 62, name: "JAAKS GOLD RAVAI (500GM x 20PKT)", category: "FLOUR", size: "500GM x 20PKT", price: 20.00, image: ""},
+            {id: 63, name: "JAAKS GOLD RAVAI (1KG x 25PKT)", category: "FLOUR", size: "1KG x 25PKT", price: 37.50, image: ""},
+            {id: 64, name: "JAAKS GOLD TEPUNG DHALL FLOUR (1KG x 25PKT)", category: "FLOUR", size: "1KG x 25PKT", price: 42.00, image: ""},
+            {id: 65, name: "JAAKS GOLD FINE SALT 3KG (1X5)", category: "SALT", size: "3KG x 5PKT", price: 5.40, image: ""},
+            {id: 66, name: "JAAKS GOLD PANIPURI PAPAD (1KG x 24PKT)", category: "FOOD ITEMS", size: "1KG x 24PKT", price: 46.00, image: ""},
+            {id: 67, name: "JAAKS GOLD CORN LAYS PAPAD (1KG x 16PKT)", category: "FOOD ITEMS", size: "1KG x 16PKT", price: 44.00, image: ""},
+            {id: 68, name: "RAJ MAHAL APPALAM 100GM", category: "FOOD ITEMS", size: "100GM x 200PCS", price: 85.00, image: ""},
+            {id: 69, name: "PAPAD WHEEL 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 70, name: "PAPAD PADAYAPA 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 71, name: "PAPPAD 5 STAR 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 72, name: "PAPPAD COLOR RING 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 73, name: "PAPPAD COLOR KUCHI 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 74, name: "GARLIC PAPPAD 1KG", category: "FOOD ITEMS", size: "1KG x 25PKT", price: 48.00, image: ""},
+            {id: 75, name: "AMBIKA 3D BAT PAPPAD 1KG", category: "FOOD ITEMS", size: "1KG x 5PKT", price: 10.00, image: ""},
+            {id: 76, name: "Milagai Vathal", category: "FOOD ITEMS", size: "10KG", price: 36.00, image: ""},
+            {id: 77, name: "MIX VATHAL (10KG)", category: "FOOD ITEMS", size: "10KG", price: 40.00, image: ""},
+            {id: 78, name: "ASAM TAMARIND (1KG x 20PKT)", category: "FOOD ITEMS", size: "1KG x 20PKT", price: 28.00, image: ""},
+            {id: 79, name: "FOOD COLOUR 284 / 258 (450GM x 24PCS)", category: "FOOD ITEMS", size: "450GM x 24PCS", price: 450.00, image: ""},
+            {id: 80, name: "CHEONG CHAN COOKING CARAMEL (740 ml", category: "FOOD ITEMS", size: "740ML x 12BOT", price: 43.00, image: ""},
+            {id: 81, name: "PLANTA MARGARINE (2.5KG x 6PCS)", category: "FOOD ITEMS", size: "2.5KG x 6PCS", price: 60.00, image: ""},
+            {id: 82, name: "MAGGI KARI (79GM)", category: "FOOD ITEMS", size: "(5 x 79 gm) x 12 pkt", price: 16.00, image: ""},
+            {id: 83, name: "Mee Suah Buatan Tangan (500gm)", category: "FOOD ITEMS", size: "500 gm x 20 pkt", price: 49.00, image: ""},
+            {id: 84, name: "KARA COCONUT MILK (1 L)", category: "FOOD ITEMS", size: "1 LTR x 12PCS", price: 59.00, image: ""},
+            {id: 85, name: "Nestle MILO (3.2 KG)", category: "FOOD ITEMS", size: "3.2 kg x 6 pkt", price: 116.00, image: ""},
+            {id: 86, name: "Nestle MILO (900GM)", category: "FOOD ITEMS", size: "900GM x 12 pkt", price: 75.00, image: ""},
+            {id: 87, name: "Nestle MILO 3 in 1 (33GM)", category: "FOOD ITEMS", size: "(33 gm x 18) x 24 pkt", price: 99.00, image: ""},
+            {id: 88, name: "NESCAFE 3in1 Coffee (18 GM)", category: "FOOD ITEMS", size: "(28 x 18 gm) x 24 pkt", price: 98.00, image: ""},
+            {id: 89, name: "SUPER Milk Tea (20 GM)", category: "FOOD ITEMS", size: "(20 gm x 25) 20 pkt", price: 80.00, image: ""},
+            {id: 90, name: "SUPER Milk Coffee (18 GM)", category: "FOOD ITEMS", size: "(18 gm x 25) 24 pkt", price: 88.20, image: ""},
+            {id: 91, name: "FN EVAP CREAMER 395GM x 48", category: "FOOD ITEMS", size: "395GM x 48", price: 56.20, image: ""},
+            {id: 92, name: "FN SWEETENED CREAMER 500GM x 48", category: "FOOD ITEMS", size: "500GM x 48", price: 60.20, image: ""},
+            {id: 93, name: "HERSHEYS CHOCOLATE SYRUP 650ML x 24", category: "FOOD ITEMS", size: "623ML x 12", price: 61.80, image: ""},
+            {id: 94, name: "HERSHEYS CARAMEL SYRUP 650ML x 12", category: "FOOD ITEMS", size: "623ML x 12", price: 63.00, image: ""},
+            {id: 95, name: "MACKEREL SARDINES 24X425G", category: "FOOD ITEMS", size: "425G x 24", price: 30.00, image: ""},
+            {id: 96, name: "DIGA TOMOTO PASTE 24X400G", category: "FOOD ITEMS", size: "400GM x 20TIN", price: 43.20, image: ""},
+            {id: 97, name: "ROSE WATER 12X300ML", category: "FOOD ITEMS", size: "300ML x 12", price: 3.80, image: ""},
+            {id: 98, name: "KNORR CHICKEN POWDER 6X1KG", category: "FOOD ITEMS", size: "1KG x 8", price: 49.80, image: ""},
+            {id: 99, name: "ROUND JAGGERY 10KG", category: "FOOD ITEMS", size: "10KG", price: 15.80, image: ""},
+            {id: 100, name: "ICE MOUNTAIN DRINKING WATER", category: "BEVERAG ES", size: "500ML x 24BOT", price: 3.50, image: ""},
+            {id: 101, name: "DASANI DRINKING WATER", category: "BEVERAG ES", size: "500ML x 24BOT", price: 4.40, image: ""},
+            {id: 102, name: "COCA COLA CAN (320ml x 24tin)", category: "BEVERAG ES", size: "320ML x 24TIN", price: 10.80, image: ""},
+            {id: 103, name: "COCA COLA PET (1.5ltr x 12bot)", category: "BEVERAG ES", size: "1.5LTR x 12BOT", price: 13.20, image: ""},
+            {id: 104, name: "SPRITE CAN (320ml x 12tin)", category: "BEVERAG ES", size: "320ML x 12TIN", price: 6.00, image: ""},
+            {id: 105, name: "SPRITE PET (1.5ltr x 12bot)", category: "BEVERAG ES", size: "1.5LTR x 12BOT", price: 13.20, image: ""},
+            {id: 106, name: "100PLUS CAN (325ml x 24tin)", category: "BEVERAG ES", size: "325ML x 24TIN", price: 10.80, image: ""},
+            {id: 107, name: "100 PLUS ORIGINAL PET (1.5ltr x 12bot)", category: "BEVERAG ES", size: "1.5LTR x 12BOT", price: 13.50, image: ""},
+            {id: 108, name: "FANTA CAN (Orange, Grape & Strawberry)", category: "BEVERAG ES", size: "320ML x 12TIN", price: 5.00, image: ""},
+            {id: 109, name: "FANTA PET (Orange, Grape & Strawberry)", category: "BEVERAG ES", size: "1.5LTR x 12BOT", price: 13.00, image: ""},
+            {id: 110, name: "A & W SARSAPARILLA CAN", category: "BEVERAG ES", size: "320ML x 12TIN", price: 6.00, image: ""},
+            {id: 111, name: "A & W SARSAPARILLA PET", category: "BEVERAG ES", size: "1.5LTR x 12BOT", price: 13.50, image: ""}
+        ];
+
+        let quantities = {};
+        let filtered = [...products];
+
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const container = document.getElementById('productsContainer');
+        const itemCount = document.getElementById('itemCount');
+        const totalPrice = document.getElementById('totalPrice');
+        const generateWhatsAppBtn = document.getElementById('generateWhatsApp');
+        const copyOrderBtn = document.getElementById('copyOrder');
+        const clearAllBtn = document.getElementById('clearAll');
+        const orderPreview = document.getElementById('orderPreview');
+        const successMsg = document.getElementById('successMsg');
+
+        function render() {
+            container.innerHTML = filtered.map(p => {
+                const qty = quantities[p.id] || 0;
+                const imageUrl = p.image || '';
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${p.name}" />` : '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#999; font-size:10px;">No image</div>'}
+                        </div>
+                        <div class="product-row">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-size">${p.size}</div>
+                            <div class="product-price">SGD ${p.price.toFixed(2)}</div>
+                            
+                            <div style="margin-top: auto; padding-top: 8px; border-top: 1px solid #eee; width: 100%;">
+                                <div style="font-size: 11px; color: #666; margin-bottom: 6px; text-align: center;">Qty</div>
+                                <div class="qty-controls" style="margin-bottom: 6px;">
+                                    <button class="qty-btn" onclick="updateQty(${p.id}, -1)">−</button>
+                                    <input type="number" class="qty-input" id="qty-${p.id}" value="${qty}" onchange="setQty(${p.id}, this.value)" min="0" />
+                                    <button class="qty-btn" onclick="updateQty(${p.id}, 1)">+</button>
+                                </div>
+                                ${qty > 0 ? `<div style="text-align: center; font-weight: 600; color: #2c5aa0; font-size: 12px;">SGD ${(p.price * qty).toFixed(2)}</div>` : '<div style="text-align: center; font-size: 11px; color: #ccc;">−</div>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            updateSummary();
+        }
+
+        window.updateQty = (id, delta) => {
+            quantities[id] = Math.max(0, (quantities[id] || 0) + delta);
+            document.getElementById(`qty-${id}`).value = quantities[id];
+            updateSummary();
+        };
+
+        window.setQty = (id, val) => {
+            quantities[id] = Math.max(0, parseInt(val) || 0);
+            updateSummary();
+        };
+
+        function updateSummary() {
+            let count = 0, total = 0;
+            Object.keys(quantities).forEach(id => {
+                const q = quantities[id];
+                if (q > 0) {
+                    count += q;
+                    const p = products.find(x => x.id === parseInt(id));
+                    total += p.price * q;
+                }
+            });
+            itemCount.textContent = count;
+            totalPrice.textContent = `SGD ${total.toFixed(2)}`;
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const cat = categoryFilter.value;
+            filtered = products.filter(p => 
+                (p.name.toLowerCase().includes(term)) &&
+                (!cat || p.category === cat)
+            );
+            render();
+        });
+
+        categoryFilter.addEventListener('change', (e) => {
+            const term = searchInput.value.toLowerCase();
+            const cat = e.target.value;
+            filtered = products.filter(p => 
+                (p.name.toLowerCase().includes(term)) &&
+                (!cat || p.category === cat)
+            );
+            render();
+        });
+
+        generateWhatsAppBtn.addEventListener('click', () => {
+            let msg = '📦 *786 Spices Wholesale Order*\n\n';
+            let lineTotal = 0, itemTotal = 0;
+            let hasItems = false;
+            
+            products.forEach(p => {
+                const q = quantities[p.id];
+                if (q > 0) {
+                    hasItems = true;
+                    const subtotal = p.price * q;
+                    msg += `${p.name}\nQty: ${q} | SGD ${p.price.toFixed(2)} = SGD ${subtotal.toFixed(2)}\n\n`;
+                    lineTotal += subtotal;
+                    itemTotal += q;
+                }
+            });
+            
+            if (!hasItems) {
+                alert('Please select at least one item before sending to WhatsApp.');
+                return;
+            }
+            
+            msg += `*Total items:* ${itemTotal}\n*Total price (excl. GST):* SGD ${lineTotal.toFixed(2)}\n\n`;
+            msg += `Ordered: ${new Date().toLocaleDateString('en-SG')}`;
+            
+            const encoded = encodeURIComponent(msg);
+            window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        });
+
+        copyOrderBtn.addEventListener('click', () => {
+            let msg = '786 Spices Wholesale Order\n\n';
+            let lineTotal = 0, itemTotal = 0;
+            let hasItems = false;
+            
+            products.forEach(p => {
+                const q = quantities[p.id];
+                if (q > 0) {
+                    hasItems = true;
+                    const subtotal = p.price * q;
+                    msg += `${p.name} | Qty: ${q} | SGD ${p.price.toFixed(2)} = SGD ${subtotal.toFixed(2)}\n`;
+                    lineTotal += subtotal;
+                    itemTotal += q;
+                }
+            });
+            
+            if (!hasItems) {
+                alert('Please select at least one item before copying.');
+                return;
+            }
+            
+            msg += `\nTotal items: ${itemTotal}\nTotal price (excl. GST): SGD ${lineTotal.toFixed(2)}\nOrdered: ${new Date().toLocaleDateString('en-SG')}`;
+            
+            navigator.clipboard.writeText(msg).then(() => {
+                orderPreview.textContent = msg;
+                orderPreview.classList.add('show');
+                successMsg.classList.add('show');
+                copyOrderBtn.textContent = '✓ Copied!';
+                setTimeout(() => { 
+                    copyOrderBtn.innerHTML = '<i class="ti ti-copy icon"></i> Copy';
+                    successMsg.classList.remove('show');
+                }, 3000);
+            }).catch(() => {
+                alert('Failed to copy to clipboard. Please try again.');
+            });
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+            if (Object.values(quantities).some(q => q > 0)) {
+                quantities = {};
+                render();
+                orderPreview.classList.remove('show');
+            }
+        });
+
+        render();
+    </script>
+</body>
+</html>
