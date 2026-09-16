@@ -554,6 +554,10 @@
             <input type="checkbox" id="w15" value="MIA MD SOHAG">
             <label for="w15">MIA MD SOHAG</label>
           </div> 
+           <div class="checkbox-group">
+            <input type="checkbox" id="w16" value="MD HASAN ALI">
+            <label for="w16">MD HASAN ALI</label>
+          </div> 
         </div>
       </div>
       
@@ -608,7 +612,7 @@
   
   function getSelectedWorkers() {
     const workers = [];
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= 16; i++) {
       const checkbox = document.getElementById('w' + i);
       if (checkbox.checked) {
         workers.push(checkbox.value);
