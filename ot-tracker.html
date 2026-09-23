@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>786 Spices — OT Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#131c28; --navy-2:#1c2a3a; --amber:#e0a458; --amber-dark:#c8873a;
+  --paper:#f6f3ee; --card:#ffffff; --ink:#1c2530; --ink-soft:#5c6672;
+  --line:#e6e1d8; --good:#4a7c59; --bad:#b6493f;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }
+}
+:root[data-theme="dark"]{ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }
+*{box-sizing:border-box;}
+html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100%;
+}
+.wrap{max-width:480px; margin:0 auto; padding:0 0 48px;}
+.top{
+  background:linear-gradient(160deg,var(--navy),var(--navy-2));
+  color:#f4efe6; padding:calc(env(safe-area-inset-top,0px) + 22px) 20px 20px;
+  border-bottom:3px solid var(--amber);
+}
+.top .brand{font-size:13px; letter-spacing:.02em; color:var(--amber); font-weight:700; margin-bottom:4px;}
+.top h1{margin:0; font-size:22px; font-weight:800; line-height:1.2;}
+.top .who{display:flex; justify-content:space-between; align-items:center; margin-top:14px;}
+.top .who span{font-size:14px; color:#cdd3da;}
+.top .who b{color:#fff; font-weight:700;}
+.btn-ghost{background:none; border:1px solid rgba(244,239,230,.35); color:#f4efe6; padding:7px 14px; border-radius:8px; font-size:13px; font-family:inherit; font-weight:600; cursor:pointer;}
+.btn-ghost:active{background:rgba(244,239,230,.12);}
+main{padding:18px 20px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px;}
+.card h2{margin:0 0 14px; font-size:16px; font-weight:700;}
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;}
+input,select{
+  width:100%; padding:11px 12px; border:1.5px solid var(--line); border-radius:9px;
+  font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink);
+}
+input:focus,select:focus{outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}
+.seg{display:flex; background:var(--paper); border:1.5px solid var(--line); border-radius:10px; padding:3px; margin-bottom:16px;}
+.seg button{flex:1; padding:9px; border:none; background:none; border-radius:8px; font-family:inherit; font-weight:700; font-size:14px; color:var(--ink-soft); cursor:pointer;}
+.seg button.active{background:var(--navy); color:#f4efe6;}
+.btn{
+  width:100%; padding:13px; background:var(--amber); color:#241705; border:none; border-radius:10px;
+  font-family:inherit; font-weight:800; font-size:15px; cursor:pointer; letter-spacing:.01em;
+}
+.btn:active{background:var(--amber-dark);}
+.btn-outline{width:100%; padding:11px; background:none; border:1.5px solid var(--line); color:var(--ink); border-radius:10px; font-family:inherit; font-weight:700; font-size:14px; cursor:pointer; margin-top:8px;}
+.err{color:var(--bad); font-size:13px; font-weight:600; margin:-6px 0 14px;}
+.msg{background:#eaf3ec; border:1px solid #c6e0cb; color:var(--good); padding:11px 13px; border-radius:10px; font-size:13.5px; font-weight:600; margin-bottom:16px;}
+:root[data-theme="dark"] .msg, @media (prefers-color-scheme: dark){ .msg{background:#16241a;border-color:#2a4632;} }
+.hint{font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:14px;}
+.entry{border-bottom:1px solid var(--line); padding:12px 0;}
+.entry:last-child{border-bottom:none;}
+.entry .row1{display:flex; justify-content:space-between; font-weight:700; font-size:14.5px;}
+.entry .hrs{font-variant-numeric:tabular-nums; color:var(--amber-dark);}
+.entry .meta{font-size:12.5px; color:var(--ink-soft); margin-top:3px;}
+.empty{color:var(--ink-soft); font-size:14px; text-align:center; padding:20px 0;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px;}
+.stat{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px;}
+.stat .n{font-weight:800; font-size:17px; font-variant-numeric:tabular-nums;}
+.stat .l{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+table{width:100%; border-collapse:collapse; font-size:13px; min-width:480px;}
+th,td{text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); white-space:nowrap;}
+th{color:var(--ink-soft); font-weight:700; font-size:11.5px;}
+td.hrs, th.hrs{font-variant-numeric:tabular-nums; text-align:right;}
+.del{background:none; border:none; color:var(--bad); cursor:pointer; font-size:12px; font-weight:700; padding:2px 6px;}
+.total-row td{font-weight:800; border-top:2px solid var(--ink); border-bottom:none;}
+footer{text-align:center; color:var(--ink-soft); font-size:12px; padding:10px 20px 4px;}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script id="data" type="application/json">{"entries": [{"id": "1790156546465-vcowxd", "date": "2026-09-23", "worker": "NI SOE OO", "hours": 4, "supervisor": "Shakirul", "approvedAt": "2026-09-23T09:42:26.465Z"}, {"id": "1790156562865-kd6grq", "date": "2026-09-22", "worker": "BO BO ZAW", "hours": 5, "supervisor": "Shakirul", "approvedAt": "2026-09-23T09:42:42.865Z"}]}</script>
+<script id="self-template" type="application/json">"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<title>786 Spices \u2014 OT Log</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\n<style>\n:root{\n  --navy:#131c28; --navy-2:#1c2a3a; --amber:#e0a458; --amber-dark:#c8873a;\n  --paper:#f6f3ee; --card:#ffffff; --ink:#1c2530; --ink-soft:#5c6672;\n  --line:#e6e1d8; --good:#4a7c59; --bad:#b6493f;\n  padding-top: env(safe-area-inset-top, 0px);\n  padding-bottom: env(safe-area-inset-bottom, 0px);\n  box-sizing: border-box;\n}\n@media (prefers-color-scheme: dark){\n  :root:not([data-theme=\"light\"]){ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }\n}\n:root[data-theme=\"dark\"]{ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }\n*{box-sizing:border-box;}\nhtml{scroll-padding-top: env(safe-area-inset-top, 0px);}\nbody{\n  margin:0; background:var(--paper); color:var(--ink);\n  font-family:'Manrope',system-ui,-apple-system,sans-serif;\n  -webkit-font-smoothing:antialiased;\n  min-height:100%;\n}\n.wrap{max-width:480px; margin:0 auto; padding:0 0 48px;}\n.top{\n  background:linear-gradient(160deg,var(--navy),var(--navy-2));\n  color:#f4efe6; padding:calc(env(safe-area-inset-top,0px) + 22px) 20px 20px;\n  border-bottom:3px solid var(--amber);\n}\n.top .brand{font-size:13px; letter-spacing:.02em; color:var(--amber); font-weight:700; margin-bottom:4px;}\n.top h1{margin:0; font-size:22px; font-weight:800; line-height:1.2;}\n.top .who{display:flex; justify-content:space-between; align-items:center; margin-top:14px;}\n.top .who span{font-size:14px; color:#cdd3da;}\n.top .who b{color:#fff; font-weight:700;}\n.btn-ghost{background:none; border:1px solid rgba(244,239,230,.35); color:#f4efe6; padding:7px 14px; border-radius:8px; font-size:13px; font-family:inherit; font-weight:600; cursor:pointer;}\n.btn-ghost:active{background:rgba(244,239,230,.12);}\nmain{padding:18px 20px;}\n.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px;}\n.card h2{margin:0 0 14px; font-size:16px; font-weight:700;}\n.field{margin-bottom:14px;}\n.field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;}\ninput,select{\n  width:100%; padding:11px 12px; border:1.5px solid var(--line); border-radius:9px;\n  font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink);\n}\ninput:focus,select:focus{outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}\n.seg{display:flex; background:var(--paper); border:1.5px solid var(--line); border-radius:10px; padding:3px; margin-bottom:16px;}\n.seg button{flex:1; padding:9px; border:none; background:none; border-radius:8px; font-family:inherit; font-weight:700; font-size:14px; color:var(--ink-soft); cursor:pointer;}\n.seg button.active{background:var(--navy); color:#f4efe6;}\n.btn{\n  width:100%; padding:13px; background:var(--amber); color:#241705; border:none; border-radius:10px;\n  font-family:inherit; font-weight:800; font-size:15px; cursor:pointer; letter-spacing:.01em;\n}\n.btn:active{background:var(--amber-dark);}\n.btn-outline{width:100%; padding:11px; background:none; border:1.5px solid var(--line); color:var(--ink); border-radius:10px; font-family:inherit; font-weight:700; font-size:14px; cursor:pointer; margin-top:8px;}\n.err{color:var(--bad); font-size:13px; font-weight:600; margin:-6px 0 14px;}\n.msg{background:#eaf3ec; border:1px solid #c6e0cb; color:var(--good); padding:11px 13px; border-radius:10px; font-size:13.5px; font-weight:600; margin-bottom:16px;}\n:root[data-theme=\"dark\"] .msg, @media (prefers-color-scheme: dark){ .msg{background:#16241a;border-color:#2a4632;} }\n.hint{font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:14px;}\n.entry{border-bottom:1px solid var(--line); padding:12px 0;}\n.entry:last-child{border-bottom:none;}\n.entry .row1{display:flex; justify-content:space-between; font-weight:700; font-size:14.5px;}\n.entry .hrs{font-variant-numeric:tabular-nums; color:var(--amber-dark);}\n.entry .meta{font-size:12.5px; color:var(--ink-soft); margin-top:3px;}\n.empty{color:var(--ink-soft); font-size:14px; text-align:center; padding:20px 0;}\n.grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px;}\n.stat{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px;}\n.stat .n{font-weight:800; font-size:17px; font-variant-numeric:tabular-nums;}\n.stat .l{font-size:12px; color:var(--ink-soft); margin-top:2px;}\n.tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}\ntable{width:100%; border-collapse:collapse; font-size:13px; min-width:480px;}\nth,td{text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); white-space:nowrap;}\nth{color:var(--ink-soft); font-weight:700; font-size:11.5px;}\ntd.hrs, th.hrs{font-variant-numeric:tabular-nums; text-align:right;}\n.del{background:none; border:none; color:var(--bad); cursor:pointer; font-size:12px; font-weight:700; padding:2px 6px;}\n.total-row td{font-weight:800; border-top:2px solid var(--ink); border-bottom:none;}\nfooter{text-align:center; color:var(--ink-soft); font-size:12px; padding:10px 20px 4px;}\n</style>\n</head>\n<body>\n<div class=\"wrap\" id=\"app\"></div>\n<script id=\"data\" type=\"application/json\">__STATE_JSON__<\/script>\n<script id=\"self-template\" type=\"application/json\">__SELF_TEMPLATE_JSON__<\/script>\n<script>\nconst WORKERS = [\"NI SOE OO\",\"MYO MIN LATT\",\"TUN MIN LATT\",\"BO BO ZAW\",\"AUNG WAI PHYO\",\"TUN TUN WIN\",\"SI THU HTUN\"];\nconst SUPERVISORS = {\"Shakirul\":\"Sha@1234\",\"Mia Hasan\":\"Hasan@1234\",\"Miah Nayon\":\"Nay@1234\",\"Miah Rashed\":\"Ras@1234\",\"ELIAS MD\":\"Eli@1234\"};\nconst ADMIN_PASSWORD = \"sats0000\";\nconst OT_RATE = 4.5;\n\nconst STATE = JSON.parse(document.getElementById('data').textContent);\nconst SELF_TEMPLATE = JSON.parse(document.getElementById('self-template').textContent);\nif(!Array.isArray(STATE.entries)) STATE.entries = [];\n\nlet session = null;\ntry{ session = JSON.parse(localStorage.getItem('ot_session')||'null'); }catch(e){}\nlet ui = { tab:'supervisor', err:'', msg:'', adminMonth: monthStr(new Date()) };\n\nfunction pad(n){return String(n).padStart(2,'0');}\nfunction dstr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}\nfunction monthStr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1);}\nfunction today0(){const d=new Date(); d.setHours(0,0,0,0); return d;}\nfunction fmtDate(s){ const [y,m,dd]=s.split('-'); return dd+'/'+m+'/'+y; }\nfunction fmtTime(iso){ const d=new Date(iso); return d.toLocaleString('en-SG',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }\n\nfunction safeJson(x){ return JSON.stringify(x).replace(/<\\/script/gi, '<\\\\/script'); }\nasync function publishState(){\n  const stateJson = safeJson(STATE);\n  const selfJson = safeJson(SELF_TEMPLATE);\n  const html = SELF_TEMPLATE.replace('__STATE_JSON__', stateJson).replace('__SELF_TEMPLATE_JSON__', selfJson);\n  try{\n    const artifact = await claude.use('artifact');\n    if(artifact){ await artifact.publish(html); }\n  }catch(e){ console.error(e); ui.err='Could not save just now \u2014 please try again.'; render(); }\n}\n\nfunction login(role){\n  if(role==='supervisor'){\n    const name = document.getElementById('sup-name').value;\n    const pw = document.getElementById('sup-pw').value;\n    if(SUPERVISORS[name] && SUPERVISORS[name]===pw){\n      session={role:'supervisor', name}; ui.err='';\n    } else { ui.err='Wrong name or password.'; render(); return; }\n  } else {\n    const pw = document.getElementById('admin-pw').value;\n    if(pw===ADMIN_PASSWORD){ session={role:'admin', name:'Admin'}; ui.err=''; }\n    else { ui.err='Wrong admin password.'; render(); return; }\n  }\n  localStorage.setItem('ot_session', JSON.stringify(session));\n  render();\n}\nfunction logout(){ session=null; localStorage.removeItem('ot_session'); ui={tab:'supervisor',err:'',msg:'',adminMonth:monthStr(new Date())}; render(); }\n\nfunction submitEntry(){\n  const date = document.getElementById('e-date').value;\n  const worker = document.getElementById('e-worker').value;\n  const hours = parseFloat(document.getElementById('e-hours').value);\n  const min = new Date(today0()); min.setDate(min.getDate()-1);\n  const max = today0();\n  const chosen = new Date(date+'T00:00:00');\n  if(!date || isNaN(chosen.getTime())){ ui.err='Pick a valid date.'; render(); return; }\n  if(chosen < min || chosen > max){ ui.err='OT can only be logged for today or yesterday.'; render(); return; }\n  if(!worker){ ui.err='Pick a worker.'; render(); return; }\n  if(!hours || hours<=0 || hours>24){ ui.err='Enter valid OT hours.'; render(); return; }\n  const entry = { id: Date.now()+'-'+Math.random().toString(36).slice(2,8), date, worker, hours, supervisor: session.name, approvedAt: new Date().toISOString() };\n  STATE.entries.push(entry);\n  ui.err=''; ui.msg='Logged '+hours+' hrs for '+worker+' \u2014 approved by '+session.name+' at '+fmtTime(entry.approvedAt)+'.';\n  document.getElementById('e-hours').value='';\n  publishState();\n  render();\n}\n\nfunction deleteEntry(id){\n  if(session.role!=='admin') return;\n  STATE.entries = STATE.entries.filter(e=>e.id!==id);\n  publishState();\n  render();\n}\n\nfunction setAdminMonth(v){ ui.adminMonth=v; render(); }\nfunction setTab(t){ ui.tab=t; ui.err=''; render(); }\n\nfunction downloadCsv(){\n  const rows = entriesForMonth(ui.adminMonth);\n  let csv = 'Date,Worker,Hours,Supervisor,Approved At,Pay (SGD)\\n';\n  rows.forEach(e=>{ csv += [e.date, e.worker, e.hours, e.supervisor, e.approvedAt, (e.hours*OT_RATE).toFixed(2)].join(',')+'\\n'; });\n  csv += '\\nTotal,,'+rows.reduce((s,e)=>s+e.hours,0)+',,,'+ (rows.reduce((s,e)=>s+e.hours,0)*OT_RATE).toFixed(2)+'\\n';\n  (async ()=>{\n    try{\n      const downloads = await claude.use('downloads');\n      if(downloads){ await downloads.save({filename:'OT-report-'+ui.adminMonth+'.csv', data:csv}); }\n      else { ui.err='Download is not available in this view.'; render(); }\n    }catch(e){ ui.err='Could not prepare the download.'; render(); }\n  })();\n}\n\nfunction entriesForMonth(m){ return STATE.entries.filter(e=>e.date.startsWith(m)).sort((a,b)=> a.date<b.date?1:-1); }\n\nfunction render(){\n  const app = document.getElementById('app');\n  if(!session){ app.innerHTML = renderLogin(); bindLogin(); return; }\n  if(session.role==='supervisor'){ app.innerHTML = renderTop()+renderSupervisor(); bindSupervisor(); }\n  else { app.innerHTML = renderTop()+renderAdmin(); bindAdmin(); }\n}\n\nfunction renderTop(){\n  return `<div class=\"top\"><div class=\"brand\">786 Spices Group</div>\n    <h1>OT &amp; Attendance</h1>\n    <div class=\"who\"><span>Signed in as <b>${session.name}</b>${session.role==='admin'?' \u00b7 Admin':''}</span>\n    <button class=\"btn-ghost\" id=\"logout-btn\">Log out</button></div></div>`;\n}\n\nfunction renderLogin(){\n  const supOpts = Object.keys(SUPERVISORS).map(n=>`<option value=\"${n}\">${n}</option>`).join('');\n  return `<div class=\"top\"><div class=\"brand\">786 Spices Group</div><h1>OT &amp; Attendance</h1></div>\n  <main>\n    <div class=\"seg\">\n      <button id=\"tab-sup\" class=\"${ui.tab==='supervisor'?'active':''}\">Supervisor</button>\n      <button id=\"tab-adm\" class=\"${ui.tab==='admin'?'active':''}\">Admin</button>\n    </div>\n    <div class=\"card\">\n      ${ui.tab==='supervisor' ? `\n        <h2>Supervisor sign in</h2>\n        <div class=\"field\"><label>Your name</label>\n          <select id=\"sup-name\">${supOpts}</select></div>\n        <div class=\"field\"><label>Password</label>\n          <input type=\"password\" id=\"sup-pw\" placeholder=\"Enter your password\"></div>\n        ${ui.err?`<div class=\"err\">${ui.err}</div>`:''}\n        <button class=\"btn\" id=\"do-login\">Log in</button>\n      ` : `\n        <h2>Admin sign in</h2>\n        <div class=\"field\"><label>Admin password</label>\n          <input type=\"password\" id=\"admin-pw\" placeholder=\"Enter admin password\"></div>\n        ${ui.err?`<div class=\"err\">${ui.err}</div>`:''}\n        <button class=\"btn\" id=\"do-login\">Log in</button>\n      `}\n    </div>\n  </main>\n  <footer>Each supervisor has their own password \u00b7 OT entries can only be logged for today or yesterday.</footer>`;\n}\nfunction bindLogin(){\n  document.getElementById('tab-sup').onclick=()=>setTab('supervisor');\n  document.getElementById('tab-adm').onclick=()=>setTab('admin');\n  document.getElementById('do-login').onclick=()=>login(ui.tab);\n}\n\nfunction renderSupervisor(){\n  const min = new Date(today0()); min.setDate(min.getDate()-1);\n  const max = today0();\n  const mine = STATE.entries.filter(e=>e.supervisor===session.name).sort((a,b)=> a.approvedAt<b.approvedAt?1:-1).slice(0,25);\n  const workerOpts = WORKERS.map(w=>`<option value=\"${w}\">${w}</option>`).join('');\n  return `<main>\n    ${ui.msg?`<div class=\"msg\">${ui.msg}</div>`:''}\n    <div class=\"card\">\n      <h2>Log OT hours</h2>\n      <div class=\"field\"><label>Date</label>\n        <input type=\"date\" id=\"e-date\" min=\"${dstr(min)}\" max=\"${dstr(max)}\" value=\"${dstr(max)}\"></div>\n      <div class=\"hint\">You can only log today or yesterday's OT.</div>\n      <div class=\"field\"><label>Worker</label><select id=\"e-worker\"><option value=\"\">Select worker</option>${workerOpts}</select></div>\n      <div class=\"field\"><label>OT hours</label><input type=\"number\" id=\"e-hours\" step=\"0.5\" min=\"0\" max=\"24\" placeholder=\"e.g. 2.5\"></div>\n      ${ui.err?`<div class=\"err\">${ui.err}</div>`:''}\n      <button class=\"btn\" id=\"submit-btn\">Submit OT entry</button>\n    </div>\n    <div class=\"card\">\n      <h2>Your recent entries</h2>\n      ${mine.length? mine.map(e=>`\n        <div class=\"entry\"><div class=\"row1\"><span>${e.worker}</span><span class=\"hrs\">${e.hours} hrs</span></div>\n        <div class=\"meta\">${fmtDate(e.date)} \u00b7 approved by ${e.supervisor} at ${fmtTime(e.approvedAt)}</div></div>\n      `).join('') : `<div class=\"empty\">No entries logged yet.</div>`}\n    </div>\n  </main>`;\n}\nfunction bindSupervisor(){\n  document.getElementById('logout-btn').onclick=logout;\n  document.getElementById('submit-btn').onclick=submitEntry;\n}\n\nfunction renderAdmin(){\n  const rows = entriesForMonth(ui.adminMonth);\n  const totalsByWorker = {};\n  WORKERS.forEach(w=>totalsByWorker[w]=0);\n  rows.forEach(e=>{ totalsByWorker[e.worker]=(totalsByWorker[e.worker]||0)+e.hours; });\n  const grandHrs = rows.reduce((s,e)=>s+e.hours,0);\n  const grandPay = grandHrs*OT_RATE;\n  const statCards = WORKERS.map(w=>{\n    const h=totalsByWorker[w]||0;\n    return `<div class=\"stat\"><div class=\"n\">${h.toFixed(1)} hrs</div><div class=\"l\">${w} \u00b7 $${(h*OT_RATE).toFixed(2)}</div></div>`;\n  }).join('');\n  const tblRows = rows.map(e=>`<tr><td>${fmtDate(e.date)}</td><td>${e.worker}</td><td class=\"hrs\">${e.hours}</td><td>${e.supervisor}</td><td>${fmtTime(e.approvedAt)}</td><td class=\"hrs\">$${(e.hours*OT_RATE).toFixed(2)}</td><td><button class=\"del\" data-id=\"${e.id}\">Remove</button></td></tr>`).join('');\n  return `<main>\n    ${ui.err?`<div class=\"err\">${ui.err}</div>`:''}\n    <div class=\"card\">\n      <h2>Monthly report</h2>\n      <div class=\"field\"><label>Month</label><input type=\"month\" id=\"adm-month\" value=\"${ui.adminMonth}\"></div>\n      <div class=\"grid2\">${statCards}</div>\n      <div class=\"stat\" style=\"margin-top:6px;\"><div class=\"n\">${grandHrs.toFixed(1)} hrs \u00b7 $${grandPay.toFixed(2)}</div><div class=\"l\">All workers combined \u00b7 $${OT_RATE.toFixed(2)}/hr</div></div>\n      <button class=\"btn-outline\" id=\"csv-btn\">Download CSV report</button>\n    </div>\n    <div class=\"card\">\n      <h2>All entries this month</h2>\n      ${rows.length? `<div class=\"tbl-wrap\"><table><thead><tr><th>Date</th><th>Worker</th><th class=\"hrs\">Hrs</th><th>Supervisor</th><th>Approved</th><th class=\"hrs\">Pay</th><th></th></tr></thead>\n      <tbody>${tblRows}</tbody></table></div>` : `<div class=\"empty\">No entries this month yet.</div>`}\n    </div>\n  </main>`;\n}\nfunction bindAdmin(){\n  document.getElementById('logout-btn').onclick=logout;\n  document.getElementById('adm-month').onchange=(e)=>setAdminMonth(e.target.value);\n  document.getElementById('csv-btn').onclick=downloadCsv;\n  document.querySelectorAll('.del').forEach(b=> b.onclick=()=>deleteEntry(b.getAttribute('data-id')));\n}\n\nrender();\n<\/script>\n</body>\n</html>\n"</script>
+<script>
+const WORKERS = ["NI SOE OO","MYO MIN LATT","TUN MIN LATT","BO BO ZAW","AUNG WAI PHYO","TUN TUN WIN","SI THU HTUN"];
+const SUPERVISORS = {"Shakirul":"Sha@1234","Mia Hasan":"Hasan@1234","Miah Nayon":"Nay@1234","Miah Rashed":"Ras@1234","ELIAS MD":"Eli@1234"};
+const ADMIN_PASSWORD = "sats0000";
+const OT_RATE = 4.5;
+
+const STATE = JSON.parse(document.getElementById('data').textContent);
+const SELF_TEMPLATE = JSON.parse(document.getElementById('self-template').textContent);
+if(!Array.isArray(STATE.entries)) STATE.entries = [];
+
+let session = null;
+try{ session = JSON.parse(localStorage.getItem('ot_session')||'null'); }catch(e){}
+let ui = { tab:'supervisor', err:'', msg:'', adminMonth: monthStr(new Date()) };
+
+function pad(n){return String(n).padStart(2,'0');}
+function dstr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function monthStr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1);}
+function today0(){const d=new Date(); d.setHours(0,0,0,0); return d;}
+function fmtDate(s){ const [y,m,dd]=s.split('-'); return dd+'/'+m+'/'+y; }
+function fmtTime(iso){ const d=new Date(iso); return d.toLocaleString('en-SG',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
+
+function safeJson(x){ return JSON.stringify(x).replace(/<\/script/gi, '<\\/script'); }
+async function publishState(){
+  const stateJson = safeJson(STATE);
+  const selfJson = safeJson(SELF_TEMPLATE);
+  const html = SELF_TEMPLATE.replace('__STATE_JSON__', stateJson).replace('__SELF_TEMPLATE_JSON__', selfJson);
+  try{
+    const artifact = await claude.use('artifact');
+    if(artifact){ await artifact.publish(html); }
+  }catch(e){ console.error(e); ui.err='Could not save just now — please try again.'; render(); }
+}
+
+function login(role){
+  if(role==='supervisor'){
+    const name = document.getElementById('sup-name').value;
+    const pw = document.getElementById('sup-pw').value;
+    if(SUPERVISORS[name] && SUPERVISORS[name]===pw){
+      session={role:'supervisor', name}; ui.err='';
+    } else { ui.err='Wrong name or password.'; render(); return; }
+  } else {
+    const pw = document.getElementById('admin-pw').value;
+    if(pw===ADMIN_PASSWORD){ session={role:'admin', name:'Admin'}; ui.err=''; }
+    else { ui.err='Wrong admin password.'; render(); return; }
+  }
+  localStorage.setItem('ot_session', JSON.stringify(session));
+  render();
+}
+function logout(){ session=null; localStorage.removeItem('ot_session'); ui={tab:'supervisor',err:'',msg:'',adminMonth:monthStr(new Date())}; render(); }
+
+function submitEntry(){
+  const date = document.getElementById('e-date').value;
+  const worker = document.getElementById('e-worker').value;
+  const hours = parseFloat(document.getElementById('e-hours').value);
+  const min = new Date(today0()); min.setDate(min.getDate()-1);
+  const max = today0();
+  const chosen = new Date(date+'T00:00:00');
+  if(!date || isNaN(chosen.getTime())){ ui.err='Pick a valid date.'; render(); return; }
+  if(chosen < min || chosen > max){ ui.err='OT can only be logged for today or yesterday.'; render(); return; }
+  if(!worker){ ui.err='Pick a worker.'; render(); return; }
+  if(!hours || hours<=0 || hours>24){ ui.err='Enter valid OT hours.'; render(); return; }
+  const entry = { id: Date.now()+'-'+Math.random().toString(36).slice(2,8), date, worker, hours, supervisor: session.name, approvedAt: new Date().toISOString() };
+  STATE.entries.push(entry);
+  ui.err=''; ui.msg='Logged '+hours+' hrs for '+worker+' — approved by '+session.name+' at '+fmtTime(entry.approvedAt)+'.';
+  document.getElementById('e-hours').value='';
+  publishState();
+  render();
+}
+
+function deleteEntry(id){
+  if(session.role!=='admin') return;
+  STATE.entries = STATE.entries.filter(e=>e.id!==id);
+  publishState();
+  render();
+}
+
+function setAdminMonth(v){ ui.adminMonth=v; render(); }
+function setTab(t){ ui.tab=t; ui.err=''; render(); }
+
+function downloadCsv(){
+  const rows = entriesForMonth(ui.adminMonth);
+  let csv = 'Date,Worker,Hours,Supervisor,Approved At,Pay (SGD)\n';
+  rows.forEach(e=>{ csv += [e.date, e.worker, e.hours, e.supervisor, e.approvedAt, (e.hours*OT_RATE).toFixed(2)].join(',')+'\n'; });
+  csv += '\nTotal,,'+rows.reduce((s,e)=>s+e.hours,0)+',,,'+ (rows.reduce((s,e)=>s+e.hours,0)*OT_RATE).toFixed(2)+'\n';
+  (async ()=>{
+    try{
+      const downloads = await claude.use('downloads');
+      if(downloads){ await downloads.save({filename:'OT-report-'+ui.adminMonth+'.csv', data:csv}); }
+      else { ui.err='Download is not available in this view.'; render(); }
+    }catch(e){ ui.err='Could not prepare the download.'; render(); }
+  })();
+}
+
+function entriesForMonth(m){ return STATE.entries.filter(e=>e.date.startsWith(m)).sort((a,b)=> a.date<b.date?1:-1); }
+
+function render(){
+  const app = document.getElementById('app');
+  if(!session){ app.innerHTML = renderLogin(); bindLogin(); return; }
+  if(session.role==='supervisor'){ app.innerHTML = renderTop()+renderSupervisor(); bindSupervisor(); }
+  else { app.innerHTML = renderTop()+renderAdmin(); bindAdmin(); }
+}
+
+function renderTop(){
+  return `<div class="top"><div class="brand">786 Spices Group</div>
+    <h1>OT &amp; Attendance</h1>
+    <div class="who"><span>Signed in as <b>${session.name}</b>${session.role==='admin'?' · Admin':''}</span>
+    <button class="btn-ghost" id="logout-btn">Log out</button></div></div>`;
+}
+
+function renderLogin(){
+  const supOpts = Object.keys(SUPERVISORS).map(n=>`<option value="${n}">${n}</option>`).join('');
+  return `<div class="top"><div class="brand">786 Spices Group</div><h1>OT &amp; Attendance</h1></div>
+  <main>
+    <div class="seg">
+      <button id="tab-sup" class="${ui.tab==='supervisor'?'active':''}">Supervisor</button>
+      <button id="tab-adm" class="${ui.tab==='admin'?'active':''}">Admin</button>
+    </div>
+    <div class="card">
+      ${ui.tab==='supervisor' ? `
+        <h2>Supervisor sign in</h2>
+        <div class="field"><label>Your name</label>
+          <select id="sup-name">${supOpts}</select></div>
+        <div class="field"><label>Password</label>
+          <input type="password" id="sup-pw" placeholder="Enter your password"></div>
+        ${ui.err?`<div class="err">${ui.err}</div>`:''}
+        <button class="btn" id="do-login">Log in</button>
+      ` : `
+        <h2>Admin sign in</h2>
+        <div class="field"><label>Admin password</label>
+          <input type="password" id="admin-pw" placeholder="Enter admin password"></div>
+        ${ui.err?`<div class="err">${ui.err}</div>`:''}
+        <button class="btn" id="do-login">Log in</button>
+      `}
+    </div>
+  </main>
+  <footer>Each supervisor has their own password · OT entries can only be logged for today or yesterday.</footer>`;
+}
+function bindLogin(){
+  document.getElementById('tab-sup').onclick=()=>setTab('supervisor');
+  document.getElementById('tab-adm').onclick=()=>setTab('admin');
+  document.getElementById('do-login').onclick=()=>login(ui.tab);
+}
+
+function renderSupervisor(){
+  const min = new Date(today0()); min.setDate(min.getDate()-1);
+  const max = today0();
+  const mine = STATE.entries.filter(e=>e.supervisor===session.name).sort((a,b)=> a.approvedAt<b.approvedAt?1:-1).slice(0,25);
+  const workerOpts = WORKERS.map(w=>`<option value="${w}">${w}</option>`).join('');
+  return `<main>
+    ${ui.msg?`<div class="msg">${ui.msg}</div>`:''}
+    <div class="card">
+      <h2>Log OT hours</h2>
+      <div class="field"><label>Date</label>
+        <input type="date" id="e-date" min="${dstr(min)}" max="${dstr(max)}" value="${dstr(max)}"></div>
+      <div class="hint">You can only log today or yesterday's OT.</div>
+      <div class="field"><label>Worker</label><select id="e-worker"><option value="">Select worker</option>${workerOpts}</select></div>
+      <div class="field"><label>OT hours</label><input type="number" id="e-hours" step="0.5" min="0" max="24" placeholder="e.g. 2.5"></div>
+      ${ui.err?`<div class="err">${ui.err}</div>`:''}
+      <button class="btn" id="submit-btn">Submit OT entry</button>
+    </div>
+    <div class="card">
+      <h2>Your recent entries</h2>
+      ${mine.length? mine.map(e=>`
+        <div class="entry"><div class="row1"><span>${e.worker}</span><span class="hrs">${e.hours} hrs</span></div>
+        <div class="meta">${fmtDate(e.date)} · approved by ${e.supervisor} at ${fmtTime(e.approvedAt)}</div></div>
+      `).join('') : `<div class="empty">No entries logged yet.</div>`}
+    </div>
+  </main>`;
+}
+function bindSupervisor(){
+  document.getElementById('logout-btn').onclick=logout;
+  document.getElementById('submit-btn').onclick=submitEntry;
+}
+
+function renderAdmin(){
+  const rows = entriesForMonth(ui.adminMonth);
+  const totalsByWorker = {};
+  WORKERS.forEach(w=>totalsByWorker[w]=0);
+  rows.forEach(e=>{ totalsByWorker[e.worker]=(totalsByWorker[e.worker]||0)+e.hours; });
+  const grandHrs = rows.reduce((s,e)=>s+e.hours,0);
+  const grandPay = grandHrs*OT_RATE;
+  const statCards = WORKERS.map(w=>{
+    const h=totalsByWorker[w]||0;
+    return `<div class="stat"><div class="n">${h.toFixed(1)} hrs</div><div class="l">${w} · $${(h*OT_RATE).toFixed(2)}</div></div>`;
+  }).join('');
+  const tblRows = rows.map(e=>`<tr><td>${fmtDate(e.date)}</td><td>${e.worker}</td><td class="hrs">${e.hours}</td><td>${e.supervisor}</td><td>${fmtTime(e.approvedAt)}</td><td class="hrs">$${(e.hours*OT_RATE).toFixed(2)}</td><td><button class="del" data-id="${e.id}">Remove</button></td></tr>`).join('');
+  return `<main>
+    ${ui.err?`<div class="err">${ui.err}</div>`:''}
+    <div class="card">
+      <h2>Monthly report</h2>
+      <div class="field"><label>Month</label><input type="month" id="adm-month" value="${ui.adminMonth}"></div>
+      <div class="grid2">${statCards}</div>
+      <div class="stat" style="margin-top:6px;"><div class="n">${grandHrs.toFixed(1)} hrs · $${grandPay.toFixed(2)}</div><div class="l">All workers combined · $${OT_RATE.toFixed(2)}/hr</div></div>
+      <button class="btn-outline" id="csv-btn">Download CSV report</button>
+    </div>
+    <div class="card">
+      <h2>All entries this month</h2>
+      ${rows.length? `<div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Worker</th><th class="hrs">Hrs</th><th>Supervisor</th><th>Approved</th><th class="hrs">Pay</th><th></th></tr></thead>
+      <tbody>${tblRows}</tbody></table></div>` : `<div class="empty">No entries this month yet.</div>`}
+    </div>
+  </main>`;
+}
+function bindAdmin(){
+  document.getElementById('logout-btn').onclick=logout;
+  document.getElementById('adm-month').onchange=(e)=>setAdminMonth(e.target.value);
+  document.getElementById('csv-btn').onclick=downloadCsv;
+  document.querySelectorAll('.del').forEach(b=> b.onclick=()=>deleteEntry(b.getAttribute('data-id')));
+}
+
+render();
+</script>
+</body>
+</html>
