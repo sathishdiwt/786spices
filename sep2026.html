@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>786 Spices — Sept 2026 Sales</title>
+<style>
+:root{--bg:#f3f1ec;--card:#fff;--text:#1c1917;--muted:#78716c;--line:#e7e5e4;--brand:#c2410c;--brand2:#fed7aa;--cash:#c2410c;--nets:#0f766e;--pn:#7c3aed;--bad:#b42318;--badbg:#fef2f2;--chip:#ece9e3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14110f;--card:#1f1b18;--text:#f5f5f4;--muted:#a8a29e;--line:#34302c;--brand:#fb923c;--brand2:#7c2d12;--cash:#fb923c;--nets:#2dd4bf;--pn:#a78bfa;--bad:#fca5a5;--badbg:#3b1514;--chip:#2b2623}}
+:root[data-theme="dark"]{--bg:#14110f;--card:#1f1b18;--text:#f5f5f4;--muted:#a8a29e;--line:#34302c;--brand:#fb923c;--brand2:#7c2d12;--cash:#fb923c;--nets:#2dd4bf;--pn:#a78bfa;--bad:#fca5a5;--badbg:#3b1514;--chip:#2b2623}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;line-height:1.4}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 14px 40px}
+.hero{background:linear-gradient(135deg,#9a3412,#ea580c 70%,#fb923c);color:#fff;border-radius:22px;padding:20px 18px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:#ffffff1f}
+.hero small{opacity:.85;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:11px}
+.hero h1{margin:4px 0 2px;font-size:clamp(26px,8vw,38px);font-weight:800;letter-spacing:-.02em}
+.hero p{margin:0;opacity:.9;font-size:13px}
+.hero .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{background:#ffffff26;border-radius:99px;padding:4px 10px;font-size:12px;font-weight:600}
+.notice{background:var(--badbg);color:var(--bad);border-radius:14px;padding:11px 13px;font-size:13px;margin-bottom:12px;border:1px solid var(--bad)}
+.filters{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:12px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.dates label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px}
+input[type=date]{width:100%;height:44px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);padding:0 10px;font:inherit;font-size:16px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:var(--chip);color:var(--text);border-radius:99px;padding:0 14px;height:38px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--brand);color:#fff}
+:root:not([data-theme="light"]) .chip.on{color:#1c1917}
+.quick{display:flex;gap:8px;margin-bottom:10px}
+.quick .chip{height:34px;font-size:12px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.kpi.big{grid-column:1/-1;background:var(--text);color:var(--bg);border:0}
+.kpi .l{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.7}
+.kpi .v{font-size:clamp(20px,6vw,26px);font-weight:800;margin-top:4px;letter-spacing:-.02em}
+.kpi.big .v{font-size:clamp(30px,10vw,42px)}
+.kpi .s{font-size:12px;opacity:.7;margin-top:2px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.panel h2{margin:0 0 12px;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.panel h2 span{font-size:12px;color:var(--muted);font-weight:500}
+.two{display:grid;gap:12px}
+.donutwrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center}
+.legend{flex:1;min-width:150px}
+.lg{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.lg:last-child{border:0}
+.row{margin:12px 0;cursor:pointer}
+.rh{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:5px}
+.rh b{white-space:nowrap}
+.bg{height:10px;background:var(--chip);border-radius:9px;overflow:hidden}
+.fill{height:100%;border-radius:9px;background:var(--brand);transition:width .4s}
+.tip{min-height:38px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.tip b{color:var(--text)}
+.trend{width:100%;height:170px;display:block}
+.sort{display:flex;gap:8px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none}
+.sort::-webkit-scrollbar{display:none}
+.list{display:grid;gap:10px}
+.rec{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card)}
+.rec.miss{background:var(--badbg);border-color:var(--bad)}
+.rt{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.rt .n{font-weight:700;font-size:14px}.rt .d{font-size:12px;color:var(--muted)}
+.rt .t{font-weight:800;font-size:17px;white-space:nowrap}
+.mix{display:flex;height:7px;border-radius:9px;overflow:hidden;margin:9px 0 8px;background:var(--chip)}
+.mix i{display:block;height:100%}
+.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:12px;color:var(--muted)}
+.vals b{display:block;color:var(--text);font-size:13px}
+.more{width:100%;height:46px;margin-top:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;font:inherit;font-weight:700;cursor:pointer}
+.foot{font-size:11px;color:var(--muted);padding:6px 4px}
+@media(min-width:720px){.wrap{padding:24px}.kpis{grid-template-columns:repeat(4,1fr)}.kpi.big{grid-column:span 2}.two{grid-template-columns:1fr 1fr}.list{grid-template-columns:1fr 1fr}.trend{height:220px}.dates{max-width:420px}}
+@media(min-width:1000px){.list{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <small>786 Spices Group</small>
+  <h1>September 2026</h1>
+  <p>Sales dashboard · pay-mode, shop &amp; daily view</p>
+  <div class="meta"><span class="tag">7 outlets</span><span class="tag">30 days</span><span class="tag" id="hTag"></span></div>
+</header>
+<div id="missing"></div>
+
+<section class="filters">
+  <div class="dates">
+    <div><label for="from">From</label><input type="date" id="from" min="2026-09-01" max="2026-09-30" value="2026-09-01"></div>
+    <div><label for="to">To</label><input type="date" id="to" min="2026-09-01" max="2026-09-30" value="2026-09-30"></div>
+  </div>
+  <div class="quick" id="quick"></div>
+  <div class="chips" id="shops"></div>
+</section>
+
+<section class="kpis" id="kpis"></section>
+
+<div class="two">
+  <section class="panel"><h2>Pay modes <span id="pmSub"></span></h2><div class="donutwrap"><svg id="donut" width="150" height="150" viewBox="0 0 42 42" role="img" aria-label="Pay mode split"></svg><div class="legend" id="legend"></div></div></section>
+  <section class="panel"><h2>Sales by shop <span>tap to filter</span></h2><div id="shopBars"></div></section>
+</div>
+
+<section class="panel"><h2>Daily trend <span>tap a bar</span></h2><div class="tip" id="tip">Tap a bar for that day's total.</div><svg class="trend" id="trend" role="img" aria-label="Daily sales"></svg></section>
+
+<section class="panel">
+  <h2>Reports <span id="cnt"></span></h2>
+  <div class="sort" id="sort"></div>
+  <div class="list" id="list"></div>
+  <button class="more" id="more">Show more</button>
+</section>
+<div class="foot">Source: “786 Spices - Daily Sales” WhatsApp export. Duplicates removed. Missing figures were not estimated and are excluded from totals.</div>
+</div>
+
+<script>
+const SHOPS=["18 Kaki Bukit — Mini Mart","20 Neythal Road — Canteen","20 Neythal Road — Mini Mart","2D Jalan Papan — Canteen (Morning)","2D Jalan Papan — Canteen (Night)","2D Jalan Papan — Muri Shop","36 Tuas — Mini Mart"];
+const SHORT=["Kaki Bukit Mart","Neythal Canteen","Neythal Mart","Papan AM","Papan PM","Papan Muri","Tuas Mart"];
+// per day, per shop (order above): cash,coins,nets,paynow ; null = missing
+const RAW=[
+"2043,0,1594.4,411.7|960,0,1317,655|1917.9,0,2297.75,419.2|577,67,137,240|1055,0,548,242|320,90,138,82|3055,0,2915.65,1037.75",
+"1661.65,0,1901.95,344.15|720,0,708,657|2256.75,0,1794.45,652.8|678,20,124,253|875,0,686.5,316|348,54,140,92|2944.6,0,2431.05,1615.3",
+"1971.55,0,1940.1,438.05|1080,0,322,623.5|1945.35,0,2270.75,499.7|617,37,128,234|1125,0,245,343|410,48,127,116|2703.6,0,3003.4,1222.65",
+"1480.95,0,1791.3,333.55|630,0,984,865.5|2301.55,0,1802.55,637.45|610,19,100,247|720,0,635,424|358,83,164.5,128|3095.65,0,3148.5,858.65",
+"3510.7,0,3941.9,731.95|1030,0,733,763.5|2500.7,0,5471.6,1234.2|757,0,150,213|880,0,624,380|535,95,222,130|4092.3,0,6201,2426.95",
+"4270.7,0,4970.6,1361.8|920,0,304,636|3490.15,0,4814.05,1125.4|376,0,122,205|1829,0,670,337|517,118,159,92|6026.15,0,6920.25,2090.4",
+"2123.5,0,2209.75,436.65|1085,0,873,428.5|1810.4,0,2361.95,701.4|636,22,115,272|1455,0,768,348|375,40,168,127|4193.85,0,4519.35,1171.3",
+"2161.55,0,2159.4,486.2|930,0,844,304.5|1648.05,0,1834.85,565.35|583,38,147,312|1100,0,1217,455|350,45,166,124|4327,0,4212.5,1391.8",
+"2234.25,0,2213.5,608|650,0,567,344|1856.15,0,2098.95,658.3|654,0,149,313|1130,0,765,510|382,64,144,84|3734.95,0,3775.9,1068.2",
+"2226.8,0,2029.15,695.5|830,0,1087.5,453.5|1565.5,0,2355.3,748.05|-|1240,0,1447,337|416,30,142,82|4131.15,0,4238.05,1318.15",
+"1765,0,1657.75,485.7|725,0,749.5,487|1590.6,0,3000.3,763.65|670,0,98,266|866,0,791,514|412,86,144,76|3685.3,0,3465.85,1587.25",
+"3666.15,0,2983.75,822.65|1130,0,659,440.5|3133,0,4442.7,933.45|640,0,120,311|944,0,455,347|637,53.5,183,127|4135.9,0,5404.6,1330.3",
+"4803.55,0,4886.05,1130.7|950,0,712,776|3381.15,0,5161.95,902.6|227,0,111,33|1553,0,1144,390|539,45,201,117|5744.95,0,5868.3,1801.6",
+"2087.25,0,1991.55,500.4|880,0,761,334|2689.8,0,1632.4,961.15|603,50,103,272|850,0,359,454|347,79,150,86|3015.5,0,2321.35,668.75",
+"2002.25,0,1764.15,430.65|660,0,572,352.5|1637.1,0,1979.45,532.4|582,0,104,295|703,0,573,468|416,72,135,82|3155.1,0,2537.4,906.4",
+"2146.55,0,1520.15,591.65|850,0,737,280.5|1547.85,0,1466.7,428.3|662,0,88,265|1018,0,409,449|399,57,143,72|3674.45,0,2661.8,1616.8",
+"2000.05,0,1706.55,380.25|760,0,712.5,337|1955.65,0,1811.8,675.95|660,21,106,275|960,0,410,311|356,87,153,85|3123,0,3285.35,1151.4",
+"1614.85,0,1194.6,385.85|630,0,524.5,330|1620.3,0,1702.2,743.9|658,0,76,320|630,0,700,436|360,95,152,105|2998.85,0,3000.05,796.3",
+"3804.55,0,3485.85,656|1160,0,589.5,1030.5|2408.95,0,4693.45,758.05|625,0,159,349|800,0,642,333|552,85,249,149|4012.9,0,5835.55,1654.8",
+"5214.35,0,4613.5,964.25|1100,0,334.5,445|3130.3,0,4783,1313.95|425,0,104,170|961,0,502,192|529,78,166,131|7192.7,0,6157.2,1985.4",
+"2037.4,0,1369.75,543.5|680,0,852.5,465.5|1898.35,0,1213.35,717.15|566,39,133,308|632,0,446,336|424,62,140,115|3016.9,0,2877.1,805.3",
+"1684.65,0,1314.6,597|870,0,518.5,266.5|1297.95,0,1316.7,508.4|466,0,65,440|652,0,193,370|454,54,151,111|2693,0,2130.5,1022.7",
+"1899.1,0,1321.35,555.2|630,0,535,413.5|1923.35,0,1560.65,524.75|594,0,158,314|621,0,598,289|419,70,140,103|2954.1,0,3163,953.1",
+"1729.2,0,1557.8,449.45|950,0,444,359.5|1617.65,0,1797.55,760.25|595,31,104,312|620,0,277,367|392,83,162,71|3439.9,0,3082.7,1013.1",
+"2097.75,0,1418.15,372.2|720,0,497,351|1901.9,0,2315.6,540.7|604,0,141,298|823,0,466,333|432,56,128,83|3739.8,0,3397.1,920.5",
+"2717.05,0,2946,648.9|950,0,249,455.5|2980.1,0,4201.3,936.95|636,0,138,367|644,0,314,338|590,96,263,130|4138.6,0,5145.4,1446",
+"4446.85,0,4945.75,1188.45|1220,0,346,424|3387.05,0,4072.3,900.45|272,0,161,92|1006,0,452,217|499,100,189,123|6458.5,0,6078.2,1681.6",
+"1651.5,0,1236.5,384.85|930,0,854,353.5|1737.75,0,1574.55,679.35|627,26,103,274|657,0,303,152|370,109,130,81|3243.5,0,1716.2,723.3",
+"1930.85,0,1606.4,379.1|700,0,445.5,355|1478.05,0,2215.7,704.7|555,28,94,296|615,0,256,319|396,81,138,96|3288,0,3197.9,847.3",
+"1812.8,0,1428.9,576.35|840,0,836.5,534|1758.6,0,1701.5,477.65|595,0,166,255|885,0,293,247|345,100,174,88|3491.5,0,2891.7,863"
+];
+const REC=[];
+RAW.forEach((day,di)=>day.split('|').forEach((s,si)=>{
+  const date='2026-09-'+String(di+1).padStart(2,'0');
+  if(s==='-'){REC.push({date,si,cash:0,coins:0,nets:0,pn:0,total:0,miss:true});return}
+  const [cash,coins,nets,pn]=s.split(',').map(Number);
+  REC.push({date,si,cash,coins,nets,pn,total:cash+coins+nets+pn,miss:false});
+}));
+const $=id=>document.getElementById(id);
+const fm=n=>'$'+Number(n||0).toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fk=n=>n>=1000?'$'+(n/1000).toFixed(n>=100000?0:1)+'k':'$'+Math.round(n);
+const fd=s=>{const d=new Date(s+'T00:00:00');return d.toLocaleDateString('en-SG',{weekday:'short',day:'numeric',month:'short'})};
+let shop=-1,sortBy='date',shown=12;
+
+// missing notice
+const miss=REC.filter(r=>r.miss);
+if(miss.length)$('missing').innerHTML='<div class="notice"><b>Missing report:</b> '+miss.map(m=>fd(m.date)+' — '+SHORT[m.si]).join(', ')+'. Counted as $0 and excluded from totals.</div>';
+
+// controls
+$('shops').innerHTML=['All shops',...SHORT].map((n,i)=>`<button class="chip${i===0?' on':''}" data-s="${i-1}">${n}</button>`).join('');
+$('shops').onclick=e=>{const b=e.target.closest('.chip');if(b)setShop(+b.dataset.s)};
+function setShop(i){shop=i;[...$('shops').children].forEach((c,k)=>c.classList.toggle('on',k===i+1));shown=12;render()}
+const Q=[['All month','2026-09-01','2026-09-30'],['Week 1','2026-09-01','2026-09-07'],['Week 2','2026-09-08','2026-09-14'],['Week 3','2026-09-15','2026-09-21'],['Last 7d','2026-09-24','2026-09-30']];
+$('quick').style.overflowX='auto';
+$('quick').innerHTML=Q.map((q,i)=>`<button class="chip" data-q="${i}">${q[0]}</button>`).join('');
+$('quick').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;const q=Q[+b.dataset.q];$('from').value=q[1];$('to').value=q[2];shown=12;render()};
+$('from').onchange=$('to').onchange=()=>{shown=12;render()};
+$('sort').innerHTML=[['date','Newest'],['hi','Highest'],['lo','Lowest']].map(s=>`<button class="chip${s[0]==='date'?' on':''}" data-o="${s[0]}">${s[1]}</button>`).join('');
+$('sort').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;sortBy=b.dataset.o;[...$('sort').children].forEach(c=>c.classList.toggle('on',c===b));shown=12;render()};
+$('more').onclick=()=>{shown+=12;render()};
+
+function render(){
+  let f=$('from').value||'2026-09-01',t=$('to').value||'2026-09-30';
+  if(f>t)[f,t]=[t,f];
+  const inRange=REC.filter(r=>r.date>=f&&r.date<=t);
+  const rows=inRange.filter(r=>shop<0||r.si===shop);
+  const rep=rows.filter(r=>!r.miss);
+  const S=k=>rep.reduce((a,r)=>a+r[k],0);
+  const total=S('total'),cash=S('cash'),coins=S('coins'),nets=S('nets'),pn=S('pn');
+  const days=new Set(rep.map(r=>r.date)).size||1;
+  $('hTag').textContent=fk(S('total'))+' total';
+  $('kpis').innerHTML=`
+   <div class="kpi big"><div class="l">Total sales</div><div class="v">${fm(total)}</div><div class="s">${rep.length} reports · avg ${fm(total/days)}/day</div></div>
+   <div class="kpi"><div class="l"><span class="dot" style="background:var(--cash)"></span>Cash + coins</div><div class="v">${fm(cash+coins)}</div><div class="s">Coins ${fm(coins)}</div></div>
+   <div class="kpi"><div class="l"><span class="dot" style="background:var(--nets)"></span>NETS</div><div class="v">${fm(nets)}</div><div class="s">${total?(nets/total*100).toFixed(1):0}% of sales</div></div>
+   <div class="kpi"><div class="l"><span class="dot" style="background:var(--pn)"></span>PayNow</div><div class="v">${fm(pn)}</div><div class="s">${total?(pn/total*100).toFixed(1):0}% of sales</div></div>
+   <div class="kpi"><div class="l">Reports</div><div class="v">${rep.length}</div><div class="s">${rows.length-rep.length} missing</div></div>`;
+
+  // donut
+  const parts=[['Cash + coins',cash+coins,'var(--cash)'],['NETS',nets,'var(--nets)'],['PayNow',pn,'var(--pn)']];
+  const C=2*Math.PI*15.915;let off=25,d='<circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--chip)" stroke-width="6"/>';
+  parts.forEach(p=>{const pct=total?p[1]/total*100:0;d+=`<circle cx="21" cy="21" r="15.915" fill="none" stroke="${p[2]}" stroke-width="6" stroke-dasharray="${pct} ${100-pct}" stroke-dashoffset="${off}"/>`;off-=pct});
+  d+=`<text x="21" y="22.5" text-anchor="middle" font-size="5" font-weight="800" fill="var(--text)">${fk(total)}</text>`;
+  $('donut').innerHTML=d;
+  $('legend').innerHTML=parts.map(p=>`<div class="lg"><span><span class="dot" style="background:${p[2]}"></span>${p[0]}</span><span><b>${fm(p[1])}</b> <span style="color:var(--muted)">${total?(p[1]/total*100).toFixed(0):0}%</span></span></div>`).join('');
+
+  // shops (ignores shop filter so you can switch)
+  const by=SHORT.map((n,i)=>[i,inRange.filter(r=>r.si===i&&!r.miss).reduce((a,r)=>a+r.total,0)]).sort((a,b)=>b[1]-a[1]);
+  const mx=by[0][1]||1;
+  $('shopBars').innerHTML=by.map(([i,v])=>`<div class="row" data-s="${i}"><div class="rh"><span style="${shop===i?'font-weight:800;color:var(--brand)':''}">${SHORT[i]}</span><b>${fm(v)}</b></div><div class="bg"><div class="fill" style="width:${v/mx*100}%;${shop>=0&&shop!==i?'opacity:.35':''}"></div></div></div>`).join('');
+  $('shopBars').onclick=e=>{const r=e.target.closest('.row');if(r){const i=+r.dataset.s;setShop(shop===i?-1:i)}};
+
+  // trend
+  const dm={};rep.forEach(r=>dm[r.date]=(dm[r.date]||0)+r.total);
+  const ds=Object.entries(dm).sort((a,b)=>a[0].localeCompare(b[0]));
+  const W=600,H=170,P=22,my=Math.max(...ds.map(x=>x[1]),1);
+  const bw=(W-2*P)/Math.max(ds.length,1);
+  let sv='';
+  ds.forEach((x,i)=>{const h=x[1]/my*(H-2*P),dow=new Date(x[0]+'T00:00:00').getDay(),we=dow===0||dow===6;
+    sv+=`<rect data-i="${i}" x="${P+i*bw+bw*.12}" y="${H-P-h}" width="${bw*.76}" height="${h}" rx="3" fill="${we?'var(--brand)':'var(--brand2)'}" style="cursor:pointer"/>`;
+    if(i%5===0||i===ds.length-1)sv+=`<text x="${P+i*bw+bw/2}" y="${H-6}" text-anchor="middle" font-size="10" fill="var(--muted)">${x[0].slice(8)}</text>`});
+  $('trend').setAttribute('viewBox',`0 0 ${W} ${H}`);$('trend').innerHTML=sv;
+  $('trend').onclick=e=>{const r=e.target.closest('rect');if(!r)return;const x=ds[+r.dataset.i];$('tip').innerHTML=`<b>${fd(x[0])}</b> · ${fm(x[1])}`};
+  if(ds.length){const best=ds.reduce((a,b)=>b[1]>a[1]?b:a);$('tip').innerHTML=`Best day: <b>${fd(best[0])}</b> · ${fm(best[1])} <span style="opacity:.7">(dark bars = weekends)</span>`}else $('tip').textContent='No data in range.';
+
+  // list
+  const L=rows.slice();
+  if(sortBy==='date')L.sort((a,b)=>b.date.localeCompare(a.date)||a.si-b.si);
+  else if(sortBy==='hi')L.sort((a,b)=>b.total-a.total);else L.sort((a,b)=>(a.miss-b.miss)||a.total-b.total);
+  $('cnt').textContent=L.length+' rows';
+  $('list').innerHTML=L.slice(0,shown).map(r=>r.miss?
+   `<div class="rec miss"><div class="rt"><div><div class="n">${SHORT[r.si]}</div><div class="d">${fd(r.date)}</div></div><div class="t" style="color:var(--bad)">MISSING</div></div></div>`:
+   `<div class="rec"><div class="rt"><div><div class="n">${SHORT[r.si]}</div><div class="d">${fd(r.date)}</div></div><div class="t">${fm(r.total)}</div></div>
+    <div class="mix"><i style="width:${(r.cash+r.coins)/r.total*100}%;background:var(--cash)"></i><i style="width:${r.nets/r.total*100}%;background:var(--nets)"></i><i style="width:${r.pn/r.total*100}%;background:var(--pn)"></i></div>
+    <div class="vals"><div>Cash${r.coins?' + coins':''}<b>${fm(r.cash+r.coins)}</b></div><div>NETS<b>${fm(r.nets)}</b></div><div>PayNow<b>${fm(r.pn)}</b></div></div></div>`).join('');
+  $('more').style.display=L.length>shown?'block':'none';
+}
+render();
+</script>
+</body>
+</html>
