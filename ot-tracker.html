@@ -51,7 +51,10 @@ const SUPABASE_ANON_KEY = "sb_publishable_IsMcjJM6whAVPgjpJV4cGg_yVxgIce-";
 // ====================================
 const WORKERS = ["NI SOE OO","MYO MIN LATT","TUN MIN LATT","BO BO ZAW","AUNG WAI PHYO","TUN TUN WIN","SI THU HTUN"];
 const OT_RATE = 4.5;
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let sb = null, bootErr = '';
+if(SUPABASE_URL.includes('YOUR-PROJECT') || SUPABASE_ANON_KEY.includes('YOUR-ANON')) bootErr = 'Paste your Supabase URL and anon key near the top of the file.';
+else if(!window.supabase) bootErr = 'The Supabase library did not load. Check your internet connection or ad blocker.';
+else { try{ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }catch(e){ bootErr = 'Could not start Supabase: '+e.message; } }
 
 let user = null, entries = [], ui = {err:'', msg:'', busy:false, month:new Date().toISOString().slice(0,7)};
 const $ = id => document.getElementById(id);
@@ -64,9 +67,13 @@ const role = () => user?.app_metadata?.role;
 const name = () => user?.app_metadata?.name || user?.email;
 
 async function init(){
-  const { data } = await sb.auth.getSession();
-  user = data.session?.user || null;
-  if(user) await load();
+  render();
+  if(bootErr){ ui.err = bootErr; render(); return; }
+  try{
+    const { data } = await sb.auth.getSession();
+    user = data.session?.user || null;
+    if(user) await load();
+  }catch(e){ ui.err = 'Could not connect: '+e.message; }
   render();
 }
 async function load(){
@@ -80,6 +87,7 @@ async function load(){
   else entries = data;
 }
 async function login(){
+  if(!sb){ ui.err = bootErr; render(); return; }
   ui.busy = true; ui.err=''; render();
   const { data, error } = await sb.auth.signInWithPassword({ email:$('email').value.trim(), password:$('pw').value });
   ui.busy = false;
