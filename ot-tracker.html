@@ -97,7 +97,13 @@ const SUPERVISORS = ["Shakirul","Mia Hasan","Miah Nayon","Miah Rashed","ELIAS MD
 const OT_RATE = 4.5;
 // ==============================================================
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function showFatal(msg){ document.getElementById('app').innerHTML = '<div style="padding:30px 20px;font-family:sans-serif;color:#b6493f;font-weight:600;line-height:1.5">'+msg+'</div>'; }
+window.addEventListener('error', e=>{ if(!window.__appReady) showFatal('Page error: '+esc(e.message)); });
+window.addEventListener('unhandledrejection', e=>{ busy=false; ui.err='Error: '+esc((e.reason&&e.reason.message)||e.reason); if(window.__appReady) render(); });
+let db = null;
+if(typeof supabase === 'undefined'){ showFatal('Could not load the Supabase library. Check internet / try another network, then refresh.'); }
+else if(SUPABASE_ANON_KEY.indexOf('PASTE')===0){ showFatal('Anon key not added yet. Open index.html and paste your anon key.'); }
+else { db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 let entries = [];
 let session = null;
 let busy = false;
@@ -128,12 +134,15 @@ async function login(role){
     pw = document.getElementById('admin-pw').value;
   }
   busy = true; ui.err='';
-  const { data, error } = await db.rpc('ot_login', { p_name: name, p_pw: pw });
+  const btn = document.getElementById('do-login'); if(btn) btn.textContent='Signing in…';
+  try{
+    const timeout = new Promise((_,rej)=>setTimeout(()=>rej(new Error('Timed out — no reply from Supabase. Check anon key / internet.')),15000));
+    const { data, error } = await Promise.race([ db.rpc('ot_login', { p_name: name, p_pw: pw }), timeout ]);
+    if(error){ ui.err='Could not connect: '+error.message; }
+    else if(!data){ ui.err = role==='admin' ? 'Wrong admin password.' : 'Wrong name or password.'; }
+    else { session = { role: data, name, pw }; await loadEntries(); }
+  }catch(e){ ui.err = String(e.message||e); }
   busy = false;
-  if(error){ ui.err='Could not connect: '+error.message; render(); return; }
-  if(!data){ ui.err = role==='admin' ? 'Wrong admin password.' : 'Wrong name or password.'; render(); return; }
-  session = { role: data, name, pw };
-  await loadEntries();
   render();
 }
 
@@ -305,7 +314,7 @@ function bindAdmin(){
   document.querySelectorAll('.del').forEach(b=> b.onclick=()=>deleteEntry(b.getAttribute('data-id')));
 }
 
-render();
+if(db){ window.__appReady = true; render(); }
 </script>
 </body>
 </html>
