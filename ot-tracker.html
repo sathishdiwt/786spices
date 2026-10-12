@@ -114,7 +114,7 @@ function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 async function loadEntries(){
   const { data, error } = await db.rpc('ot_list', { p_name: session.name, p_pw: session.pw });
   if(error){ ui.err='Could not load entries: '+error.message; return; }
-  entries = (data||[]).map(r=>({ id:r.id, date:r.date, worker:r.worker, hours:Number(r.hours), supervisor:r.supervisor, approvedAt:r.approved_at }));
+  entries = (data||[]).map(r=>({ id:r.id, date:r.work_date, worker:r.worker, hours:Number(r.hours), supervisor:r.supervisor, approvedAt:r.approved_at }));
 }
 
 async function login(role){
