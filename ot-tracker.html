@@ -12,14 +12,15 @@
   --navy:#131c28; --navy-2:#1c2a3a; --amber:#e0a458; --amber-dark:#c8873a;
   --paper:#f6f3ee; --card:#ffffff; --ink:#1c2530; --ink-soft:#5c6672;
   --line:#e6e1d8; --good:#4a7c59; --bad:#b6493f;
+  --msg-bg:#eaf3ec; --msg-line:#c6e0cb;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   box-sizing: border-box;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }
+  :root:not([data-theme="light"]){ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; --msg-bg:#16241a; --msg-line:#2a4632; }
 }
-:root[data-theme="dark"]{ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; }
+:root[data-theme="dark"]{ --paper:#0f1620; --card:#182130; --ink:#eae6dd; --ink-soft:#9aa4b0; --line:#2a3444; --msg-bg:#16241a; --msg-line:#2a4632; }
 *{box-sizing:border-box;}
 html{scroll-padding-top: env(safe-area-inset-top, 0px);}
 body{
@@ -61,8 +62,7 @@ input:focus,select:focus{outline:2px solid var(--amber); outline-offset:1px; bor
 .btn:active{background:var(--amber-dark);}
 .btn-outline{width:100%; padding:11px; background:none; border:1.5px solid var(--line); color:var(--ink); border-radius:10px; font-family:inherit; font-weight:700; font-size:14px; cursor:pointer; margin-top:8px;}
 .err{color:var(--bad); font-size:13px; font-weight:600; margin:-6px 0 14px;}
-.msg{background:#eaf3ec; border:1px solid #c6e0cb; color:var(--good); padding:11px 13px; border-radius:10px; font-size:13.5px; font-weight:600; margin-bottom:16px;}
-:root[data-theme="dark"] .msg, @media (prefers-color-scheme: dark){ .msg{background:#16241a;border-color:#2a4632;} }
+.msg{background:var(--msg-bg); border:1px solid var(--msg-line); color:var(--good); padding:11px 13px; border-radius:10px; font-size:13.5px; font-weight:600; margin-bottom:16px;}
 .hint{font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:14px;}
 .entry{border-bottom:1px solid var(--line); padding:12px 0;}
 .entry:last-child{border-bottom:none;}
@@ -88,7 +88,7 @@ footer{text-align:center; color:var(--ink-soft); font-size:12px; padding:10px 20
 <div class="wrap" id="app"><div class="empty" style="padding:60px 0">Loading…</div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-// ====== CONFIG — paste your anon (publishable) key below ======
+// ====== CONFIG ======
 const SUPABASE_URL = 'https://jofbyyznznfcvhebpwsx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_IsMcjJM6whAVPgjpJV4cGg_yVxgIce-';
 
@@ -96,27 +96,30 @@ const WORKERS = ["NI SOE OO","MYO MIN LATT","TUN MIN LATT","BO BO ZAW","AUNG WAI
 const SUPERVISORS = ["Shakirul","Mia Hasan","Miah Nayon","Miah Rashed","ELIAS MD"];
 const OT_RATE = 4.5;
 const BACKDATE_DAYS = 4; // how many days back supervisors can log OT
-// ==============================================================
+// =====================
 
 function showFatal(msg){ document.getElementById('app').innerHTML = '<div style="padding:30px 20px;font-family:sans-serif;color:#b6493f;font-weight:600;line-height:1.5">'+msg+'</div>'; }
-window.addEventListener('error', e=>{ if(!window.__appReady) showFatal('Page error: '+esc(e.message)); });
-window.addEventListener('unhandledrejection', e=>{ busy=false; ui.err='Error: '+esc((e.reason&&e.reason.message)||e.reason); if(window.__appReady) render(); });
-let db = null;
-if(typeof supabase === 'undefined'){ showFatal('Could not load the Supabase library. Check internet / try another network, then refresh.'); }
-else if(SUPABASE_ANON_KEY.indexOf('PASTE')===0){ showFatal('Anon key not added yet. Open index.html and paste your anon key.'); }
-else { db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
-let entries = [];
-let session = null;
-let busy = false;
-let ui = { tab:'supervisor', err:'', msg:'', adminMonth: monthStr(new Date()) };
 
 function pad(n){return String(n).padStart(2,'0');}
 function dstr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function monthStr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1);}
 function today0(){const d=new Date(); d.setHours(0,0,0,0); return d;}
+function minDate(){const d=today0(); d.setDate(d.getDate()-BACKDATE_DAYS); return d;}
 function fmtDate(s){ const [y,m,dd]=s.split('-'); return dd+'/'+m+'/'+y; }
 function fmtTime(iso){ const d=new Date(iso); return d.toLocaleString('en-SG',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
 function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+let db = null;
+let entries = [];
+let session = null;
+let busy = false;
+let ui = { tab:'supervisor', err:'', msg:'', adminMonth: monthStr(new Date()) };
+
+window.addEventListener('error', e=>{ if(!window.__appReady) showFatal('Page error: '+esc(e.message)); });
+window.addEventListener('unhandledrejection', e=>{ busy=false; ui.err='Error: '+((e.reason&&e.reason.message)||e.reason); if(window.__appReady) render(); });
+
+if(typeof supabase === 'undefined'){ showFatal('Could not load the Supabase library. Check internet / try another network, then refresh.'); }
+else { db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
 
 async function loadEntries(){
   const { data, error } = await db.rpc('ot_list', { p_name: session.name, p_pw: session.pw });
@@ -158,11 +161,11 @@ async function submitEntry(){
   const date = document.getElementById('e-date').value;
   const worker = document.getElementById('e-worker').value;
   const hours = parseFloat(document.getElementById('e-hours').value);
-  const min = new Date(today0()); min.setDate(min.getDate()-BACKDATE_DAYS);
+  const min = minDate();
   const max = today0();
   const chosen = new Date(date+'T00:00:00');
   if(!date || isNaN(chosen.getTime())){ ui.err='Pick a valid date.'; render(); return; }
-  if(chosen < min || chosen > max){ ui.err='OT can only be logged for the last '+BACKDATE_DAYS+' days (including today).'; render(); return; }
+  if(chosen < min || chosen > max){ ui.err='OT can only be logged for today or up to '+BACKDATE_DAYS+' days back.'; render(); return; }
   if(!worker){ ui.err='Pick a worker.'; render(); return; }
   if(!hours || hours<=0 || hours>24){ ui.err='Enter valid OT hours.'; render(); return; }
   busy = true;
@@ -241,7 +244,7 @@ function renderLogin(){
       `}
     </div>
   </main>
- <footer>Each supervisor has their own password · OT entries can be logged for today or up to ${BACKDATE_DAYS} days back.</footer>
+  <footer>Each supervisor has their own password · OT entries can be logged for today or up to ${BACKDATE_DAYS} days back.</footer>`;
 }
 function bindLogin(){
   document.getElementById('tab-sup').onclick=()=>setTab('supervisor');
@@ -250,7 +253,7 @@ function bindLogin(){
 }
 
 function renderSupervisor(){
-  const min = new Date(today0()); min.setDate(min.getDate()-BACKDATE_DAYS);
+  const min = minDate();
   const max = today0();
   const mine = entries.filter(e=>e.supervisor===session.name).sort((a,b)=> a.approvedAt<b.approvedAt?1:-1).slice(0,25);
   const workerOpts = WORKERS.map(w=>`<option value="${esc(w)}">${esc(w)}</option>`).join('');
