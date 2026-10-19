@@ -157,7 +157,7 @@ async function submitEntry(){
   const date = document.getElementById('e-date').value;
   const worker = document.getElementById('e-worker').value;
   const hours = parseFloat(document.getElementById('e-hours').value);
-  const min = new Date(today0()); min.setDate(min.getDate()-1);
+  const min = new Date(today0()); min.setDate(min.getDate()-4);
   const max = today0();
   const chosen = new Date(date+'T00:00:00');
   if(!date || isNaN(chosen.getTime())){ ui.err='Pick a valid date.'; render(); return; }
