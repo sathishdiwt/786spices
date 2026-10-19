@@ -95,6 +95,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_IsMcjJM6whAVPgjpJV4cGg_yVxgIce-';
 const WORKERS = ["NI SOE OO","MYO MIN LATT","TUN MIN LATT","BO BO ZAW","AUNG WAI PHYO","TUN TUN WIN","SI THU HTUN"];
 const SUPERVISORS = ["Shakirul","Mia Hasan","Miah Nayon","Miah Rashed","ELIAS MD"];
 const OT_RATE = 4.5;
+const BACKDATE_DAYS = 4; // how many days back supervisors can log OT
 // ==============================================================
 
 function showFatal(msg){ document.getElementById('app').innerHTML = '<div style="padding:30px 20px;font-family:sans-serif;color:#b6493f;font-weight:600;line-height:1.5">'+msg+'</div>'; }
@@ -157,11 +158,11 @@ async function submitEntry(){
   const date = document.getElementById('e-date').value;
   const worker = document.getElementById('e-worker').value;
   const hours = parseFloat(document.getElementById('e-hours').value);
-  const min = new Date(today0()); min.setDate(min.getDate()-4);
+  const min = new Date(today0()); min.setDate(min.getDate()-BACKDATE_DAYS);
   const max = today0();
   const chosen = new Date(date+'T00:00:00');
   if(!date || isNaN(chosen.getTime())){ ui.err='Pick a valid date.'; render(); return; }
-  if(chosen < min || chosen > max){ ui.err='OT can only be logged for today or yesterday.'; render(); return; }
+  if(chosen < min || chosen > max){ ui.err='OT can only be logged for the last '+BACKDATE_DAYS+' days (including today).'; render(); return; }
   if(!worker){ ui.err='Pick a worker.'; render(); return; }
   if(!hours || hours<=0 || hours>24){ ui.err='Enter valid OT hours.'; render(); return; }
   busy = true;
@@ -240,7 +241,7 @@ function renderLogin(){
       `}
     </div>
   </main>
-  <footer>Each supervisor has their own password · OT entries can only be logged for today or yesterday.</footer>`;
+ <footer>Each supervisor has their own password · OT entries can be logged for today or up to ${BACKDATE_DAYS} days back.</footer>
 }
 function bindLogin(){
   document.getElementById('tab-sup').onclick=()=>setTab('supervisor');
@@ -249,7 +250,7 @@ function bindLogin(){
 }
 
 function renderSupervisor(){
-  const min = new Date(today0()); min.setDate(min.getDate()-1);
+  const min = new Date(today0()); min.setDate(min.getDate()-BACKDATE_DAYS);
   const max = today0();
   const mine = entries.filter(e=>e.supervisor===session.name).sort((a,b)=> a.approvedAt<b.approvedAt?1:-1).slice(0,25);
   const workerOpts = WORKERS.map(w=>`<option value="${esc(w)}">${esc(w)}</option>`).join('');
@@ -259,7 +260,7 @@ function renderSupervisor(){
       <h2>Log OT hours</h2>
       <div class="field"><label>Date</label>
         <input type="date" id="e-date" min="${dstr(min)}" max="${dstr(max)}" value="${dstr(max)}"></div>
-      <div class="hint">You can only log today or yesterday's OT.</div>
+      <div class="hint">You can log OT for today or up to ${BACKDATE_DAYS} days back.</div>
       <div class="field"><label>Worker</label><select id="e-worker"><option value="">Select worker</option>${workerOpts}</select></div>
       <div class="field"><label>OT hours</label><input type="number" id="e-hours" step="0.5" min="0" max="24" placeholder="e.g. 2.5"></div>
       ${ui.err?`<div class="err">${esc(ui.err)}</div>`:''}
