@@ -26,15 +26,12 @@
   h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
   .mono{font-family:'IBM Plex Mono',monospace;}
 
-  /* ===== Top bar ===== */
   .topbar{background:var(--navy);color:#fff;padding:26px 40px;position:relative;overflow:hidden;}
-  .topbar::before{content:"";position:absolute;top:0;right:-60px;width:260px;height:260px;
-    background:transparent;
-    transform:rotate(12deg);pointer-events:none;}
   .brandrow{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:1;}
   .brandmark{display:flex;align-items:center;gap:14px;}
   .brandmark .badge{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--amber),#c98a1f);
     display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;color:var(--navy);font-size:18px;flex-shrink:0;}
+  .brandmark .badge a{color:inherit;text-decoration:none;}
   .brandmark .co{display:flex;flex-direction:column;}
   .brandmark .co-name{font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:0.2px;}
   .brandmark .co-sub{font-size:11.5px;color:#A9B7C6;text-transform:uppercase;letter-spacing:1.6px;margin-top:2px;}
@@ -42,19 +39,18 @@
   .doctitle .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-weight:600;}
   .doctitle h1{font-size:24px;margin:4px 0 0;font-weight:600;}
 
-  /* ===== Meta form row ===== */
   .metabar{background:var(--navy-2);border-top:1px solid var(--border-dark);padding:18px 40px;
-    display:flex;gap:28px;flex-wrap:wrap;position:relative;z-index:1;}
+    display:flex;gap:28px;flex-wrap:wrap;position:relative;z-index:1;align-items:flex-end;}
   .metafield{display:flex;flex-direction:column;gap:6px;min-width:200px;}
   .metafield label{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:#93A3B4;font-weight:600;}
   .metafield input{background:#0F1822;border:1px solid var(--border-dark);color:#fff;padding:9px 12px;
     border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:14px;}
-  .metafield input::placeholder{color:#5B6B7C;}
   .metafield input:focus{outline:2px solid var(--amber);outline-offset:1px;}
   .metafield.grow{flex:1;min-width:260px;}
+  .saveStatus{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A9B7C6;padding:10px 0;white-space:nowrap;}
+  .saveStatus.ok{color:#8FD0A8;}
 
-  /* ===== Main ===== */
-  main{max-width:1180px;margin:0 auto;padding:36px 40px 90px;}
+  main{max-width:1180px;margin:0 auto;padding:36px 40px 40px;}
   .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
   .section-head h2{font-size:15px;text-transform:uppercase;letter-spacing:2px;color:var(--steel);font-weight:600;margin:0;}
   .section-head .hint{font-size:12.5px;color:var(--muted);}
@@ -85,13 +81,11 @@
   .gauge-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
   .gauge-top .label{font-size:13px;color:var(--ink);font-weight:500;}
   .gauge-top .pct{font-size:13px;font-weight:600;min-width:42px;text-align:right;}
-  .gauge-track{position:relative;height:10px;border-radius:6px;background:#EDEAE0;overflow:hidden;
-    border:1px solid var(--border);}
+  .gauge-track{position:relative;height:10px;border-radius:6px;background:#EDEAE0;overflow:hidden;border:1px solid var(--border);}
   .gauge-track .ticks{position:absolute;inset:0;background:none;pointer-events:none;}
   .gauge-fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;transition:width .12s ease;}
   .gauge input[type="range"]{width:100%;margin-top:7px;accent-color:var(--steel);height:16px;cursor:pointer;}
 
-  /* Qty gauge inputs */
   .gauge-qty{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
   .qty-input-group{display:flex;flex-direction:column;gap:4px;}
   .qty-input-group label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:600;}
@@ -112,33 +106,42 @@
     display:flex;align-items:center;justify-content:center;font-size:20px;}
   .addCard span.label{font-size:13px;font-weight:600;letter-spacing:.3px;}
 
-  /* ===== Footer / actions ===== */
-  .actions{max-width:1180px;margin:0 auto;padding:0 40px 60px;display:flex;justify-content:flex-end;gap:12px;}
+  .actions{max-width:1180px;margin:0 auto;padding:0 40px 30px;display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;}
   .btn{font-family:'Inter';font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;cursor:pointer;
     border:1px solid transparent;letter-spacing:.2px;transition:all .2s;}
   .btn-primary{background:var(--navy);color:#fff;}
   .btn-primary:hover{background:#0F1822;}
   .btn-ghost{background:transparent;border-color:var(--border);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--steel);color:var(--steel);}
-  
-  /* Copied feedback state */
+  .btn-sm{padding:7px 14px;font-size:12.5px;border-radius:6px;}
+  .btn-danger:hover{border-color:var(--red);color:var(--red);}
   .btn.copied{background:var(--green);color:#fff;border-color:var(--green);}
 
   input[type="file"]{display:none;}
 
-  /* Toast notification */
+  /* ===== Saved reports ===== */
+  .saved{max-width:1180px;margin:0 auto;padding:0 40px 90px;}
+  .saved-list{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .saved-empty{padding:22px;color:var(--muted);font-size:13.5px;}
+  .saved-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .saved-row:last-child{border-bottom:none;}
+  .saved-row.active{background:#F3F8FB;}
+  .saved-date{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steel);font-weight:600;min-width:110px;}
+  .saved-site{font-family:'Space Grotesk';font-weight:600;font-size:15px;flex:1;min-width:140px;}
+  .saved-meta{font-size:12px;color:var(--muted);}
+  .saved-btns{display:flex;gap:8px;}
+
   .toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;
     padding:14px 18px;border-radius:8px;font-size:14px;font-weight:600;
     opacity:0;transform:translateY(20px);transition:all .3s ease;z-index:1000;
-    box-shadow:0 4px 12px rgba(76,140,107,0.3);}
+    box-shadow:0 4px 12px rgba(76,140,107,0.3);pointer-events:none;}
   .toast.show{opacity:1;transform:translateY(0);}
 
-  /* ===== Print summary (report output) ===== */
   #printSummary{display:none;}
 
   @media print{
     body{background:#fff;}
-    .topbar, .metabar, main, .actions{display:none !important;}
+    .topbar, .metabar, main, .actions, .saved{display:none !important;}
     #printSummary{display:block !important;}
   }
 
@@ -164,15 +167,11 @@
   .rpt-track{height:8px;border-radius:5px;background:#EDEAE0;border:1px solid var(--border);overflow:hidden;}
   .rpt-fill{height:100%;border-radius:5px;}
   .rpt-pct{font-family:'IBM Plex Mono',monospace;text-align:right;font-weight:600;}
-  
   .rpt-qty-note{font-size:11px;color:var(--muted);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
-  
   .rpt-text-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
   .rpt-text-section-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--steel);font-weight:600;margin-bottom:6px;}
   .rpt-text-section-content{font-size:12.5px;color:var(--ink);line-height:1.5;white-space:pre-wrap;word-break:break-word;}
-  
-  .rpt-footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-size:10.5px;color:var(--muted);
-    display:flex;justify-content:space-between;}
+  .rpt-footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;}
 </style>
 </head>
 <body>
@@ -214,26 +213,35 @@
         <option value="AVENUE ENGG.">AVENUE ENGG.</option>
       </select>
     </div>
+    <div class="saveStatus" id="saveStatus">💾 Not saved yet</div>
   </div>
 
   <main>
     <div class="section-head">
       <h2>Locations</h2>
-      <div class="hint">Add a logo, set progress, and notes for each area of the site</div>
+      <div class="hint">Add a logo, set progress, and notes for each area of the site. Changes save automatically in this browser.</div>
     </div>
     <div class="grid" id="locGrid"></div>
   </main>
 
   <div class="actions">
+    <button class="btn btn-ghost" id="newBtn">🆕 New Blank Report</button>
+    <button class="btn btn-ghost" id="saveBtn">💾 Save Report</button>
     <button class="btn btn-ghost" id="copyTextBtn">📋 Copy for WhatsApp</button>
     <button class="btn btn-ghost" id="downloadImageBtn">📸 Download Image</button>
     <button class="btn btn-primary" id="printBtn">🖨️ Print Report</button>
   </div>
+
+  <section class="saved">
+    <div class="section-head">
+      <h2>Saved Reports</h2>
+      <div class="hint">Open a saved report to edit it. Change the date to start a new day from the same progress.</div>
+    </div>
+    <div class="saved-list" id="savedList"></div>
+  </section>
 </div>
 
-<!-- Toast notification -->
 <div id="toast" class="toast"></div>
-
 <div id="printSummary"></div>
 
 <script>
@@ -252,49 +260,240 @@ let idCounter = 0;
 function freshProgress(){
   const p = {};
   PROGRESS_FIELDS.forEach(f => {
-    if(f.isQty){
-      p[f.key] = { total: 0, installed: 0 };
-    } else {
-      p[f.key] = 0;
-    }
+    p[f.key] = f.isQty ? { total: 0, installed: 0 } : 0;
   });
   return p;
 }
+function defaultLocations(){
+  return [{ id: idCounter++, name: 'RC ROOF', area: 'Location', logo: null, progress: freshProgress(), todayActivities: '', tomorrowPlan: '', requiredManpower: '' }];
+}
 
-let state = {
-  locations: [
-    { id: idCounter++, name: 'RC ROOF', area: 'Location', logo: null, progress: freshProgress(), todayActivities: '', tomorrowPlan: '', requiredManpower: '' },
-  ]
-};
+let state = { locations: defaultLocations() };
 
 function getPercentage(value) {
-  if (typeof value === 'object' && value.total && value.installed) {
-    return value.total > 0 ? Math.round((value.installed / value.total) * 100) : 0;
+  if (value && typeof value === 'object') {
+    return value.total > 0 ? Math.min(100, Math.round((value.installed / value.total) * 100)) : 0;
   }
   return value || 0;
 }
 
 function colorForPct(pct){
-  // Safety: ensure pct is a valid number
   pct = Math.max(0, Math.min(100, isNaN(pct) ? 0 : parseInt(pct, 10)));
-  
   if (pct < 34) return getMix('#C0523D', '#E8A93B', pct/34);
   if (pct < 100) return getMix('#E8A93B', '#4C8C6B', (pct-34)/66);
   return '#4C8C6B';
 }
 function getMix(hexA, hexB, t){
-  // Safety: clamp t between 0 and 1
   t = Math.max(0, Math.min(1, isNaN(t) ? 0 : t));
   const a = hexToRgb(hexA), b = hexToRgb(hexB);
-  const r = Math.round(a[0] + (b[0]-a[0])*t);
-  const g = Math.round(a[1] + (b[1]-a[1])*t);
-  const bl = Math.round(a[2] + (b[2]-a[2])*t);
-  return `rgb(${r},${g},${bl})`;
+  return `rgb(${Math.round(a[0]+(b[0]-a[0])*t)},${Math.round(a[1]+(b[1]-a[1])*t)},${Math.round(a[2]+(b[2]-a[2])*t)})`;
 }
 function hexToRgb(hex){
   hex = hex.replace('#','');
   return [parseInt(hex.substring(0,2),16), parseInt(hex.substring(2,4),16), parseInt(hex.substring(4,6),16)];
 }
+
+/* ============================================================
+   LOCAL BROWSER STORAGE
+   Reports are stored per "date|site" in localStorage.
+   ============================================================ */
+const LS_KEY = 'pc_site_reports_v1';
+const dateInput = document.getElementById('reportDate');
+const siteSelect = document.getElementById('siteName');
+let activeKey = null;      // key of the report currently loaded/being saved
+let saveTimer = null;
+
+function readStore(){
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_KEY));
+    if (s && s.reports) return s;
+  } catch(e) {}
+  return { reports: {}, last: null, draft: null };
+}
+function writeStore(s){
+  try { localStorage.setItem(LS_KEY, JSON.stringify(s)); return true; }
+  catch(e) {
+    showToast('⚠️ Browser storage is full. Delete old reports or remove big logos.', 4000, true);
+    return false;
+  }
+}
+function makeKey(date, site){ return site ? date + '|' + site : null; }
+function currentKey(){ return makeKey(dateInput.value, siteSelect.value); }
+
+function snapshot(){
+  return {
+    date: dateInput.value,
+    site: siteSelect.value,
+    locations: JSON.parse(JSON.stringify(state.locations)),
+    savedAt: Date.now()
+  };
+}
+
+function setStatus(text, ok){
+  const el = document.getElementById('saveStatus');
+  el.textContent = text;
+  el.classList.toggle('ok', !!ok);
+}
+
+function scheduleSave(){
+  setStatus('💾 Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 400);
+}
+
+function saveNow(){
+  clearTimeout(saveTimer);
+  const s = readStore();
+  const snap = snapshot();
+  const key = currentKey();
+  s.draft = snap;
+  if (key) {
+    s.reports[key] = snap;
+    s.last = key;
+    activeKey = key;
+  }
+  if (writeStore(s)) {
+    const t = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+    setStatus(key ? '✅ Saved ' + t : '⚠️ Draft saved — pick a site to keep it in Saved Reports', !!key);
+    renderSavedList();
+    return true;
+  }
+  setStatus('❌ Not saved');
+  return false;
+}
+
+function applySnapshot(snap){
+  state.locations = (snap.locations && snap.locations.length) ? snap.locations : defaultLocations();
+  // make sure the data has every field (older saves / safety)
+  state.locations.forEach(loc => {
+    const fresh = freshProgress();
+    loc.progress = Object.assign(fresh, loc.progress || {});
+    loc.todayActivities = loc.todayActivities || '';
+    loc.tomorrowPlan = loc.tomorrowPlan || '';
+    loc.requiredManpower = loc.requiredManpower || '';
+  });
+  idCounter = state.locations.reduce((m, l) => Math.max(m, (l.id || 0) + 1), idCounter);
+}
+
+function openReport(key){
+  const s = readStore();
+  const snap = s.reports[key];
+  if (!snap) return;
+  flushPending();
+  dateInput.value = snap.date;
+  siteSelect.value = snap.site;
+  applySnapshot(snap);
+  activeKey = key;
+  s.last = key;
+  writeStore(s);
+  render();
+  setStatus('📂 Opened saved report', true);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function deleteReport(key){
+  const s = readStore();
+  const snap = s.reports[key];
+  if (!snap) return;
+  if (!confirm('Delete the saved report for ' + fmtDate(snap.date) + ' — ' + snap.site + '?')) return;
+  delete s.reports[key];
+  if (s.last === key) s.last = null;
+  writeStore(s);
+  if (activeKey === key) { activeKey = null; setStatus('🗑️ Deleted. Current screen is not saved.'); }
+  renderSavedList();
+  showToast('🗑️ Report deleted');
+}
+
+// write any pending change to the report that was active BEFORE the date/site changed
+function flushPending(){
+  if (!saveTimer) return;
+  clearTimeout(saveTimer);
+  saveTimer = null;
+  if (activeKey) {
+    const s = readStore();
+    const parts = activeKey.split('|');
+    const snap = snapshot();
+    snap.date = parts[0];
+    snap.site = parts.slice(1).join('|');
+    s.reports[activeKey] = snap;
+    writeStore(s);
+  }
+}
+
+// date or site changed: load that report if it exists, otherwise carry current data forward
+function onKeyChange(){
+  flushPending();
+  const key = currentKey();
+  const s = readStore();
+  if (key && s.reports[key]) {
+    applySnapshot(s.reports[key]);
+    activeKey = key;
+    s.last = key;
+    writeStore(s);
+    render();
+    setStatus('📂 Loaded saved report', true);
+    showToast('📂 Loaded saved report for ' + fmtDate(dateInput.value));
+  } else {
+    // nothing saved for this date/site: keep what's on screen as the starting point
+    renderPrintSummary();
+    if (key) saveNow(); else scheduleSave();
+  }
+}
+
+function renderSavedList(){
+  const s = readStore();
+  const list = document.getElementById('savedList');
+  const keys = Object.keys(s.reports).sort((a, b) => {
+    const A = s.reports[a], B = s.reports[b];
+    return (B.date || '').localeCompare(A.date || '') || (B.savedAt || 0) - (A.savedAt || 0);
+  });
+  if (!keys.length) {
+    list.innerHTML = '<div class="saved-empty">No saved reports yet. Pick a site and your report is saved automatically.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  keys.forEach(key => {
+    const r = s.reports[key];
+    const row = document.createElement('div');
+    row.className = 'saved-row' + (key === activeKey ? ' active' : '');
+    const n = (r.locations || []).length;
+    const when = r.savedAt ? new Date(r.savedAt).toLocaleString('en-GB', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'}) : '';
+    row.innerHTML = `<div class="saved-date">${fmtDate(r.date)}</div>
+      <div class="saved-site"></div>
+      <div class="saved-meta">${n} location${n === 1 ? '' : 's'}${when ? ' · saved ' + when : ''}</div>
+      <div class="saved-btns"></div>`;
+    row.querySelector('.saved-site').textContent = r.site;
+    const btns = row.querySelector('.saved-btns');
+    const openBtn = document.createElement('button');
+    openBtn.className = 'btn btn-ghost btn-sm';
+    openBtn.textContent = key === activeKey ? '✏️ Editing' : '✏️ Open & Edit';
+    openBtn.onclick = () => openReport(key);
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-ghost btn-sm btn-danger';
+    delBtn.textContent = '🗑️ Delete';
+    delBtn.onclick = () => deleteReport(key);
+    btns.appendChild(openBtn);
+    btns.appendChild(delBtn);
+    list.appendChild(row);
+  });
+}
+
+// shrink logos so they don't fill up browser storage
+function resizeImage(dataUrl, maxSize, cb){
+  const img = new Image();
+  img.onload = () => {
+    const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(img.width * ratio));
+    c.height = Math.max(1, Math.round(img.height * ratio));
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    cb(c.toDataURL('image/png'));
+  };
+  img.onerror = () => cb(dataUrl);
+  img.src = dataUrl;
+}
+
+/* ============================================================ */
 
 const grid = document.getElementById('locGrid');
 
@@ -303,6 +502,7 @@ function render(){
   state.locations.forEach(loc => grid.appendChild(renderCard(loc)));
   grid.appendChild(renderAddCard());
   renderPrintSummary();
+  renderSavedList();
 }
 
 function renderCard(loc){
@@ -316,6 +516,7 @@ function renderCard(loc){
   removeBtn.onclick = () => {
     state.locations = state.locations.filter(l => l.id !== loc.id);
     render();
+    scheduleSave();
   };
   card.appendChild(removeBtn);
 
@@ -329,7 +530,13 @@ function renderCard(loc){
     const file = e.target.files[0];
     if(!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => { loc.logo = ev.target.result; render(); };
+    reader.onload = (ev) => {
+      resizeImage(ev.target.result, 200, (small) => {
+        loc.logo = small;
+        render();
+        scheduleSave();
+      });
+    };
     reader.readAsDataURL(file);
   };
 
@@ -353,14 +560,14 @@ function renderCard(loc){
   nameInput.value = loc.name;
   nameInput.placeholder = 'Location name';
   nameInput.oninput = (e) => { loc.name = e.target.value; renderPrintSummary(); };
-  
+
   const areaInput = document.createElement('input');
   areaInput.type = 'text';
   areaInput.className = 'area-input';
   areaInput.value = loc.area;
   areaInput.placeholder = '🧰 Area / Zone (e.g., RC Roof, Carpark Level 2)';
   areaInput.oninput = (e) => { loc.area = e.target.value; renderPrintSummary(); };
-  
+
   nameWrap.appendChild(nameInput);
   nameWrap.appendChild(areaInput);
 
@@ -369,54 +576,27 @@ function renderCard(loc){
   card.appendChild(head);
 
   PROGRESS_FIELDS.forEach(f => {
-    if(f.isQty) {
-      card.appendChild(renderQtyGauge(loc, f));
-    } else {
-      card.appendChild(renderGauge(loc, f));
-    }
+    card.appendChild(f.isQty ? renderQtyGauge(loc, f) : renderGauge(loc, f));
   });
 
-  // Today Activities
-  const todayField = document.createElement('div');
-  todayField.className = 'text-field';
-  const todayLabel = document.createElement('div');
-  todayLabel.className = 'text-field-label';
-  todayLabel.textContent = '✅ Today Activities';
-  const todayTA = document.createElement('textarea');
-  todayTA.value = loc.todayActivities || '';
-  todayTA.placeholder = 'Describe work completed today...';
-  todayTA.oninput = (e) => { loc.todayActivities = e.target.value; renderPrintSummary(); };
-  todayField.appendChild(todayLabel);
-  todayField.appendChild(todayTA);
-  card.appendChild(todayField);
-
-  // Tomorrow Work Plan
-  const tomorrowField = document.createElement('div');
-  tomorrowField.className = 'text-field';
-  const tomorrowLabel = document.createElement('div');
-  tomorrowLabel.className = 'text-field-label';
-  tomorrowLabel.textContent = '📋 Tomorrow Work Plan';
-  const tomorrowTA = document.createElement('textarea');
-  tomorrowTA.value = loc.tomorrowPlan;
-  tomorrowTA.placeholder = 'Describe work planned for tomorrow...';
-  tomorrowTA.oninput = (e) => { loc.tomorrowPlan = e.target.value; renderPrintSummary(); };
-  tomorrowField.appendChild(tomorrowLabel);
-  tomorrowField.appendChild(tomorrowTA);
-  card.appendChild(tomorrowField);
-
-  // Required Manpower
-  const manpowerField = document.createElement('div');
-  manpowerField.className = 'text-field';
-  const manpowerLabel = document.createElement('div');
-  manpowerLabel.className = 'text-field-label';
-  manpowerLabel.textContent = '👥 Required Manpower';
-  const manpowerTA = document.createElement('textarea');
-  manpowerTA.value = loc.requiredManpower;
-  manpowerTA.placeholder = 'Specify team size, roles, and requirements...';
-  manpowerTA.oninput = (e) => { loc.requiredManpower = e.target.value; renderPrintSummary(); };
-  manpowerField.appendChild(manpowerLabel);
-  manpowerField.appendChild(manpowerTA);
-  card.appendChild(manpowerField);
+  [
+    ['todayActivities', '✅ Today Activities', 'Describe work completed today...'],
+    ['tomorrowPlan', '📋 Tomorrow Work Plan', 'Describe work planned for tomorrow...'],
+    ['requiredManpower', '👥 Required Manpower', 'Specify team size, roles, and requirements...']
+  ].forEach(([prop, title, ph]) => {
+    const field = document.createElement('div');
+    field.className = 'text-field';
+    const lbl = document.createElement('div');
+    lbl.className = 'text-field-label';
+    lbl.textContent = title;
+    const ta = document.createElement('textarea');
+    ta.value = loc[prop] || '';
+    ta.placeholder = ph;
+    ta.oninput = (e) => { loc[prop] = e.target.value; renderPrintSummary(); };
+    field.appendChild(lbl);
+    field.appendChild(ta);
+    card.appendChild(field);
+  });
 
   return card;
 }
@@ -479,7 +659,7 @@ function renderQtyGauge(loc, field){
   label.textContent = field.label;
   const pct = document.createElement('div');
   pct.className = 'pct mono';
-  
+
   const percentage = getPercentage(loc.progress[field.key]);
   pct.textContent = percentage + '%';
   top.appendChild(label);
@@ -493,52 +673,33 @@ function renderQtyGauge(loc, field){
   fill.style.background = colorForPct(percentage);
   track.appendChild(fill);
 
-  // Quantity input fields
   const qtyContainer = document.createElement('div');
   qtyContainer.className = 'gauge-qty';
 
-  const totalGroup = document.createElement('div');
-  totalGroup.className = 'qty-input-group';
-  const totalLabel = document.createElement('label');
-  totalLabel.textContent = 'Total Qty';
-  const totalInput = document.createElement('input');
-  totalInput.type = 'number';
-  totalInput.min = 0;
-  totalInput.value = loc.progress[field.key].total;
-  totalInput.placeholder = 'e.g., 100';
-  totalInput.oninput = (e) => {
-    loc.progress[field.key].total = parseInt(e.target.value) || 0;
-    const percentage = getPercentage(loc.progress[field.key]);
-    pct.textContent = percentage + '%';
-    fill.style.width = percentage + '%';
-    fill.style.background = colorForPct(percentage);
-    renderPrintSummary();
-  };
-  totalGroup.appendChild(totalLabel);
-  totalGroup.appendChild(totalInput);
-
-  const installedGroup = document.createElement('div');
-  installedGroup.className = 'qty-input-group';
-  const installedLabel = document.createElement('label');
-  installedLabel.textContent = 'Installed';
-  const installedInput = document.createElement('input');
-  installedInput.type = 'number';
-  installedInput.min = 0;
-  installedInput.value = loc.progress[field.key].installed;
-  installedInput.placeholder = 'e.g., 45';
-  installedInput.oninput = (e) => {
-    loc.progress[field.key].installed = parseInt(e.target.value) || 0;
-    const percentage = getPercentage(loc.progress[field.key]);
-    pct.textContent = percentage + '%';
-    fill.style.width = percentage + '%';
-    fill.style.background = colorForPct(percentage);
-    renderPrintSummary();
-  };
-  installedGroup.appendChild(installedLabel);
-  installedGroup.appendChild(installedInput);
-
-  qtyContainer.appendChild(totalGroup);
-  qtyContainer.appendChild(installedGroup);
+  function makeInput(labelText, prop, placeholder){
+    const group = document.createElement('div');
+    group.className = 'qty-input-group';
+    const l = document.createElement('label');
+    l.textContent = labelText;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = 0;
+    input.value = loc.progress[field.key][prop];
+    input.placeholder = placeholder;
+    input.oninput = (e) => {
+      loc.progress[field.key][prop] = parseInt(e.target.value) || 0;
+      const p = getPercentage(loc.progress[field.key]);
+      pct.textContent = p + '%';
+      fill.style.width = p + '%';
+      fill.style.background = colorForPct(p);
+      renderPrintSummary();
+    };
+    group.appendChild(l);
+    group.appendChild(input);
+    return group;
+  }
+  qtyContainer.appendChild(makeInput('Total Qty', 'total', 'e.g., 100'));
+  qtyContainer.appendChild(makeInput('Installed', 'installed', 'e.g., 45'));
 
   wrap.appendChild(top);
   wrap.appendChild(track);
@@ -553,6 +714,7 @@ function renderAddCard(){
   card.onclick = () => {
     state.locations.push({ id: idCounter++, name: 'New Location', area: '', logo: null, progress: freshProgress(), todayActivities: '', tomorrowPlan: '', requiredManpower: '' });
     render();
+    scheduleSave();
   };
   return card;
 }
@@ -564,8 +726,8 @@ function fmtDate(d){
 }
 
 function renderPrintSummary(){
-  const dateVal = document.getElementById('reportDate').value;
-  const siteVal = document.getElementById('siteName').value || 'Untitled Site';
+  const dateVal = dateInput.value;
+  const siteVal = siteSelect.value || 'Untitled Site';
   const container = document.getElementById('printSummary');
 
   let locsHtml = '';
@@ -583,35 +745,23 @@ function renderPrintSummary(){
         <div class="rpt-track"><div class="rpt-fill" style="width:${v}%;background-color:${safeColor};"></div></div>
         <div class="rpt-pct">${v}%</div>
       </div>`;
-      
-      // Add qty note if this is a qty field
       if(f.isQty && loc.progress[f.key].total > 0) {
         rowHtml += `<div class="rpt-qty-note" style="grid-column:1/-1;margin-top:4px;">📦 ${loc.progress[f.key].installed} of ${loc.progress[f.key].total} installed</div>`;
       }
-      
       return rowHtml;
     }).join('');
-    
+
     let textSections = '';
     if(loc.todayActivities){
-      textSections += `<div class="rpt-text-section">
-        <div class="rpt-text-section-title">✅ Today Activities</div>
-        <div class="rpt-text-section-content">${loc.todayActivities}</div>
-      </div>`;
+      textSections += `<div class="rpt-text-section"><div class="rpt-text-section-title">✅ Today Activities</div><div class="rpt-text-section-content">${loc.todayActivities}</div></div>`;
     }
     if(loc.tomorrowPlan){
-      textSections += `<div class="rpt-text-section">
-        <div class="rpt-text-section-title">📋 Tomorrow Work Plan</div>
-        <div class="rpt-text-section-content">${loc.tomorrowPlan}</div>
-      </div>`;
+      textSections += `<div class="rpt-text-section"><div class="rpt-text-section-title">📋 Tomorrow Work Plan</div><div class="rpt-text-section-content">${loc.tomorrowPlan}</div></div>`;
     }
     if(loc.requiredManpower){
-      textSections += `<div class="rpt-text-section">
-        <div class="rpt-text-section-title">👥 Required Manpower</div>
-        <div class="rpt-text-section-content">${loc.requiredManpower}</div>
-      </div>`;
+      textSections += `<div class="rpt-text-section"><div class="rpt-text-section-title">👥 Required Manpower</div><div class="rpt-text-section-content">${loc.requiredManpower}</div></div>`;
     }
-    
+
     locsHtml += `<div class="rpt-loc">
       <div class="rpt-loc-head">
         ${logoHtml}
@@ -649,65 +799,53 @@ function renderPrintSummary(){
       </div>
     </div>
   `;
+  scheduleSave();
 }
 
-// Toast notification helper
-function showToast(message, duration = 2000) {
+function showToast(message, duration = 2000, isError = false) {
   const toast = document.getElementById('toast');
   toast.textContent = message;
+  toast.style.background = isError ? 'var(--red)' : 'var(--green)';
   toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, duration);
+  setTimeout(() => toast.classList.remove('show'), duration);
 }
 
-// Copy text handler - immediate copy to clipboard
 function handleCopyText() {
-  const dateVal = document.getElementById('reportDate').value;
-  const siteVal = document.getElementById('siteName').value || 'Untitled Site';
-  
+  const dateVal = dateInput.value;
+  const siteVal = siteSelect.value || 'Untitled Site';
+
   let text = '══════════════════════════\n';
   text += 'PIXELS CONNECT - SITE PROGRESS REPORT\n';
   text += '══════════════════════════\n\n';
   text += `📅 REPORT DATE: ${fmtDate(dateVal)}\n`;
   text += `🏗️  SITE NAME: ${siteVal}\n\n`;
-  
+
   state.locations.forEach((loc, idx) => {
     text += '───────────────────────────\n';
     text += `LOCATION ${idx+1}: ${loc.name}\n`;
     text += '───────────────────────────\n';
     if(loc.area) text += `🛠️ Area: ${loc.area}\n\n`;
-    
+
     const vals = PROGRESS_FIELDS.map(f => getPercentage(loc.progress[f.key]));
-    PROGRESS_FIELDS.forEach((f, i) => {
+    PROGRESS_FIELDS.forEach(f => {
       const v = getPercentage(loc.progress[f.key]);
       const bar = '█'.repeat(Math.floor(v/10)) + '░'.repeat(10-Math.floor(v/10));
       text += `✓ ${f.label}: ${v}% ${bar}`;
-      
-      // Add qty info for PV Panel field
       if(f.isQty && loc.progress[f.key].total > 0) {
         text += ` (${loc.progress[f.key].installed}/${loc.progress[f.key].total})`;
       }
       text += '\n';
     });
-    
+
     const avg = Math.round(vals.reduce((a,b)=>a+b,0) / vals.length);
     text += `\n📊 Average Progress: ${avg}%\n`;
-    
-    if(loc.todayActivities){
-      text += `\n✅ Today Activities:\n${loc.todayActivities}\n`;
-    }
-    if(loc.tomorrowPlan){
-      text += `\n📋 Tomorrow Work Plan:\n${loc.tomorrowPlan}\n`;
-    }
-    if(loc.requiredManpower){
-      text += `\n👥 Required Manpower:\n${loc.requiredManpower}\n`;
-    }
-    
+
+    if(loc.todayActivities) text += `\n✅ Today Activities:\n${loc.todayActivities}\n`;
+    if(loc.tomorrowPlan) text += `\n📋 Tomorrow Work Plan:\n${loc.tomorrowPlan}\n`;
+    if(loc.requiredManpower) text += `\n👥 Required Manpower:\n${loc.requiredManpower}\n`;
     text += '\n';
   });
-  
-  // Copy to clipboard
+
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('copyTextBtn');
     btn.classList.add('copied');
@@ -718,52 +856,45 @@ function handleCopyText() {
       btn.textContent = '📋 Copy for WhatsApp';
     }, 2000);
   }).catch(() => {
-    showToast('❌ Failed to copy. Please try again.');
+    showToast('❌ Failed to copy. Please try again.', 2000, true);
   });
 }
 
-// Download image handler
 function handleDownloadImage() {
   const report = document.getElementById('printSummary');
   if(!report.innerHTML){
-    showToast('⚠️ Please fill in the report details first!');
+    showToast('⚠️ Please fill in the report details first!', 2000, true);
     return;
   }
-  
+
   const btn = document.getElementById('downloadImageBtn');
   btn.textContent = '⏳ Generating...';
   btn.disabled = true;
-  
-  // Check if html2canvas is already loaded
+
   if(typeof html2canvas !== 'undefined') {
     processImageDownload(report, btn);
     return;
   }
-  
-  // Load html2canvas library
+
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
   script.onerror = () => {
-    showToast('⚠️ Image export unavailable. Use Print Report instead.');
+    showToast('⚠️ Image export unavailable. Use Print Report instead.', 2500, true);
     btn.textContent = '📸 Download Image';
     btn.disabled = false;
   };
-  script.onload = () => {
-    processImageDownload(report, btn);
-  };
+  script.onload = () => processImageDownload(report, btn);
   document.head.appendChild(script);
 }
 
 function processImageDownload(report, btn) {
   try {
     const pageElement = report.querySelector('.rpt-page');
-    if (!pageElement) {
-      throw new Error('Report content not found');
-    }
+    if (!pageElement) throw new Error('Report content not found');
 
     const cleanClone = pageElement.cloneNode(true);
     cleanClone.querySelectorAll('.badge').forEach(badge => badge.remove());
-    
+
     const headerDiv = cleanClone.querySelector('.rpt-header');
     if (headerDiv) {
       headerDiv.style.backgroundColor = '#ffffff';
@@ -771,7 +902,7 @@ function processImageDownload(report, btn) {
       headerDiv.style.padding = '18px 0';
       headerDiv.style.marginBottom = '26px';
     }
-    
+
     const tempContainer = document.createElement('div');
     tempContainer.style.cssText = 'position:absolute;left:-9999px;width:900px;background:#fff;';
     tempContainer.appendChild(cleanClone);
@@ -789,43 +920,66 @@ function processImageDownload(report, btn) {
       async: true
     }).then(canvas => {
       document.body.removeChild(tempContainer);
-      
       if (!canvas) throw new Error('Canvas generation failed');
-      
+
       const link = document.createElement('a');
-      const dataUrl = canvas.toDataURL('image/png', 0.95);
-      link.href = dataUrl;
-      link.download = `site-report-${new Date().toISOString().split('T')[0]}.png`;
+      link.href = canvas.toDataURL('image/png', 0.95);
+      link.download = `site-report-${dateInput.value || new Date().toISOString().split('T')[0]}.png`;
       link.click();
-      
+
       showToast('✅ Image downloaded! You can share it on WhatsApp');
       btn.textContent = '📸 Download Image';
       btn.disabled = false;
-      
     }).catch(err => {
       document.body.removeChild(tempContainer);
       console.error('html2canvas error:', err);
-      showToast('⚠️ Image generation failed. Use Print Report instead.');
+      showToast('⚠️ Image generation failed. Use Print Report instead.', 2500, true);
       btn.textContent = '📸 Download Image';
       btn.disabled = false;
     });
   } catch(err) {
     console.error('Error:', err);
-    showToast('❌ An error occurred. Please try again.');
+    showToast('❌ An error occurred. Please try again.', 2000, true);
     btn.textContent = '📸 Download Image';
     btn.disabled = false;
   }
 }
 
-// Initialize
-const dateInput = document.getElementById('reportDate');
-const today = new Date();
-dateInput.value = today.toISOString().slice(0,10);
-dateInput.onchange = renderPrintSummary;
-document.getElementById('siteName').onchange = renderPrintSummary;
+/* ===== Initialize ===== */
+(function init(){
+  const s = readStore();
+  const lastSnap = s.last && s.reports[s.last] ? s.reports[s.last] : s.draft;
+  if (lastSnap) {
+    dateInput.value = lastSnap.date || new Date().toISOString().slice(0,10);
+    siteSelect.value = lastSnap.site || '';
+    applySnapshot(lastSnap);
+    activeKey = currentKey();
+    setStatus('📂 Restored your last report', true);
+  } else {
+    dateInput.value = new Date().toISOString().slice(0,10);
+  }
+})();
+
+dateInput.onchange = onKeyChange;
+siteSelect.onchange = onKeyChange;
 document.getElementById('printBtn').onclick = () => window.print();
 document.getElementById('copyTextBtn').onclick = handleCopyText;
 document.getElementById('downloadImageBtn').onclick = handleDownloadImage;
+document.getElementById('saveBtn').onclick = () => {
+  if (!siteSelect.value) { showToast('⚠️ Select a site first so the report can be saved', 2500, true); return; }
+  if (saveNow()) showToast('💾 Report saved in this browser');
+};
+document.getElementById('newBtn').onclick = () => {
+  if (!confirm('Start a blank report? The current report stays in Saved Reports.')) return;
+  flushPending();
+  if (siteSelect.value) saveNow();
+  state.locations = defaultLocations();
+  activeKey = null;
+  siteSelect.value = '';
+  render();
+  setStatus('🆕 New blank report');
+};
+window.addEventListener('beforeunload', () => { if (saveTimer) saveNow(); });
 
 render();
 </script>
