@@ -627,7 +627,7 @@
   
   function getSelectedWorkers() {
     const workers = [];
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 1; i <= 19; i++) {
       const checkbox = document.getElementById('w' + i);
       if (checkbox.checked) {
         workers.push(checkbox.value);
@@ -637,7 +637,7 @@
   }
   
   function clearWorkerCheckboxes() {
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= 19; i++) {
       document.getElementById('w' + i).checked = false;
     }
   }
